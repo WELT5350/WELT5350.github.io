@@ -1,0 +1,27 @@
+---
+const { title } = Astro.props;
+import '../styles/global.css';
+import BackToTop from '../components/BackToTop.astro';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <title>{title ? `${title} | 我的博客` : '我的博客'}</title>
+    <script is:inline>
+      (function(){const t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.classList.add('dark')}})()
+    </script>
+  </head>
+  <body class="font-sans text-gray-700 dark:text-gray-300 antialiased min-h-screen flex flex-col bg-white dark:bg-gray-950 transition-colors duration-300">
+    <slot />
+    <BackToTop />
+  </body>
+</html>
