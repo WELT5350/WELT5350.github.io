@@ -156,6 +156,10 @@ const renderedPosts = await Promise.all(posts.map(async (post, index) => {
           </div>
           <div class="mt-10 pt-6 border-t border-white/30 dark:border-gray-700/30 text-center">
             <p class="text-xs text-gray-400 dark:text-gray-500">&copy; {currentYear} WELT · 用 Astro 构建</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+              <span id="busuanzi_container_site_pv">本站访问 <span id="busuanzi_value_site_pv"></span> 次 · </span>
+              <span id="busuanzi_container_site_uv">访客 <span id="busuanzi_value_site_uv"></span> 人</span>
+            </p>
           </div>
         </div>
 
@@ -353,4 +357,6 @@ const renderedPosts = await Promise.all(posts.map(async (post, index) => {
       }
     })();
   </script>
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </Layout>
