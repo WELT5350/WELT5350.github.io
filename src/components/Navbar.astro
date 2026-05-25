@@ -15,6 +15,7 @@
         <a href="#posts" onclick="navigateTo('posts'); return false;" class="nav-link px-4 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/60 dark:hover:bg-blue-900/30 rounded-xl transition-all duration-200">文章</a>
         <a href="#about" onclick="navigateTo('about'); return false;" class="nav-link px-4 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/60 dark:hover:bg-blue-900/30 rounded-xl transition-all duration-200">关于</a>
         <a href="#links" onclick="navigateTo('links'); return false;" class="nav-link px-4 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/60 dark:hover:bg-blue-900/30 rounded-xl transition-all duration-200">友链</a>
+        <a href="#guestbook" onclick="navigateTo('guestbook'); return false;" class="nav-link px-4 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/60 dark:hover:bg-blue-900/30 rounded-xl transition-all duration-200">留言板</a>
         <button id="theme-toggle" class="ml-2 p-2 rounded-xl text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/60 dark:hover:bg-blue-900/30 transition-all duration-200" aria-label="切换主题">
           <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg>
           <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/></svg>
@@ -47,7 +48,7 @@
   function navigateTo(section) {
     if (navLocked) return;
     var pages = document.querySelectorAll('.spa-page');
-    var validSections = ['home', 'posts', 'about', 'links'];
+    var validSections = ['home', 'posts', 'about', 'links', 'guestbook'];
     document.querySelectorAll('.spa-page').forEach(function(p) {
       if (p.id && p.id.startsWith('page-post-')) validSections.push(p.id.replace('page-', ''));
     });
@@ -68,13 +69,16 @@
       window.location.hash = section;
       var navSection = section.startsWith('post-') ? 'posts' : section;
       updateNavActive(navSection);
-      var titleMap = { home: '首页', posts: '文章', about: '关于', links: '友链' };
+      var titleMap = { home: '首页', posts: '文章', about: '关于', links: '友链', guestbook: '留言板' };
       document.title = titleMap[section] ? (titleMap[section] + ' | 我的博客') : '我的博客';
       if (section.startsWith('post-') && target) {
         var h1 = target.querySelector('h1');
         if (h1) document.title = h1.textContent + ' | 我的博客';
       }
       setTimeout(function() { navLocked = false; }, 300);
+      if (section === 'guestbook' && window.initGiscus) {
+        window.initGiscus('Guestbook', 'DIC_kwDOSlpBSs4C9uCh', 'guestbook');
+      }
     }
     if (current) {
       current.classList.remove('active');
@@ -90,7 +94,7 @@
       link.classList.remove('text-blue-600','dark:text-blue-400','font-semibold');
     });
     var links = document.querySelectorAll('.nav-link');
-    var map = { home: 0, posts: 1, about: 2, links: 3 };
+    var map = { home: 0, posts: 1, about: 2, links: 3, guestbook: 4 };
     var idx = map[section];
     if (idx !== undefined && links[idx]) {
       links[idx].classList.add('text-blue-600','dark:text-blue-400','font-semibold');

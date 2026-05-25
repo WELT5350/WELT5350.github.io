@@ -284,6 +284,26 @@ const renderedPosts = await Promise.all(posts.map(async (post, index) => {
           </div>
         </div>
 
+        <!-- Page: Guestbook -->
+        <div id="page-guestbook" class="spa-page" style="display:none;">
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-white/20 dark:bg-gray-800/30 border border-white/30 dark:border-gray-700/30 flex items-center justify-center">
+                <svg class="w-5 h-5 text-blue-500 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+              </div>
+              <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100">留言板</h1>
+                <p class="text-gray-400 dark:text-gray-500 text-sm mt-1">踩个脚印再走吧 ~</p>
+              </div>
+            </div>
+            <a href="#home" onclick="navigateTo('home'); return false;" class="text-xs text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">← 返回首页</a>
+          </div>
+          <div class="h-px bg-gradient-to-r from-transparent via-blue-200/30 dark:via-blue-800/30 to-transparent mb-8"></div>
+          <div class="p-1 rounded-xl bg-white/20 dark:bg-gray-800/30 border border-white/30 dark:border-gray-700/30">
+            <div id="giscus-container" class="rounded-lg overflow-hidden"></div>
+          </div>
+        </div>
+
         <!-- Pages: Each Post -->
         {renderedPosts.map(({ post, Content, readingTime, prevPost, nextPost }) => (
           <div id={`page-post-${post.id}`} class="spa-page" style="display:none;">
@@ -359,4 +379,31 @@ const renderedPosts = await Promise.all(posts.map(async (post, index) => {
   </script>
 
   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  <script is:inline>
+    window.initGiscus = function(category, categoryId, term) {
+      var container = document.getElementById('giscus-container');
+      if (!container) return;
+      var existing = document.querySelector('iframe.giscus-frame');
+      if (existing) {
+        existing.contentWindow.postMessage({ giscus: { setConfig: { mapping: 'specific', term: term, category: category, categoryId: categoryId } } }, 'https://giscus.app');
+        return;
+      }
+      container.innerHTML = '';
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', 'WELT5350/WELT5350.github.io');
+      script.setAttribute('data-repo-id', 'R_kgDOSlpBSg');
+      script.setAttribute('data-category', category);
+      script.setAttribute('data-category-id', categoryId);
+      script.setAttribute('data-mapping', 'specific');
+      script.setAttribute('data-term', term);
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-theme', 'preferred_color_scheme');
+      script.setAttribute('data-lang', 'zh-CN');
+      script.crossOrigin = 'anonymous';
+      container.appendChild(script);
+    };
+  </script>
 </Layout>
