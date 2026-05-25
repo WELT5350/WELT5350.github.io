@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
+import MusicPlayer from '../components/MusicPlayer.astro';
 import { getCollection, render } from 'astro:content';
 
 const allPosts = await getCollection('posts', (post) => {
@@ -116,9 +117,7 @@ const renderedPosts = await Promise.all(posts.map(async (post, index) => {
             <div class="space-y-6">
               <div>
                 <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">正在听</h2>
-                <div class="rounded-xl overflow-hidden border border-white/30 dark:border-gray-700/30">
-                  <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=2661617561&auto=0&height=66" class="w-full" style="max-width:330px;display:block;"></iframe>
-                </div>
+                <MusicPlayer />
               </div>
               <div>
                 <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">技术栈</h2>
@@ -154,9 +153,11 @@ const renderedPosts = await Promise.all(posts.map(async (post, index) => {
               </div>
             </div>
           </div>
-          <div class="mt-10 pt-6 border-t border-white/30 dark:border-gray-700/30 text-center">
-            <p class="text-xs text-gray-400 dark:text-gray-500">&copy; {currentYear} WELT · 用 Astro 构建</p>
-            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+          <div class="mt-10 pt-6 border-t border-white/30 dark:border-gray-700/30 flex items-center justify-center">
+            <p class="text-xs text-gray-500 dark:text-gray-400">&copy; {currentYear} WELT · 用 Astro 构建</p>
+          </div>
+          <div id="busuanzi-footer" class="flex items-center justify-center mt-1">
+            <p class="text-xs text-gray-500 dark:text-gray-400">
               <span id="busuanzi_container_site_pv">本站访问 <span id="busuanzi_value_site_pv"></span> 次 · </span>
               <span id="busuanzi_container_site_uv">访客 <span id="busuanzi_value_site_uv"></span> 人</span>
             </p>
