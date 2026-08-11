@@ -1,0 +1,42 @@
+---
+import type { ImageMetadata } from 'astro';
+
+const backgroundModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/backgrounds/*.{avif,webp,png,jpg,jpeg}', {
+  eager: true,
+});
+const backgroundOptions = [
+  '',
+  ...Object.entries(backgroundModules)
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([, module]) => module.default.src),
+];
+---
+
+<div
+  class="glass-background"
+  aria-hidden="true"
+  data-background-options={JSON.stringify(backgroundOptions)}
+  transition:persist
+></div>
+
+<script>
+  function applyDailyBackground() {
+    const background = document.querySelector<HTMLElement>('[data-background-options]');
+    if (!background) return;
+
+    const options = JSON.parse(background.dataset.backgroundOptions || '[]') as string[];
+    if (options.length === 0) return;
+
+    const today = new Date();
+    const dayNumber = Math.floor(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()) / 86_400_000);
+    const selected = options[dayNumber % options.length];
+
+    if (selected) {
+      background.style.setProperty('--site-background-image', `url("${selected}")`);
+    } else {
+      background.style.removeProperty('--site-background-image');
+    }
+  }
+
+  document.addEventListener('astro:page-load', applyDailyBackground);
+</script>

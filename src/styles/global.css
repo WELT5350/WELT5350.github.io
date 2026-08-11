@@ -498,11 +498,14 @@
     position: fixed;
     inset: 0;
     z-index: 0;
-    background: url('/bg.jpg') center / cover no-repeat;
-    background-image: image-set(
-      url('/bg.avif') type('image/avif'),
-      url('/bg.webp') type('image/webp'),
-      url('/bg.jpg') type('image/jpeg')
+    background: center / cover no-repeat;
+    background-image: var(
+      --site-background-image,
+      image-set(
+        url('/bg.avif') type('image/avif'),
+        url('/bg.webp') type('image/webp'),
+        url('/bg.jpg') type('image/jpeg')
+      )
     );
     filter: saturate(0.72) brightness(1.07) contrast(0.90);
     transform: scale(1.03);
