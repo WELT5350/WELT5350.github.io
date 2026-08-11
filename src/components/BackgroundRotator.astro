@@ -1,6 +1,7 @@
 ---
 import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import { getBackgroundTone } from '../lib/backgroundTone';
 
 const backgroundModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/backgrounds/*.{avif,webp,png,jpg,jpeg}', {
   eager: true,
@@ -8,15 +9,18 @@ const backgroundModules = import.meta.glob<{ default: ImageMetadata }>('/src/ass
 const backgroundOptions = await Promise.all(
   Object.entries(backgroundModules)
     .sort(([left], [right]) => left.localeCompare(right))
-    .map(async ([, module]) => {
-      const optimized = await getImage({
-        src: module.default,
-        width: 1920,
-        format: 'webp',
-        quality: 72,
-      });
+    .map(async ([sourcePath, module]) => {
+      const [optimized, tone] = await Promise.all([
+        getImage({
+          src: module.default,
+          width: 1920,
+          format: 'webp',
+          quality: 72,
+        }),
+        getBackgroundTone(sourcePath),
+      ]);
 
-      return optimized.src;
+      return { src: optimized.src, tone };
     }),
 );
 ---
@@ -30,7 +34,8 @@ const backgroundOptions = await Promise.all(
     const selected = backgroundOptions[dayNumber % backgroundOptions.length];
 
     if (selected) {
-      target.style.setProperty('--site-background-image', `url("${selected}")`);
+      target.style.setProperty('--site-background-image', `url("${selected.src}")`);
+      target.dataset.backgroundTone = selected.tone;
     }
   }
 

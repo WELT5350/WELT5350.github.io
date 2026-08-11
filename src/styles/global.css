@@ -17,6 +17,8 @@
     --glass-muted: #3f5066;
     --glass-quiet: #60738a;
     --glass-filter: blur(14px) saturate(1.08);
+    --background-filter: saturate(0.72) brightness(0.98) contrast(0.88);
+    --background-wash: rgba(219, 234, 254, 0.10);
   }
 
   .dark {
@@ -32,6 +34,35 @@
     --glass-ink: #f5f7fb;
     --glass-muted: #c4d4e8;
     --glass-quiet: #a9bdd5;
+    --background-filter: saturate(0.64) brightness(0.58) contrast(0.94);
+    --background-wash: rgba(7, 16, 35, 0.12);
+  }
+
+  :root:not(.dark)[data-background-tone='bright'],
+  :root:not(.dark)[data-background-tone='dramatic'] {
+    --glass-main: rgba(248, 250, 252, 0.42);
+    --glass-article: rgba(248, 250, 252, 0.66);
+    --glass-sub: rgba(255, 255, 255, 0.32);
+    --glass-reading: rgba(255, 255, 255, 0.52);
+    --glass-sub-hover: rgba(255, 255, 255, 0.42);
+    --glass-nav: rgba(255, 255, 255, 0.38);
+    --glass-border: rgba(255, 255, 255, 0.64);
+    --glass-filter: blur(20px) saturate(0.96);
+    --background-filter: saturate(0.64) brightness(0.90) contrast(0.78);
+    --background-wash: linear-gradient(135deg, rgba(224, 236, 255, 0.22), rgba(239, 245, 255, 0.12) 55%, rgba(216, 232, 255, 0.20));
+  }
+
+  :root:not(.dark)[data-background-tone='dark'] {
+    --glass-main: rgba(248, 250, 252, 0.44);
+    --glass-article: rgba(248, 250, 252, 0.68);
+    --glass-sub: rgba(255, 255, 255, 0.34);
+    --glass-reading: rgba(255, 255, 255, 0.54);
+    --glass-sub-hover: rgba(255, 255, 255, 0.44);
+    --glass-nav: rgba(255, 255, 255, 0.40);
+    --glass-border: rgba(255, 255, 255, 0.66);
+    --glass-filter: blur(20px) saturate(0.96);
+    --background-filter: saturate(0.66) brightness(0.86) contrast(0.82);
+    --background-wash: linear-gradient(135deg, rgba(225, 238, 255, 0.20), rgba(238, 245, 255, 0.12) 55%, rgba(214, 230, 255, 0.18));
   }
 
   .text-glass-ink { color: var(--glass-ink); }
@@ -501,23 +532,20 @@
       background: center / cover no-repeat;
       background-color: #dbeafe;
       background-image: var(--site-background-image);
-      filter: saturate(0.72) brightness(1.07) contrast(0.90);
+      filter: var(--background-filter);
       transform: scale(1.03);
   }
 
     .dark .glass-background {
       background-color: #081426;
-      filter: saturate(0.64) brightness(0.58) contrast(0.94);
     }
 
   .glass-wash {
     position: fixed;
     inset: 0;
     z-index: 0;
-    background: rgba(219, 234, 254, 0.10);
+    background: var(--background-wash);
   }
-
-  .dark .glass-wash { background: rgba(7, 16, 35, 0.12); }
 
   .tag {
     display: inline-flex;
