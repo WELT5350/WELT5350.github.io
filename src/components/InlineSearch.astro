@@ -17,7 +17,7 @@ const resultsId = mobile ? 'mobile-site-search-results' : 'site-search-results';
 
 <div data-site-search data-search-index={JSON.stringify(searchIndex)} class:list={['site-search', mobile ? 'site-search-mobile' : 'site-search-desktop']}>
   <label class="sr-only" for={inputId}>搜索文章</label>
-  <div class="site-search-field">
+  <div class="site-search-field" title={mobile ? undefined : '搜索文章（Ctrl/⌘ K）'}>
     <svg aria-hidden="true" class="h-4 w-4 shrink-0 text-blue-600 dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <circle cx="11" cy="11" r="6.5" stroke-width="1.8" />
       <path stroke-linecap="round" stroke-width="1.8" d="m16 16 4 4" />

@@ -59,6 +59,7 @@ function initialiseInlineSearch() {
 
     const closeResults = () => {
       root.dataset.open = 'false';
+      root.dataset.expanded = String(input.value.trim().length > 0);
       input.setAttribute('aria-expanded', 'false');
       input.removeAttribute('aria-activedescendant');
       selectedIndex = -1;
@@ -141,11 +142,17 @@ function initialiseInlineSearch() {
     };
 
     const onFocus = () => { openResults(); render(); };
-    const onInput = () => { selectedIndex = -1; openResults(); render(); };
+    const onInput = () => {
+      selectedIndex = -1;
+      root.dataset.expanded = String(input.value.trim().length > 0);
+      openResults();
+      render();
+    };
     const onKeydown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         event.preventDefault();
         input.value = '';
+        root.dataset.expanded = 'false';
         closeResults();
         input.blur();
         if (root.classList.contains('site-search-mobile')) setMobileOpen(false);
@@ -165,17 +172,24 @@ function initialiseInlineSearch() {
         if (!root.contains(document.activeElement)) closeResults();
       }, 120);
     };
+    const onPointerDown = (event: PointerEvent) => {
+      if (!root.classList.contains('site-search-desktop') || document.activeElement === input) return;
+      event.preventDefault();
+      input.focus();
+    };
 
     input.addEventListener('focus', onFocus);
     input.addEventListener('input', onInput);
     input.addEventListener('keydown', onKeydown);
     root.addEventListener('focusout', onFocusOut);
+    root.querySelector<HTMLElement>('.site-search-field')?.addEventListener('pointerdown', onPointerDown);
     cleanups.push(() => {
       if (blurTimer !== undefined) window.clearTimeout(blurTimer);
       input.removeEventListener('focus', onFocus);
       input.removeEventListener('input', onInput);
       input.removeEventListener('keydown', onKeydown);
       root.removeEventListener('focusout', onFocusOut);
+      root.querySelector<HTMLElement>('.site-search-field')?.removeEventListener('pointerdown', onPointerDown);
     });
   });
 
