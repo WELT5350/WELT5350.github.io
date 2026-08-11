@@ -8,17 +8,24 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "check": "astro check",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/rss": "^4.0.18",
+    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "^6.3.6",
+    "astro": "^7.2.0",
     "tailwindcss": "^3.4.19"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "autoprefixer": "^10.5.0",
-    "postcss": "^8.5.15"
+    "postcss": "^8.5.26",
+    "typescript": "^6.0.3"
+  },
+  "overrides": {
+    "sharp": "0.35.3",
+    "svgo": "4.0.2"
   }
 }

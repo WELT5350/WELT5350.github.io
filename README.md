@@ -1,46 +1,30 @@
-# Astro Starter Kit: Basics
+# WELT Blog
 
-```sh
-npm create astro@latest -- --template basics
+基于 Astro、Tailwind CSS 构建的静态个人博客，部署至 GitHub Pages。
+
+## 本地开发
+
+```bash
+npm ci
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+默认访问地址为 `http://127.0.0.1:4321/`。
 
-## 🚀 Project Structure
+## 发布前检查
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```bash
+npm run check
+npm run build
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+`check` 运行 Astro 与 TypeScript 诊断；`build` 生成 `dist/` 中的静态页面、RSS 与站点地图。
 
-## 🧞 Commands
+## 内容与结构
 
-All commands are run from the root of the project, from a terminal:
+- 文章：`src/content/posts/*.md`
+- 路由页面：`src/pages/`
+- 全站布局与主题：`src/layouts/`、`src/styles/global.css`
+- GitHub Pages 工作流：`.github/workflows/deploy.yml`
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+文章 frontmatter 需要包含 `title`、`description` 与 `pubDate`，可选 `tags` 和 `draft`。推送到 `main` 后，GitHub Actions 会先执行类型检查与构建，再部署。

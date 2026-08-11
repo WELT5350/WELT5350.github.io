@@ -7,7 +7,7 @@ import { fade } from 'astro:transitions';
 const { title, description, article = false } = Astro.props;
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} pageType={article ? 'article' : 'website'}>
   <a class="skip-link" href="#main-content">跳到正文</a>
   <Navbar />
   <div class="glass-background" aria-hidden="true" transition:persist></div>

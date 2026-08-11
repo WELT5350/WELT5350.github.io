@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-const { title, description } = Astro.props;
+const { title, description, pageType = 'website' } = Astro.props;
 const desc = description || '死宅 / 技术笨蛋 / 社交恐怖分子';
 const image = 'https://WELT5350.github.io/avatar.jpg';
 ---
@@ -12,6 +12,7 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f8fafc" />
+    <link rel="canonical" href={Astro.url.href} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
@@ -20,14 +21,22 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
     <meta property="og:description" content={desc} />
     <meta property="og:image" content={image} />
     <meta property="og:url" content={Astro.url} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={pageType} />
     <meta name="twitter:card" content="summary" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <title>{title ? `${title} | 我的博客` : '我的博客'}</title>
     <script is:inline>
-      (function(){const t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.classList.add('dark')}})()
+      (function () {
+        const savedTheme = localStorage.getItem('theme');
+        const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('dark', isDark);
+        window.__weltSyncThemeColor = function () {
+          document.querySelector('meta[name="theme-color"]')?.setAttribute('content', document.documentElement.classList.contains('dark') ? '#030712' : '#f8fafc');
+        };
+        window.__weltSyncThemeColor();
+      })();
     </script>
     <script is:inline>
       document.addEventListener('astro:before-swap', function (event) {

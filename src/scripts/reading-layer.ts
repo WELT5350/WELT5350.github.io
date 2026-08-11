@@ -12,6 +12,7 @@ function initializeReadingLayer() {
   const progressBars = Array.from(document.querySelectorAll<HTMLElement>('[data-reading-progress]'));
 
   if (!article || links.length === 0) return;
+  const readingArticle = article;
 
   const headingElements = links
     .map((link) => document.getElementById(link.dataset.headingSlug || ''))
@@ -25,8 +26,8 @@ function initializeReadingLayer() {
   }
 
   function updateProgress() {
-    const articleStart = article.getBoundingClientRect().top + window.scrollY;
-    const readableHeight = Math.max(1, article.offsetHeight - window.innerHeight * 0.45);
+    const articleStart = readingArticle.getBoundingClientRect().top + window.scrollY;
+    const readableHeight = Math.max(1, readingArticle.offsetHeight - window.innerHeight * 0.45);
     const reachedPageEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
     const progress = reachedPageEnd
       ? 100

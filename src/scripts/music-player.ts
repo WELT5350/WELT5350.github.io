@@ -166,7 +166,10 @@ function toggleList() {
     ? '<svg id="mp-list-icon" aria-hidden="true" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>'
     : '<svg id="mp-list-icon" aria-hidden="true" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
   const listButton = document.getElementById('mp-list-toggle');
-  if (listButton) listButton.setAttribute('aria-label', isOpen ? '打开歌单' : '关闭歌单');
+  if (listButton) {
+    listButton.setAttribute('aria-label', isOpen ? '打开歌单' : '关闭歌单');
+    listButton.setAttribute('aria-expanded', String(!isOpen));
+  }
 }
 
 function buildList() {
