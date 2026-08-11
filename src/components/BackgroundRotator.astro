@@ -1,35 +1,48 @@
 ---
+import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
 const backgroundModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/backgrounds/*.{avif,webp,png,jpg,jpeg}', {
   eager: true,
 });
-const backgroundOptions = Object.entries(backgroundModules)
-  .sort(([left], [right]) => left.localeCompare(right))
-  .map(([, module]) => module.default.src);
+const backgroundOptions = await Promise.all(
+  Object.entries(backgroundModules)
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(async ([, module]) => {
+      const optimized = await getImage({
+        src: module.default,
+        width: 1920,
+        format: 'webp',
+        quality: 72,
+      });
+
+      return optimized.src;
+    }),
+);
 ---
+
+<script is:inline define:vars={{ backgroundOptions }}>
+  function applyDailyBackground(target) {
+    if (backgroundOptions.length === 0) return;
+
+    const today = new Date();
+    const dayNumber = Math.floor(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()) / 86_400_000);
+    const selected = backgroundOptions[dayNumber % backgroundOptions.length];
+
+    if (selected) {
+      target.style.setProperty('--site-background-image', `url("${selected}")`);
+    }
+  }
+
+  applyDailyBackground(document.documentElement);
+
+  document.addEventListener('astro:before-swap', (event) => {
+    applyDailyBackground(event.newDocument.documentElement);
+  });
+</script>
 
 <div
   class="glass-background"
   aria-hidden="true"
-  data-background-options={JSON.stringify(backgroundOptions)}
   transition:persist
 ></div>
-
-<script>
-  function applyDailyBackground() {
-    const background = document.querySelector<HTMLElement>('[data-background-options]');
-    if (!background) return;
-
-    const options = JSON.parse(background.dataset.backgroundOptions || '[]') as string[];
-    if (options.length === 0) return;
-
-    const today = new Date();
-    const dayNumber = Math.floor(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()) / 86_400_000);
-    const selected = options[dayNumber % options.length];
-
-    background.style.setProperty('--site-background-image', `url("${selected}")`);
-  }
-
-  document.addEventListener('astro:page-load', applyDailyBackground);
-</script>

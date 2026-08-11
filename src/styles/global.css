@@ -494,26 +494,21 @@
     .archive-ledger > div:last-child { border-right: 0; padding-right: 0; }
   }
 
-  .glass-background {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    background: center / cover no-repeat;
-    background-image: var(
-      --site-background-image,
-      image-set(
-        url('/bg.avif') type('image/avif'),
-        url('/bg.webp') type('image/webp'),
-        url('/bg.jpg') type('image/jpeg')
-      )
-    );
-    filter: saturate(0.72) brightness(1.07) contrast(0.90);
-    transform: scale(1.03);
+    .glass-background {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: center / cover no-repeat;
+      background-color: #dbeafe;
+      background-image: var(--site-background-image);
+      filter: saturate(0.72) brightness(1.07) contrast(0.90);
+      transform: scale(1.03);
   }
 
-  .dark .glass-background {
-    filter: saturate(0.64) brightness(0.58) contrast(0.94);
-  }
+    .dark .glass-background {
+      background-color: #081426;
+      filter: saturate(0.64) brightness(0.58) contrast(0.94);
+    }
 
   .glass-wash {
     position: fixed;
