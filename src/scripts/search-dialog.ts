@@ -30,6 +30,7 @@ function initializeSearchDialog() {
   let selectedIndex = -1;
   let lastTrigger: HTMLButtonElement | undefined;
   let isOpen = false;
+  let closeTimer: number | undefined;
 
   const normalise = (value: string) => value.trim().toLocaleLowerCase();
   const formatDate = (date: string) => new Intl.DateTimeFormat('zh-CN', { month: 'short', day: 'numeric' }).format(new Date(date));
@@ -83,6 +84,8 @@ function initializeSearchDialog() {
     list.className = 'space-y-1';
     matches.forEach((entry, index) => {
       const item = document.createElement('li');
+      item.className = 'search-result-item';
+      item.style.animationDelay = `${Math.min(index, 5) * 32}ms`;
       const link = document.createElement('a');
       const active = index === selectedIndex;
       link.id = `site-search-option-${index}`;
@@ -122,25 +125,42 @@ function initializeSearchDialog() {
 
   function open(trigger?: HTMLButtonElement) {
     if (isOpen) return;
+    if (closeTimer !== undefined) {
+      window.clearTimeout(closeTimer);
+      closeTimer = undefined;
+    }
     isOpen = true;
     lastTrigger = trigger || triggers.find((item) => item.getClientRects().length > 0);
     searchDialog.hidden = false;
+    searchDialog.removeAttribute('inert');
+    searchDialog.setAttribute('aria-hidden', 'false');
     document.body.classList.add('overflow-hidden');
     setExpanded(true);
     selectedIndex = -1;
     render();
-    window.requestAnimationFrame(() => searchInput.focus());
+    window.requestAnimationFrame(() => {
+      searchDialog.dataset.state = 'open';
+      searchInput.focus();
+    });
   }
 
   function close(restoreFocus = true) {
     if (!isOpen) return;
     isOpen = false;
-    searchDialog.hidden = true;
+    searchDialog.dataset.state = 'closing';
+    searchDialog.setAttribute('inert', '');
+    searchDialog.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('overflow-hidden');
     setExpanded(false);
-    searchInput.value = '';
     selectedIndex = -1;
     if (restoreFocus) lastTrigger?.focus();
+    closeTimer = window.setTimeout(() => {
+      if (isOpen) return;
+      searchDialog.hidden = true;
+      delete searchDialog.dataset.state;
+      searchInput.value = '';
+      closeTimer = undefined;
+    }, 180);
   }
 
   function moveSelection(direction: 1 | -1) {
@@ -208,7 +228,11 @@ function initializeSearchDialog() {
   document.addEventListener('keydown', onKeydown);
 
   cleanupSearchDialog = () => {
-    close(false);
+    if (closeTimer !== undefined) window.clearTimeout(closeTimer);
+    isOpen = false;
+    searchDialog.hidden = true;
+    delete searchDialog.dataset.state;
+    document.body.classList.remove('overflow-hidden');
     triggerHandlers.forEach(({ trigger, handler }) => trigger.removeEventListener('click', handler));
     searchInput.removeEventListener('input', onInput);
     searchCloseButton.removeEventListener('click', onCloseButtonClick);
