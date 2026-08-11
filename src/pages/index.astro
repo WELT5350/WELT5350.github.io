@@ -1,13 +1,14 @@
 ---
 import BlogLayout from '../layouts/BlogLayout.astro';
 import MusicPlayer from '../components/MusicPlayer.astro';
+import SiteArchive from '../components/SiteArchive.astro';
 import { getCollection } from 'astro:content';
+import { getPublishedPosts, getSiteArchiveStats, sortPostsByDate } from '../lib/posts';
 
-const allPosts = await getCollection('posts', (post) => {
-  return import.meta.env.DEV ? true : post.data.draft !== true;
-});
-const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const allPosts = await getCollection('posts');
+const posts = sortPostsByDate(getPublishedPosts(allPosts));
 const recentPosts = posts.slice(0, 4);
+const siteArchiveStats = getSiteArchiveStats(posts);
 ---
 
 <BlogLayout title="首页">
@@ -77,6 +78,7 @@ const recentPosts = posts.slice(0, 4);
         <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">正在听</h2>
         <MusicPlayer />
       </div>
+      <SiteArchive stats={siteArchiveStats} />
       <div>
         <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">技术栈</h2>
         <div class="flex flex-wrap gap-1.5">

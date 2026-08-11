@@ -1,0 +1,34 @@
+---
+import type { SiteArchiveStats } from '../lib/posts';
+import { formatCompactNumber } from '../lib/posts';
+
+const { stats } = Astro.props as { stats: SiteArchiveStats };
+const latestDate = stats.latestPost
+  ? stats.latestPost.data.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: 'short', day: 'numeric' })
+  : '暂无记录';
+---
+
+<section aria-labelledby="site-archive-title">
+  <div class="mb-4 flex items-baseline justify-between gap-3">
+    <h2 id="site-archive-title" class="text-sm font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">WELT 档案</h2>
+    <span class="text-[10px] font-medium tracking-[0.12em] text-blue-600 dark:text-blue-300">LOCAL</span>
+  </div>
+  <div class="grid grid-cols-2 gap-2">
+    <div class="glass-sub rounded-xl p-3">
+      <p class="text-[10px] text-gray-500 dark:text-gray-400">文章</p>
+      <p class="mt-1 text-lg font-semibold tabular-nums text-gray-900 dark:text-gray-100">{stats.postCount}</p>
+    </div>
+    <div class="glass-sub rounded-xl p-3">
+      <p class="text-[10px] text-gray-500 dark:text-gray-400">标签</p>
+      <p class="mt-1 text-lg font-semibold tabular-nums text-gray-900 dark:text-gray-100">{stats.tagCount}</p>
+    </div>
+    <div class="glass-sub rounded-xl p-3">
+      <p class="text-[10px] text-gray-500 dark:text-gray-400">总字数</p>
+      <p class="mt-1 text-lg font-semibold tabular-nums text-gray-900 dark:text-gray-100">{formatCompactNumber(stats.totalUnits)}</p>
+    </div>
+    <div class="glass-sub rounded-xl p-3">
+      <p class="text-[10px] text-gray-500 dark:text-gray-400">最近更新</p>
+      <p class="mt-1 truncate text-xs font-semibold tabular-nums text-gray-900 dark:text-gray-100" title={latestDate}>{latestDate}</p>
+    </div>
+  </div>
+</section>

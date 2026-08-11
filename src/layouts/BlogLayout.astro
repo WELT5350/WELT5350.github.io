@@ -3,6 +3,7 @@ import Layout from './Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import BackToTop from '../components/BackToTop.astro';
 import Footer from '../components/Footer.astro';
+import SearchDialog from '../components/SearchDialog.astro';
 import { fade } from 'astro:transitions';
 const { title, description, article = false } = Astro.props;
 ---
@@ -10,6 +11,7 @@ const { title, description, article = false } = Astro.props;
 <Layout title={title} description={description} pageType={article ? 'article' : 'website'}>
   <a class="skip-link" href="#main-content">跳到正文</a>
   <Navbar />
+  <SearchDialog />
   <div class="glass-background" aria-hidden="true" transition:persist></div>
   <div class="glass-wash" aria-hidden="true" transition:persist></div>
   <main id="main-content" transition:animate={fade({ duration: '0.18s' })} class="relative z-10 flex items-center justify-center px-4 py-6 sm:py-10" style="min-height: calc(100vh - 64px);">
