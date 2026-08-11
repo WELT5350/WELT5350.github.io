@@ -34,6 +34,11 @@
     --glass-quiet: #a9bdd5;
   }
 
+  .text-glass-ink { color: var(--glass-ink); }
+  .text-glass-muted { color: var(--glass-muted); }
+  .text-glass-quiet { color: var(--glass-quiet); }
+  .border-glass { border-color: var(--glass-border); }
+
   html {
     color-scheme: light;
     scroll-behavior: smooth;
@@ -570,6 +575,12 @@
     border: 1px solid rgba(229, 231, 235, 0.6);
     color: #374151;
     transition: border-color 0.2s;
+  }
+
+  .dark .tech-badge {
+    background: rgba(30, 48, 75, 0.34);
+    border-color: var(--glass-border);
+    color: var(--glass-muted);
   }
 
   .tech-badge:hover {

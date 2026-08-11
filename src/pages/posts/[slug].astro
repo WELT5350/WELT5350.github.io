@@ -40,11 +40,11 @@ const nextPost = currentIdx > 0 ? sortedPosts[currentIdx - 1] : null;
   <article class="relative" data-article-content>
   <div class="flex items-center justify-between mb-8">
     <div class="flex flex-wrap items-center gap-2 text-sm">
-      <time datetime={post.data.pubDate.toISOString()} class="text-gray-400 dark:text-gray-500">
+      <time datetime={post.data.pubDate.toISOString()} class="text-glass-quiet">
         {post.data.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
       </time>
       <span class="text-blue-200 dark:text-gray-700">&middot;</span>
-      <span class="text-gray-400 dark:text-gray-500">{readingTime} 分钟阅读</span>
+      <span class="text-glass-quiet">{readingTime} 分钟阅读</span>
       {post.data.tags && post.data.tags.length > 0 && (
         <>
           <span class="text-blue-200 dark:text-gray-700">&middot;</span>
@@ -56,11 +56,11 @@ const nextPost = currentIdx > 0 ? sortedPosts[currentIdx - 1] : null;
     </div>
   </div>
 
-  <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 tracking-tight leading-tight mb-8">
+  <h1 class="text-glass-ink text-2xl md:text-3xl font-bold tracking-tight leading-tight mb-8">
     {post.data.title}
   </h1>
 
-  <p class="mb-8 max-w-2xl text-base leading-relaxed text-gray-500 dark:text-gray-400">
+  <p class="text-glass-muted mb-8 max-w-2xl text-base leading-relaxed">
     {post.data.description}
   </p>
 
@@ -68,11 +68,11 @@ const nextPost = currentIdx > 0 ? sortedPosts[currentIdx - 1] : null;
     <Content />
   </div>
 
-  <div class="mt-10 pt-6 border-t border-white/30 dark:border-gray-700/30">
+  <div class="mt-10 pt-6 border-t border-glass">
     <div class="flex items-center justify-between gap-4 mb-4">
       <div class="min-w-0 flex-1">
         {prevPost ? (
-          <a href={`/posts/${prevPost.id}`} class="inline-flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors max-w-full">
+          <a href={`/posts/${prevPost.id}`} class="text-glass-muted inline-flex items-center gap-1.5 text-xs hover:text-blue-600 dark:hover:text-blue-400 transition-colors max-w-full">
             <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
             <span class="truncate">{prevPost.data.title}</span>
           </a>
@@ -80,14 +80,14 @@ const nextPost = currentIdx > 0 ? sortedPosts[currentIdx - 1] : null;
       </div>
       <div class="min-w-0 flex-1 text-right">
         {nextPost ? (
-          <a href={`/posts/${nextPost.id}`} class="inline-flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors max-w-full">
+          <a href={`/posts/${nextPost.id}`} class="text-glass-muted inline-flex items-center gap-1.5 text-xs hover:text-blue-600 dark:hover:text-blue-400 transition-colors max-w-full">
             <span class="truncate">{nextPost.data.title}</span>
             <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </a>
         ) : <span></span>}
       </div>
     </div>
-    <a href="/posts" class="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+    <a href="/posts" class="text-glass-muted inline-flex items-center gap-2 text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
       </svg>
