@@ -5,7 +5,9 @@
 @layer base {
   :root {
     --glass-main: rgba(248, 250, 252, 0.30);
+    --glass-article: rgba(248, 250, 252, 0.56);
     --glass-sub: rgba(255, 255, 255, 0.20);
+    --glass-reading: rgba(255, 255, 255, 0.42);
     --glass-sub-hover: rgba(255, 255, 255, 0.30);
     --glass-nav: rgba(255, 255, 255, 0.24);
     --glass-border: rgba(255, 255, 255, 0.52);
@@ -19,7 +21,9 @@
 
   .dark {
     --glass-main: rgba(3, 7, 18, 0.42);
+    --glass-article: rgba(3, 7, 18, 0.64);
     --glass-sub: rgba(15, 23, 42, 0.30);
+    --glass-reading: rgba(15, 23, 42, 0.56);
     --glass-sub-hover: rgba(30, 41, 59, 0.44);
     --glass-nav: rgba(2, 6, 23, 0.42);
     --glass-border: rgba(148, 163, 184, 0.20);
@@ -138,6 +142,11 @@
     background: var(--glass-main);
     box-shadow: var(--glass-shadow);
   }
+
+  .article-glass { background: var(--glass-article); }
+
+  .glass-sub.reading-rail,
+  .glass-sub.reading-mobile-panel { background: var(--glass-reading); }
 
   .glass-sub {
     background: var(--glass-sub);

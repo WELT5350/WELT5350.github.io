@@ -36,7 +36,7 @@ const prevPost = currentIdx < sortedPosts.length - 1 ? sortedPosts[currentIdx + 
 const nextPost = currentIdx > 0 ? sortedPosts[currentIdx - 1] : null;
 ---
 
-<BlogLayout title={post.data.title}>
+<BlogLayout title={post.data.title} article>
   <article class="relative" data-article-content>
   <div class="flex items-center justify-between mb-8">
     <div class="flex flex-wrap items-center gap-2 text-sm">
@@ -94,6 +94,6 @@ const nextPost = currentIdx > 0 ? sortedPosts[currentIdx - 1] : null;
       返回文章列表
     </a>
   </div>
-  <ReadingPanel headings={headings} title={post.data.title} />
   </article>
+  <ReadingPanel slot="reading-panel" headings={headings} title={post.data.title} />
 </BlogLayout>
