@@ -1,25 +1,36 @@
-const h1 = document.getElementById('typewriter-heading');
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (h1 && h1.dataset.twDone !== 'true' && !reduceMotion) {
-  h1.dataset.twDone = 'true';
+let cleanupTypewriter: (() => void) | undefined;
 
-  const text = h1.textContent?.trim() || '';
-  h1.setAttribute('aria-label', text);
-  h1.textContent = '';
+function initialiseTypewriter() {
+  cleanupTypewriter?.();
+
+  const heading = document.getElementById('typewriter-heading');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!heading || reduceMotion) return;
+
+  const text = heading.textContent?.trim() || '';
+  heading.setAttribute('aria-label', text);
+  heading.textContent = '';
+
   const cursor = document.createElement('span');
   cursor.textContent = '\u2502';
   cursor.style.cssText = 'font-weight:300;margin-left:2px;animation:typewriter-blink 0.8s step-end infinite;';
   cursor.classList.add('typewriter-cursor');
-  h1.appendChild(cursor);
+  heading.appendChild(cursor);
 
-  let i = 0;
-  function type() {
-    if (i < text.length) {
-      h1!.insertBefore(document.createTextNode(text[i]), cursor);
-      i++;
-      const delay = text[i - 1] === '！' ? 120 : 45 + Math.random() * 25;
-      setTimeout(type, delay);
-    }
-  }
-  setTimeout(type, 80);
+  let index = 0;
+  let timeout: number | undefined;
+  const type = () => {
+    if (index >= text.length) return;
+    heading.insertBefore(document.createTextNode(text[index]), cursor);
+    index += 1;
+    const delay = text[index - 1] === '，' ? 120 : 45 + Math.random() * 25;
+    timeout = window.setTimeout(type, delay);
+  };
+
+  timeout = window.setTimeout(type, 80);
+  cleanupTypewriter = () => {
+    if (timeout !== undefined) window.clearTimeout(timeout);
+  };
 }
+
+document.addEventListener('astro:page-load', initialiseTypewriter);

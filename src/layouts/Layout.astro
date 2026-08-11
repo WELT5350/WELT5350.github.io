@@ -33,19 +33,22 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
         const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
         document.documentElement.classList.toggle('dark', isDark);
         window.__weltSyncThemeColor = function () {
-          document.querySelector('meta[name="theme-color"]')?.setAttribute('content', document.documentElement.classList.contains('dark') ? '#030712' : '#f8fafc');
+          document.querySelector('meta[name="theme-color"]')?.setAttribute('content', document.documentElement.classList.contains('dark') ? '#0a162b' : '#f8fafc');
         };
         window.__weltSyncThemeColor();
       })();
     </script>
     <script is:inline>
-      document.addEventListener('astro:before-swap', function (event) {
-        var useDark = document.documentElement.classList.contains('dark');
-        event.newDocument.documentElement.classList.toggle('dark', useDark);
-      });
-      document.addEventListener('astro:after-swap', function () {
-        if (!window.location.hash) window.scrollTo(0, 0);
-      });
+      if (!window.__weltRouterLifecycleBound) {
+        window.__weltRouterLifecycleBound = true;
+        document.addEventListener('astro:before-swap', function (event) {
+          var useDark = document.documentElement.classList.contains('dark');
+          event.newDocument.documentElement.classList.toggle('dark', useDark);
+        });
+        document.addEventListener('astro:after-swap', function () {
+          if (!window.location.hash) window.scrollTo(0, 0);
+        });
+      }
     </script>
     <ClientRouter />
     <script>

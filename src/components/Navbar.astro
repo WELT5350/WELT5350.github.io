@@ -85,27 +85,52 @@ const navItems = [
 </nav>
 
 <script is:inline>
-  document.addEventListener('astro:page-load', function () {
-  document.querySelectorAll('[data-theme-toggle]').forEach(function (button) {
-    button.addEventListener('click', function () {
-      var html = document.documentElement;
-      html.classList.toggle('dark');
-      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-      window.__weltSyncThemeColor?.();
-    });
-  });
+  (function () {
+    function initialiseNavbar() {
+      window.__weltNavbarCleanup?.();
+      var controller = new AbortController();
+      var signal = controller.signal;
 
-  var menuToggle = document.getElementById('menu-toggle');
-  var mobileMenu = document.getElementById('mobile-menu');
-  if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener('click', function () {
-      var isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
-      menuToggle.setAttribute('aria-expanded', String(!isOpen));
-      menuToggle.setAttribute('aria-label', isOpen ? '打开导航' : '关闭导航');
-      mobileMenu.classList.toggle('hidden', isOpen);
-    });
-  }
-  });
+      document.querySelectorAll('[data-theme-toggle]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          var html = document.documentElement;
+          html.classList.toggle('dark');
+          localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+          window.__weltSyncThemeColor?.();
+        }, { signal: signal });
+      });
+
+      var menuToggle = document.getElementById('menu-toggle');
+      var mobileMenu = document.getElementById('mobile-menu');
+      if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener('click', function () {
+          var isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+          menuToggle.setAttribute('aria-expanded', String(!isOpen));
+          menuToggle.setAttribute('aria-label', isOpen ? '打开导航' : '关闭导航');
+          mobileMenu.classList.toggle('hidden', isOpen);
+        }, { signal: signal });
+      }
+
+      window.__weltNavbarCleanup = function () { controller.abort(); };
+    }
+
+    function updateNavigationSurface() {
+      var nav = document.getElementById('top-nav');
+      if (nav) nav.classList.toggle('nav-solid', window.scrollY > 10);
+    }
+
+    if (!window.__weltNavbarLifecycleBound) {
+      window.__weltNavbarLifecycleBound = true;
+      window.addEventListener('scroll', updateNavigationSurface, { passive: true });
+      document.addEventListener('astro:page-load', function () {
+        initialiseNavbar();
+        updateNavigationSurface();
+      });
+    }
+
+    initialiseNavbar();
+    updateNavigationSurface();
+  })();
 </script>
 
 <style is:global>
@@ -118,18 +143,3 @@ const navItems = [
     border-bottom-color: var(--glass-border-strong) !important;
   }
 </style>
-
-<script is:inline>
-  function updateNavigationSurface() {
-    var scrolled = window.scrollY > 10;
-    var nav = document.getElementById('top-nav');
-    if (nav) nav.classList.toggle('nav-solid', scrolled);
-  }
-
-  if (!window.__weltNavigationScrollBound) {
-    window.__weltNavigationScrollBound = true;
-    window.addEventListener('scroll', updateNavigationSurface, { passive: true });
-  }
-
-  document.addEventListener('astro:page-load', updateNavigationSurface);
-</script>

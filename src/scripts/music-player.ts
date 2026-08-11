@@ -25,7 +25,10 @@ const modeIcons = [
 
 const modeTitles = ['顺序播放', '列表循环', '单曲循环', '随机播放'];
 
+let cleanupMusicPlayer: (() => void) | undefined;
+
 function initializeMusicPlayer() {
+cleanupMusicPlayer?.();
 function setStatus(message: string) {
   const status = document.getElementById('mp-status');
   if (status) status.textContent = message;
@@ -40,6 +43,8 @@ function fmt(t: number): string {
 
 const audio = document.getElementById('mp-audio') as HTMLAudioElement;
 if (!audio) return;
+const controller = new AbortController();
+const { signal } = controller;
 let idx = 7;
 let playing = false;
 let mode = 0;
@@ -185,29 +190,29 @@ function buildList() {
     el.addEventListener('click', () => {
       load(i);
       void playCurrent();
-    });
+    }, { signal });
     container.appendChild(el);
   });
   highlightCurrent();
 }
 
-document.getElementById('mp-play-btn')?.addEventListener('click', togglePlay);
-document.getElementById('mp-prev')?.addEventListener('click', prevSong);
-document.getElementById('mp-next')?.addEventListener('click', nextSong);
-document.getElementById('mp-mode')?.addEventListener('click', toggleMode);
-document.getElementById('mp-list-toggle')?.addEventListener('click', toggleList);
-audio.addEventListener('ended', nextSong);
+document.getElementById('mp-play-btn')?.addEventListener('click', togglePlay, { signal });
+document.getElementById('mp-prev')?.addEventListener('click', prevSong, { signal });
+document.getElementById('mp-next')?.addEventListener('click', nextSong, { signal });
+document.getElementById('mp-mode')?.addEventListener('click', toggleMode, { signal });
+document.getElementById('mp-list-toggle')?.addEventListener('click', toggleList, { signal });
+audio.addEventListener('ended', nextSong, { signal });
 audio.addEventListener('loadedmetadata', () => {
   const durEl = document.getElementById('mp-time-dur');
   if (durEl) durEl.textContent = fmt(audio.duration);
-});
+}, { signal });
 audio.addEventListener('error', () => {
   playing = false;
   updatePlayIcon();
   const artist = document.getElementById('mp-artist');
   if (artist) artist.textContent = '音频暂时无法加载，请稍后重试。';
   setStatus('音频暂时无法加载，请稍后重试。');
-});
+}, { signal });
 audio.addEventListener('timeupdate', () => {
   if (audio.duration) {
     const pct = (audio.currentTime / audio.duration) * 100;
@@ -216,7 +221,7 @@ audio.addEventListener('timeupdate', () => {
     const curEl = document.getElementById('mp-time-cur');
     if (curEl) curEl.textContent = fmt(audio.currentTime);
   }
-});
+}, { signal });
 
 const progress = document.getElementById('mp-progress');
 if (progress) {
@@ -225,11 +230,17 @@ if (progress) {
     if (Number.isFinite(audio.duration)) {
       audio.currentTime = (value / 100) * audio.duration;
     }
-  });
+  }, { signal });
 }
 
 buildList();
 load(idx);
+cleanupMusicPlayer = () => {
+  controller.abort();
+  audio.pause();
+  audio.removeAttribute('src');
+  audio.load();
+};
 }
 
 document.addEventListener('astro:page-load', initializeMusicPlayer);

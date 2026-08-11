@@ -8,25 +8,39 @@
 </button>
 
 <script>
+  const lifecycleWindow = window as typeof window & {
+    __weltBackToTopCleanup?: () => void;
+    __weltBackToTopLifecycleBound?: boolean;
+  };
+
+  function initialiseBackToTop() {
+    lifecycleWindow.__weltBackToTopCleanup?.();
+    const btn = document.getElementById('back-to-top');
+    if (!btn) return;
+    const controller = new AbortController();
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, { signal: controller.signal });
+    lifecycleWindow.__weltBackToTopCleanup = () => controller.abort();
+  }
+
   function updateBackToTop() {
     const btn = document.getElementById('back-to-top');
     if (!btn) return;
-    if (window.scrollY > 400) {
-      btn.classList.remove('opacity-0', 'pointer-events-none');
-      btn.classList.add('opacity-100');
-    } else {
-      btn.classList.add('opacity-0', 'pointer-events-none');
-      btn.classList.remove('opacity-100');
-    }
+    btn.classList.toggle('opacity-0', window.scrollY <= 400);
+    btn.classList.toggle('pointer-events-none', window.scrollY <= 400);
+    btn.classList.toggle('opacity-100', window.scrollY > 400);
   }
 
-  window.addEventListener('scroll', updateBackToTop, { passive: true });
-  document.addEventListener('astro:page-load', () => {
-    const btn = document.getElementById('back-to-top');
-    if (!btn) return;
-    updateBackToTop();
-    btn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (!lifecycleWindow.__weltBackToTopLifecycleBound) {
+    lifecycleWindow.__weltBackToTopLifecycleBound = true;
+    window.addEventListener('scroll', updateBackToTop, { passive: true });
+    document.addEventListener('astro:page-load', () => {
+      initialiseBackToTop();
+      updateBackToTop();
     });
-  });
+  }
+
+  initialiseBackToTop();
+  updateBackToTop();
 </script>
