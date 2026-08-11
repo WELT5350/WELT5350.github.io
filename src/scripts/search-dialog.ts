@@ -63,7 +63,7 @@ function initializeSearchDialog() {
 
     if (!searchInput.value.trim()) {
       const hint = document.createElement('p');
-      hint.className = 'px-3 py-8 text-center text-sm text-gray-500 dark:text-gray-400';
+      hint.className = 'search-dialog-muted px-3 py-8 text-center text-sm';
       hint.textContent = '输入关键词，搜索文章标题、摘要或标签。';
       searchResults.appendChild(hint);
       searchInput.removeAttribute('aria-activedescendant');
@@ -72,7 +72,7 @@ function initializeSearchDialog() {
 
     if (matches.length === 0) {
       const empty = document.createElement('p');
-      empty.className = 'px-3 py-8 text-center text-sm text-gray-500 dark:text-gray-400';
+      empty.className = 'search-dialog-muted px-3 py-8 text-center text-sm';
       empty.textContent = '没有找到相关文章，试试更短的关键词。';
       searchResults.appendChild(empty);
       searchInput.removeAttribute('aria-activedescendant');
@@ -89,28 +89,28 @@ function initializeSearchDialog() {
       link.href = entry.href;
       link.setAttribute('role', 'option');
       link.setAttribute('aria-selected', String(active));
-      link.className = `block rounded-xl px-3 py-3 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${active ? 'bg-blue-50/80 dark:bg-blue-950/40' : 'hover:bg-blue-50/60 dark:hover:bg-blue-950/30'}`;
+      link.className = `search-result block rounded-xl px-3 py-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${active ? 'is-active' : ''}`;
       link.addEventListener('click', () => close(false));
 
       const meta = document.createElement('div');
       meta.className = 'mb-1 flex items-center gap-2 text-[11px]';
       const date = document.createElement('time');
-      date.className = 'font-medium text-blue-600 dark:text-blue-300';
+      date.className = 'font-medium text-blue-700 dark:text-blue-300';
       date.dateTime = entry.date;
       date.textContent = formatDate(entry.date);
       meta.appendChild(date);
       entry.tags.slice(0, 2).forEach((tag) => {
         const tagLabel = document.createElement('span');
-        tagLabel.className = 'rounded-full bg-blue-100/70 px-1.5 py-0.5 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300';
+        tagLabel.className = 'rounded-full bg-blue-100/80 px-1.5 py-0.5 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200';
         tagLabel.textContent = tag;
         meta.appendChild(tagLabel);
       });
 
       const title = document.createElement('p');
-      title.className = 'text-sm font-semibold text-gray-900 dark:text-gray-100';
+      title.className = 'text-sm font-semibold text-[var(--glass-ink)]';
       title.textContent = entry.title;
       const description = document.createElement('p');
-      description.className = 'mt-1 line-clamp-2 text-xs leading-relaxed text-gray-500 dark:text-gray-400';
+      description.className = 'search-dialog-muted mt-1 line-clamp-2 text-xs leading-relaxed';
       description.textContent = entry.description;
       link.append(meta, title, description);
       item.appendChild(link);

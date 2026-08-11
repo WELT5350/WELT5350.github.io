@@ -8,27 +8,32 @@ const latestDate = stats.latestPost
   : '暂无记录';
 ---
 
-<section aria-labelledby="site-archive-title">
-  <div class="mb-4 flex items-baseline justify-between gap-3">
-    <h2 id="site-archive-title" class="text-sm font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">WELT 档案</h2>
-    <span class="text-[10px] font-medium tracking-[0.12em] text-blue-600 dark:text-blue-300">LOCAL</span>
+<section class="archive-sheet glass-sub mb-8 rounded-xl p-5" aria-labelledby="site-archive-title">
+  <div class="flex items-start justify-between gap-4">
+    <div>
+      <p class="archive-kicker">SITE RECORD</p>
+      <h2 id="site-archive-title" class="mt-1 text-base font-semibold text-[var(--glass-ink)]">WELT 档案</h2>
+      <p class="mt-1 text-xs leading-relaxed text-[var(--glass-muted)]">由公开文章生成的本站写作记录，不包含访客行为。</p>
+    </div>
+    <span class="archive-stamp" aria-label="本地档案">LOCAL</span>
   </div>
-  <div class="grid grid-cols-2 gap-2">
-    <div class="glass-sub rounded-xl p-3">
-      <p class="text-[10px] text-gray-500 dark:text-gray-400">文章</p>
-      <p class="mt-1 text-lg font-semibold tabular-nums text-gray-900 dark:text-gray-100">{stats.postCount}</p>
+
+  <dl class="archive-ledger mt-5 grid grid-cols-2 sm:grid-cols-4">
+    <div>
+      <dt>公开文章</dt>
+      <dd>{stats.postCount}<small>篇</small></dd>
     </div>
-    <div class="glass-sub rounded-xl p-3">
-      <p class="text-[10px] text-gray-500 dark:text-gray-400">标签</p>
-      <p class="mt-1 text-lg font-semibold tabular-nums text-gray-900 dark:text-gray-100">{stats.tagCount}</p>
+    <div>
+      <dt>使用标签</dt>
+      <dd>{stats.tagCount}<small>个</small></dd>
     </div>
-    <div class="glass-sub rounded-xl p-3">
-      <p class="text-[10px] text-gray-500 dark:text-gray-400">总字数</p>
-      <p class="mt-1 text-lg font-semibold tabular-nums text-gray-900 dark:text-gray-100">{formatCompactNumber(stats.totalUnits)}</p>
+    <div>
+      <dt>累计书写</dt>
+      <dd>{formatCompactNumber(stats.totalUnits)}<small>字</small></dd>
     </div>
-    <div class="glass-sub rounded-xl p-3">
-      <p class="text-[10px] text-gray-500 dark:text-gray-400">最近更新</p>
-      <p class="mt-1 truncate text-xs font-semibold tabular-nums text-gray-900 dark:text-gray-100" title={latestDate}>{latestDate}</p>
+    <div>
+      <dt>最近更新</dt>
+      <dd class="archive-date" title={latestDate}>{latestDate}</dd>
     </div>
-  </div>
+  </dl>
 </section>
