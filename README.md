@@ -2,6 +2,8 @@
 
 基于 Astro、Tailwind CSS 构建的静态个人博客，部署至 GitHub Pages。
 
+https://welt5350.github.io/
+
 ## 本地开发
 
 ```bash
