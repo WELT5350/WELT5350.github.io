@@ -22,22 +22,42 @@ const backgroundOptions = await Promise.all(
 ---
 
 <script is:inline define:vars={{ backgroundOptions }}>
-  function applyDailyBackground(target) {
+  function selectRefreshBackground() {
     if (backgroundOptions.length === 0) return;
 
-    const today = new Date();
-    const dayNumber = Math.floor(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()) / 86_400_000);
-    const selected = backgroundOptions[dayNumber % backgroundOptions.length];
-
-    if (selected) {
-      target.style.setProperty('--site-background-image', `url("${selected}")`);
+    let previousIndex = -1;
+    try {
+      previousIndex = Number(sessionStorage.getItem('welt-background-index'));
+    } catch {
+      // 背景轮换在禁用会话存储时仍可用，只是不保证避免连续重复。
     }
+
+    let nextIndex = Math.floor(Math.random() * backgroundOptions.length);
+    if (backgroundOptions.length > 1 && nextIndex === previousIndex) {
+      nextIndex = (nextIndex + 1 + Math.floor(Math.random() * (backgroundOptions.length - 1))) % backgroundOptions.length;
+    }
+
+    try {
+      sessionStorage.setItem('welt-background-index', String(nextIndex));
+    } catch {
+      // 会话存储不可用时不影响本次背景选择。
+    }
+
+    return backgroundOptions[nextIndex];
   }
 
-  applyDailyBackground(document.documentElement);
+  const selectedBackground = selectRefreshBackground();
+
+  function applySelectedBackground(target) {
+    if (!selectedBackground) return;
+
+    target.style.setProperty('--site-background-image', `url("${selectedBackground}")`);
+  }
+
+  applySelectedBackground(document.documentElement);
 
   document.addEventListener('astro:before-swap', (event) => {
-    applyDailyBackground(event.newDocument.documentElement);
+    applySelectedBackground(event.newDocument.documentElement);
   });
 </script>
 
