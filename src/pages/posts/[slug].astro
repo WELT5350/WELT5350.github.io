@@ -1,5 +1,6 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro';
+import ReadingPanel from '../../components/ReadingPanel.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -24,7 +25,7 @@ if (currentIdx === -1) {
 }
 
 const post = sortedPosts[currentIdx];
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 
 const rawBody = post.body || '';
 const chineseChars = (rawBody.match(/[\u4e00-\u9fff]/g) || []).length;
@@ -36,6 +37,7 @@ const nextPost = currentIdx > 0 ? sortedPosts[currentIdx - 1] : null;
 ---
 
 <BlogLayout title={post.data.title}>
+  <article class="relative" data-article-content>
   <div class="flex items-center justify-between mb-8">
     <div class="flex flex-wrap items-center gap-2 text-sm">
       <time datetime={post.data.pubDate.toISOString()} class="text-gray-400 dark:text-gray-500">
@@ -57,6 +59,10 @@ const nextPost = currentIdx > 0 ? sortedPosts[currentIdx - 1] : null;
   <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 tracking-tight leading-tight mb-8">
     {post.data.title}
   </h1>
+
+  <p class="mb-8 max-w-2xl text-base leading-relaxed text-gray-500 dark:text-gray-400">
+    {post.data.description}
+  </p>
 
   <div class="prose-custom">
     <Content />
@@ -88,4 +94,6 @@ const nextPost = currentIdx > 0 ? sortedPosts[currentIdx - 1] : null;
       返回文章列表
     </a>
   </div>
+  <ReadingPanel headings={headings} title={post.data.title} />
+  </article>
 </BlogLayout>

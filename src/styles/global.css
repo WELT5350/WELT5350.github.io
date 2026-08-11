@@ -266,6 +266,13 @@
   .prose-custom h3 { font-size: 1.25em; }
   .prose-custom h4 { font-size: 1.125em; }
 
+  .prose-custom h2,
+  .prose-custom h3,
+  .prose-custom h4 {
+    scroll-margin-top: 5.5rem;
+    text-wrap: balance;
+  }
+
   .prose-custom p {
     margin-bottom: 1.25em;
   }
