@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import { getPublishedPosts, sortPostsByDate } from '../lib/posts';
+
+const { mobile = false } = Astro.props as { mobile?: boolean };
+const posts = sortPostsByDate(getPublishedPosts(await getCollection('posts')));
+const searchIndex = posts.map((post) => ({
+  title: post.data.title,
+  description: post.data.description,
+  tags: post.data.tags || [],
+  date: post.data.pubDate.toISOString(),
+  href: `/posts/${post.id}`,
+}));
+const inputId = mobile ? 'mobile-site-search-input' : 'site-search-input';
+const resultsId = mobile ? 'mobile-site-search-results' : 'site-search-results';
+---
+
+<div data-site-search data-search-index={JSON.stringify(searchIndex)} class:list={['site-search', mobile ? 'site-search-mobile' : 'site-search-desktop']}>
+  <label class="sr-only" for={inputId}>搜索文章</label>
+  <div class="site-search-field">
+    <svg aria-hidden="true" class="h-4 w-4 shrink-0 text-blue-600 dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="6.5" stroke-width="1.8" />
+      <path stroke-linecap="round" stroke-width="1.8" d="m16 16 4 4" />
+    </svg>
+    <input id={inputId} data-search-input type="text" inputmode="search" role="combobox" autocomplete="off" placeholder="搜索文章、摘要或标签" aria-controls={resultsId} aria-expanded="false" aria-autocomplete="list" />
+    {!mobile && <kbd aria-hidden="true">⌘K</kbd>}
+  </div>
+  <div id={resultsId} data-search-results class="site-search-results" role="listbox" aria-label="搜索结果">
+    <p data-search-hint class="site-search-hint">输入关键词，寻找一篇文章。</p>
+  </div>
+</div>
+
+<script src="../scripts/inline-search.ts"></script>
