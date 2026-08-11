@@ -1,15 +1,16 @@
 ---
 ---
 
-<button id="back-to-top" class="fixed bottom-8 right-8 z-50 w-10 h-10 rounded-full bg-blue-500 text-white shadow-lg shadow-blue-500/20 opacity-0 pointer-events-none transition-all duration-300 hover:bg-blue-600 hover:shadow-blue-500/30 hover:-translate-y-0.5 cursor-pointer" aria-label="回到顶部">
-  <svg class="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<button id="back-to-top" type="button" class="fixed bottom-8 right-8 z-50 w-10 h-10 rounded-full bg-blue-500 text-white shadow-lg shadow-blue-500/20 opacity-0 pointer-events-none transition-[opacity,background-color,box-shadow,transform] duration-300 hover:bg-blue-600 hover:shadow-blue-500/30 hover:-translate-y-0.5 cursor-pointer" aria-label="回到顶部">
+  <svg aria-hidden="true" class="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
   </svg>
 </button>
 
 <script>
-  const btn = document.getElementById('back-to-top')!;
-  window.addEventListener('scroll', () => {
+  function updateBackToTop() {
+    const btn = document.getElementById('back-to-top');
+    if (!btn) return;
     if (window.scrollY > 400) {
       btn.classList.remove('opacity-0', 'pointer-events-none');
       btn.classList.add('opacity-100');
@@ -17,8 +18,15 @@
       btn.classList.add('opacity-0', 'pointer-events-none');
       btn.classList.remove('opacity-100');
     }
-  });
-  btn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  window.addEventListener('scroll', updateBackToTop, { passive: true });
+  document.addEventListener('astro:page-load', () => {
+    const btn = document.getElementById('back-to-top');
+    if (!btn) return;
+    updateBackToTop();
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   });
 </script>

@@ -1,108 +1,121 @@
 ---
+const pathname = Astro.url.pathname;
+const isActive = (base: string) => {
+  if (base === '/') return pathname === '/';
+  return pathname.startsWith(base);
+};
+const navItems = [
+  { href: '/', label: '首页', base: '/' },
+  { href: '/posts', label: '文章', base: '/posts' },
+  { href: '/about', label: '关于', base: '/about' },
+  { href: '/links', label: '友链', base: '/links' },
+  { href: '/guestbook', label: '留言板', base: '/guestbook' },
+];
 ---
 
-<nav class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-blue-50 dark:border-gray-800 shadow-sm shadow-blue-50/30 dark:shadow-none transition-colors duration-300">
-  <div class="max-w-5xl mx-auto px-6">
-    <div class="flex items-center justify-between h-16">
-      <div class="flex items-center gap-3">
-        <img src="/avatar.jpg" data-light="/avatar.jpg" data-dark="/avatar-dark.jpg" alt="头像" class="theme-avatar w-8 h-8 rounded-full ring-2 ring-blue-100 dark:ring-blue-900 transition-opacity duration-300" />
-        <a href="#home" onclick="navigateTo('home'); return false;" class="text-lg font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent tracking-tight">
-          我的博客
-        </a>
+<nav id="top-nav" class="glass-nav sticky top-0 z-50 border-x-0 border-t-0 shadow-md shadow-black/10 transition-colors duration-300">
+  <div class="mx-auto max-w-5xl px-4 sm:px-6">
+    <div class="flex h-16 items-center justify-between">
+      <a href="/" class="flex min-w-0 items-center gap-3 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500">
+        <img class="block h-8 w-8 rounded-full ring-2 ring-blue-100 dark:hidden" src="/avatar.webp" alt="WELT 头像" width="32" height="32" fetchpriority="high" />
+        <img class="hidden h-8 w-8 rounded-full ring-2 ring-blue-900 dark:block" src="/avatar-dark.webp" alt="WELT 头像" width="32" height="32" fetchpriority="high" />
+        <span class="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-lg font-bold tracking-tight text-transparent">WELT</span>
+      </a>
+
+      <div class="hidden items-center gap-1 md:flex">
+        <ul class="flex items-center gap-1" aria-label="主导航">
+          {navItems.map(({ href, label, base }) => (
+            <li>
+              <a
+                href={href}
+                aria-current={isActive(base) ? 'page' : undefined}
+                class={`rounded-lg px-3 py-2 text-sm transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${isActive(base) ? 'bg-blue-50/80 font-semibold text-blue-700 dark:bg-blue-950/50 dark:text-blue-300' : 'text-slate-600 hover:bg-blue-50/70 hover:text-blue-700 dark:text-slate-300 dark:hover:bg-blue-950/40 dark:hover:text-blue-300'}`}
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <button data-theme-toggle type="button" class="ml-1 rounded-lg p-2 text-slate-500 transition-colors duration-200 hover:bg-blue-50/70 hover:text-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:text-slate-400 dark:hover:bg-blue-950/40 dark:hover:text-blue-300" aria-label="切换主题">
+          <svg aria-hidden="true" class="h-5 w-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg>
+          <svg aria-hidden="true" class="hidden h-5 w-5 dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 0 1 0z"/></svg>
+        </button>
       </div>
-      <div class="flex items-center gap-1">
-        <a href="#home" onclick="navigateTo('home'); return false;" class="nav-link px-4 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/60 dark:hover:bg-blue-900/30 rounded-xl transition-all duration-200">首页</a>
-        <a href="#posts" onclick="navigateTo('posts'); return false;" class="nav-link px-4 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/60 dark:hover:bg-blue-900/30 rounded-xl transition-all duration-200">文章</a>
-        <a href="#about" onclick="navigateTo('about'); return false;" class="nav-link px-4 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/60 dark:hover:bg-blue-900/30 rounded-xl transition-all duration-200">关于</a>
-        <a href="#links" onclick="navigateTo('links'); return false;" class="nav-link px-4 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/60 dark:hover:bg-blue-900/30 rounded-xl transition-all duration-200">友链</a>
-        <a href="#guestbook" onclick="navigateTo('guestbook'); return false;" class="nav-link px-4 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/60 dark:hover:bg-blue-900/30 rounded-xl transition-all duration-200">留言板</a>
-        <button id="theme-toggle" class="ml-2 p-2 rounded-xl text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/60 dark:hover:bg-blue-900/30 transition-all duration-200" aria-label="切换主题">
-          <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg>
-          <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/></svg>
+
+      <div class="flex items-center gap-1 md:hidden">
+        <button data-theme-toggle type="button" class="rounded-lg p-2 text-slate-500 transition-colors duration-200 hover:bg-blue-50/70 hover:text-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:text-slate-400 dark:hover:bg-blue-950/40 dark:hover:text-blue-300" aria-label="切换主题">
+          <svg aria-hidden="true" class="h-5 w-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg>
+          <svg aria-hidden="true" class="hidden h-5 w-5 dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 0 1 0z"/></svg>
+        </button>
+        <button id="menu-toggle" type="button" class="rounded-lg p-2 text-slate-600 transition-colors duration-200 hover:bg-blue-50/70 hover:text-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:text-slate-300 dark:hover:bg-blue-950/40 dark:hover:text-blue-300" aria-controls="mobile-menu" aria-expanded="false" aria-label="打开导航">
+          <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
       </div>
     </div>
   </div>
+
+  <div id="mobile-menu" class="glass-nav hidden border-x-0 border-b-0 px-4 py-3 md:hidden">
+    <ul class="grid grid-cols-2 gap-1" aria-label="主导航">
+      {navItems.map(({ href, label, base }) => (
+        <li>
+          <a
+            href={href}
+            aria-current={isActive(base) ? 'page' : undefined}
+            class={`block rounded-lg px-3 py-2 text-sm transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${isActive(base) ? 'bg-blue-50 font-semibold text-blue-700 dark:bg-blue-950/50 dark:text-blue-300' : 'text-slate-600 hover:bg-blue-50 dark:text-slate-300 dark:hover:bg-blue-950/40'}`}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
 </nav>
 
 <script is:inline>
-  function updateAvatars() {
-    const isDark = document.documentElement.classList.contains('dark');
-    document.querySelectorAll('.theme-avatar').forEach(function(img) {
-      img.style.opacity = '0';
-      setTimeout(function() {
-        img.src = isDark ? img.dataset.dark : img.dataset.light;
-        img.style.opacity = '1';
-      }, 150);
+  document.addEventListener('astro:page-load', function () {
+  document.querySelectorAll('[data-theme-toggle]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var html = document.documentElement;
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
     });
-  }
-
-  document.getElementById('theme-toggle').addEventListener('click', function() {
-    const html = document.documentElement;
-    html.classList.toggle('dark');
-    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-    updateAvatars();
   });
 
-  var navLocked = false;
-  function navigateTo(section) {
-    if (navLocked) return;
-    var pages = document.querySelectorAll('.spa-page');
-    var validSections = ['home', 'posts', 'about', 'links', 'guestbook'];
-    document.querySelectorAll('.spa-page').forEach(function(p) {
-      if (p.id && p.id.startsWith('page-post-')) validSections.push(p.id.replace('page-', ''));
+  var menuToggle = document.getElementById('menu-toggle');
+  var mobileMenu = document.getElementById('mobile-menu');
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', function () {
+      var isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', String(!isOpen));
+      menuToggle.setAttribute('aria-label', isOpen ? '打开导航' : '关闭导航');
+      mobileMenu.classList.toggle('hidden', isOpen);
     });
-    if (validSections.indexOf(section) === -1) section = 'home';
-    var current = document.querySelector('.spa-page.active');
-    if (current && current.id === 'page-' + section) return;
-    navLocked = true;
-    var current = document.querySelector('.spa-page.active');
-    function showTarget() {
-      pages.forEach(function(p) { if (!p.classList.contains('active')) { p.style.display = 'none'; } });
-      var target = document.getElementById('page-' + section);
-      if (target) {
-        target.style.display = 'block';
-        target.offsetHeight;
-        target.classList.add('active');
-      }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      window.location.hash = section;
-      var navSection = section.startsWith('post-') ? 'posts' : section;
-      updateNavActive(navSection);
-      var titleMap = { home: '首页', posts: '文章', about: '关于', links: '友链', guestbook: '留言板' };
-      document.title = titleMap[section] ? (titleMap[section] + ' | 我的博客') : '我的博客';
-      if (section.startsWith('post-') && target) {
-        var h1 = target.querySelector('h1');
-        if (h1) document.title = h1.textContent + ' | 我的博客';
-      }
-      setTimeout(function() { navLocked = false; }, 300);
-      if (section === 'guestbook' && window.initGiscus) {
-        window.initGiscus('Guestbook', 'DIC_kwDOSlpBSs4C9uCh', 'guestbook');
-      }
-    }
-    if (current) {
-      current.classList.remove('active');
-      setTimeout(showTarget, 280);
-    } else {
-      showTarget();
-    }
   }
-  window.navigateTo = navigateTo;
-
-  function updateNavActive(section) {
-    document.querySelectorAll('.nav-link').forEach(function(link) {
-      link.classList.remove('text-blue-600','dark:text-blue-400','font-semibold');
-    });
-    var links = document.querySelectorAll('.nav-link');
-    var map = { home: 0, posts: 1, about: 2, links: 3, guestbook: 4 };
-    var idx = map[section];
-    if (idx !== undefined && links[idx]) {
-      links[idx].classList.add('text-blue-600','dark:text-blue-400','font-semibold');
-    }
-  }
-
-  window.addEventListener('hashchange', function() {
-    var hash = window.location.hash.replace('#','') || 'home';
-    navigateTo(hash);
   });
+</script>
+
+<style is:global>
+  #top-nav.nav-solid {
+    background-color: var(--glass-sub-hover) !important;
+    border-bottom-color: var(--glass-border-strong) !important;
+  }
+  .dark #top-nav.nav-solid {
+    background-color: var(--glass-sub-hover) !important;
+    border-bottom-color: var(--glass-border-strong) !important;
+  }
+</style>
+
+<script is:inline>
+  function updateNavigationSurface() {
+    var scrolled = window.scrollY > 10;
+    var nav = document.getElementById('top-nav');
+    if (nav) nav.classList.toggle('nav-solid', scrolled);
+  }
+
+  if (!window.__weltNavigationScrollBound) {
+    window.__weltNavigationScrollBound = true;
+    window.addEventListener('scroll', updateNavigationSurface, { passive: true });
+  }
+
+  document.addEventListener('astro:page-load', updateNavigationSurface);
 </script>

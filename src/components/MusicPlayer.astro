@@ -1,36 +1,47 @@
----
----
-
-<div id="music-player" class="rounded-xl border border-blue-200/30 dark:border-blue-800/30 bg-blue-50/20 dark:bg-blue-900/15">
+<div id="music-player" class="glass-sub rounded-xl">
   <div class="p-3">
-    <div class="flex items-center gap-2.5 mb-2.5">
-      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center flex-shrink-0 shadow-sm">
-        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+    <div class="flex items-center gap-2.5">
+      <div id="mp-icon-wrap" class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center flex-shrink-0 shadow-sm transition-shadow duration-300">
+        <svg aria-hidden="true" class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
       </div>
       <div class="min-w-0 flex-1">
-        <p id="mp-title" class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">浅滩（2024ver）</p>
+        <div class="flex items-center gap-1.5">
+          <p id="mp-title" class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">浅滩（2024ver）</p>
+          <span id="mp-index" class="text-[10px] tabular-nums text-gray-400 dark:text-gray-500 flex-shrink-0">8/9</span>
+        </div>
         <p id="mp-artist" class="text-[10px] text-gray-400 dark:text-gray-500 truncate">Lagrange_P / 海伊</p>
       </div>
+      <div id="mp-bars" class="flex items-end gap-0.5 flex-shrink-0">
+        <span class="mp-bar block w-0.5 rounded-full bg-blue-400 dark:bg-blue-400" style="height:4px;transition:height 0.15s ease"></span>
+        <span class="mp-bar block w-0.5 rounded-full bg-blue-400 dark:bg-blue-400" style="height:4px;transition:height 0.15s ease"></span>
+        <span class="mp-bar block w-0.5 rounded-full bg-blue-400 dark:bg-blue-400" style="height:4px;transition:height 0.15s ease"></span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 mt-2 mb-1.5">
+      <span id="mp-time-cur" class="text-[10px] tabular-nums text-gray-400 dark:text-gray-500 w-7 text-right flex-shrink-0">0:00</span>
+      <input id="mp-progress" class="mp-progress flex-1" type="range" min="0" max="100" value="0" step="0.1" aria-label="播放进度" />
+      <span id="mp-time-dur" class="text-[10px] tabular-nums text-gray-400 dark:text-gray-500 w-7 flex-shrink-0">0:00</span>
     </div>
 
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-0.5">
-        <button id="mp-prev" class="p-1.5 rounded-lg text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-blue-50/40 dark:hover:bg-blue-900/30 transition-colors" title="上一首">
-          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+        <button id="mp-prev" type="button" class="p-1.5 rounded-lg text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-blue-50/40 dark:hover:bg-blue-900/30 transition-colors" aria-label="上一首" title="上一首">
+          <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
         </button>
-        <button id="mp-play-btn" class="p-1.5 rounded-lg text-blue-500 hover:bg-blue-50/40 dark:hover:bg-blue-900/30 transition-colors" title="播放/暂停">
-          <svg id="mp-play-icon" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <button id="mp-play-btn" type="button" class="p-1.5 rounded-lg text-blue-500 hover:bg-blue-50/40 dark:hover:bg-blue-900/30 transition-[background-color,transform] duration-200 active:scale-90" aria-label="播放" title="播放/暂停">
+          <svg id="mp-play-icon" aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </button>
-        <button id="mp-next" class="p-1.5 rounded-lg text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-blue-50/40 dark:hover:bg-blue-900/30 transition-colors" title="下一首">
-          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+        <button id="mp-next" type="button" class="p-1.5 rounded-lg text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-blue-50/40 dark:hover:bg-blue-900/30 transition-colors" aria-label="下一首" title="下一首">
+          <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
         </button>
       </div>
       <div class="flex items-center gap-0.5">
-        <button id="mp-mode" class="p-1 rounded-lg text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-blue-50/40 dark:hover:bg-blue-900/30 transition-colors" title="顺序播放">
-          <svg id="mp-mode-icon" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <button id="mp-mode" type="button" class="p-1 rounded-lg text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-blue-50/40 dark:hover:bg-blue-900/30 transition-colors" aria-label="顺序播放" title="顺序播放">
+          <svg id="mp-mode-icon" aria-hidden="true" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
-        <button id="mp-list-toggle" class="p-1 rounded-lg text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-blue-50/40 dark:hover:bg-blue-900/30 transition-colors" title="歌单">
-          <svg id="mp-list-icon" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+        <button id="mp-list-toggle" type="button" class="p-1 rounded-lg text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-blue-50/40 dark:hover:bg-blue-900/30 transition-colors" aria-label="打开歌单" title="歌单">
+          <svg id="mp-list-icon" aria-hidden="true" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
         </button>
       </div>
     </div>
@@ -42,96 +53,6 @@
 </div>
 
 <audio id="mp-audio" preload="metadata" style="display:none;"></audio>
+<p id="mp-status" class="sr-only" aria-live="polite"></p>
 
-<script is:inline>
-(function() {
-  var songs = [
-    { id: 493454214, title: '帝国少女', artist: 'Sawako碎花' },
-    { id: 1951583615, title: 'Bet On Me', artist: 'Walk off the Earth' },
-    { id: 1998168127, title: '圣诞快乐坂本龙一先生', artist: '路灰气球' },
-    { id: 1978759140, title: 'Twilight', artist: 'Vanguard Sound' },
-    { id: 2081798260, title: '超负荷记忆', artist: '特污兔' },
-    { id: 424262994, title: '風は予告なく吹く', artist: 'ワルキューレ' },
-    { id: 1416496031, title: '【星尘】月光掌', artist: '魔法汐の正义铃' },
-    { id: 2661617561, title: '浅滩（2024ver）', artist: 'Lagrange_P / 海伊' },
-    { id: 1929114538, title: '我多想说再见啊', artist: '柯立可' }
-  ];
-
-  var audio = document.getElementById('mp-audio');
-  var idx = 7, playing = false, mode = 0, listOpen = false;
-  var modeIcons = [
-    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>',
-    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>',
-    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"/>',
-    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>'
-  ];
-  var modeTitles = ['顺序播放','列表循环','单曲循环','随机播放'];
-
-  function load(i) {
-    idx = i;
-    var s = songs[idx];
-    audio.src = 'https://music.163.com/song/media/outer/url?id=' + s.id + '.mp3';
-    document.getElementById('mp-title').textContent = s.title;
-    document.getElementById('mp-artist').textContent = s.artist;
-  }
-
-  function togglePlay() {
-    if (audio.paused) { audio.play(); playing = true; } else { audio.pause(); playing = false; }
-    var icon = document.getElementById('mp-play-icon');
-    icon.innerHTML = playing ? '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>' : '<path d="M8 5v14l11-7z"/>';
-  }
-
-  function next() {
-    var n, nxt;
-    if (mode === 2) { n = idx; }
-    else if (mode === 3) { n = Math.floor(Math.random() * songs.length); if (songs.length > 1) while (n === idx) n = Math.floor(Math.random() * songs.length); }
-    else if (mode === 1) { n = (idx + 1) % songs.length; }
-    else { n = idx + 1; if (n >= songs.length) { audio.currentTime = 0; audio.pause(); playing = false; togglePlay(); return; } }
-    load(n); audio.play(); playing = true;
-    document.getElementById('mp-play-icon').innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
-  }
-
-  function prev() {
-    var n;
-    if (mode === 3) { n = Math.floor(Math.random() * songs.length); if (songs.length > 1) while (n === idx) n = Math.floor(Math.random() * songs.length); }
-    else { n = (idx - 1 + songs.length) % songs.length; if (mode === 0 && idx === 0) { audio.currentTime = 0; return; } }
-    load(n); audio.play(); playing = true;
-    document.getElementById('mp-play-icon').innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
-  }
-
-  function toggleMode() {
-    mode = (mode + 1) % 4;
-    document.getElementById('mp-mode-icon').innerHTML = modeIcons[mode];
-    document.getElementById('mp-mode').title = modeTitles[mode];
-  }
-
-  function toggleList() {
-    listOpen = !listOpen;
-    document.getElementById('mp-list').classList.toggle('hidden', !listOpen);
-    document.getElementById('mp-list-icon').outerHTML = listOpen
-      ? '<svg id="mp-list-icon" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>'
-      : '<svg id="mp-list-icon" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>';
-  }
-
-  audio.addEventListener('ended', next);
-
-  document.getElementById('mp-play-btn').addEventListener('click', togglePlay);
-  document.getElementById('mp-prev').addEventListener('click', prev);
-  document.getElementById('mp-next').addEventListener('click', next);
-  document.getElementById('mp-mode').addEventListener('click', toggleMode);
-  document.getElementById('mp-list-toggle').addEventListener('click', toggleList);
-
-  var c = document.getElementById('mp-list-items');
-  songs.forEach(function(s, i) {
-    var el = document.createElement('div');
-    el.className = 'flex items-center gap-2 px-3 py-1.5 cursor-pointer hover:bg-blue-50/30 dark:hover:bg-blue-900/30 transition-colors text-xs mp-item';
-    el.setAttribute('data-i', i);
-    el.innerHTML = '<span class="mp-num text-gray-400 dark:text-gray-500 w-4 text-right flex-shrink-0 tabular-nums">' + (i+1) + '</span><span class="mp-song truncate flex-1">' + s.title + '</span><span class="text-[10px] text-gray-400 dark:text-gray-500 truncate hidden sm:inline">' + s.artist + '</span>';
-    el.addEventListener('click', function() {
-      load(i); audio.play(); playing = true;
-      document.getElementById('mp-play-icon').innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
-    });
-    c.appendChild(el);
-  });
-})();
-</script>
+<script src="../scripts/music-player.ts"></script>

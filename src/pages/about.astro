@@ -1,12 +1,71 @@
 ---
+import BlogLayout from '../layouts/BlogLayout.astro';
 ---
-<html>
-<head>
-  <meta http-equiv="refresh" content="0;url=/#about" />
-  <link rel="canonical" href="/#about" />
-</head>
-<body>
-  <p>正在跳转到 <a href="/#about">关于页</a>...</p>
-  <script>window.location.href = '/#about';</script>
-</body>
-</html>
+
+<BlogLayout title="关于我">
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100">关于我</h1>
+      <p class="text-gray-400 dark:text-gray-500 text-sm mt-1">死宅 / 技术笨蛋 / 社交恐怖分子</p>
+    </div>
+    <a href="/" class="text-xs text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">← 返回首页</a>
+  </div>
+
+  <div class="glass-sub flex items-center gap-4 mb-8 p-4 rounded-xl">
+      <img class="block dark:hidden w-14 h-14 rounded-full ring-2 ring-white/50 dark:ring-gray-700/50" src="/avatar.webp" alt="WELT 头像" width="56" height="56" />
+        <img class="hidden dark:block w-14 h-14 rounded-full ring-2 ring-white/50 dark:ring-gray-700/50" src="/avatar-dark.webp" alt="WELT 头像" width="56" height="56" />
+    <div>
+      <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+        我也不知道个人简介写什么啦，代码真的好难学，找工作也好累人，但我还没放弃。这个小小的网站，能做出来真的很开心，希望这一切，也能成为小小的我的，新的一步。
+      </p>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-4 mb-8">
+    <div class="glass-sub p-4 rounded-xl">
+      <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">兴趣爱好</h3>
+      <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">喜欢唱歌，跑团，还有睡懒觉，要写的话这里塞不下啦~</p>
+    </div>
+    <div class="glass-sub p-4 rounded-xl">
+      <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">技术栈</h3>
+      <div class="flex flex-wrap gap-1.5 mt-2">
+        <span class="tech-badge dark:bg-gray-800/50 dark:border-gray-700/40 dark:text-gray-300"><span class="tech-dot bg-orange-400"></span>Astro</span>
+        <span class="tech-badge dark:bg-gray-800/50 dark:border-gray-700/40 dark:text-gray-300"><span class="tech-dot bg-blue-500"></span>TypeScript</span>
+        <span class="tech-badge dark:bg-gray-800/50 dark:border-gray-700/40 dark:text-gray-300"><span class="tech-dot bg-cyan-400"></span>Tailwind</span>
+        <span class="tech-badge dark:bg-gray-800/50 dark:border-gray-700/40 dark:text-gray-300"><span class="tech-dot bg-green-500"></span>Node.js</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="glass-sub p-4 rounded-xl mb-8">
+    <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-4">我的旅程</h3>
+    <div class="relative pl-6 before:absolute before:left-2 before:top-1 before:bottom-1 before:w-px before:bg-gradient-to-b before:from-blue-400 before:via-blue-200 dark:before:via-blue-700 before:to-transparent">
+      <div class="relative mb-5">
+        <div class="absolute -left-4 top-1 w-2 h-2 rounded-full bg-blue-400 ring-2 ring-blue-100 dark:ring-blue-900"></div>
+        <p class="text-xs text-blue-500 dark:text-blue-400 font-medium">2026 - 至今</p>
+        <p class="text-xs font-semibold text-gray-900 dark:text-gray-200">独立开发者 & 博主</p>
+        <p class="text-[11px] text-gray-500 dark:text-gray-400">搭建个人博客，持续输出技术文章，分享学习心得。</p>
+      </div>
+      <div class="relative mb-5">
+        <div class="absolute -left-4 top-1 w-2 h-2 rounded-full bg-blue-300 dark:bg-blue-600 ring-2 ring-blue-50 dark:ring-blue-900"></div>
+        <p class="text-xs text-blue-400 dark:text-blue-500 font-medium">2024 - 2026</p>
+        <p class="text-xs font-semibold text-gray-900 dark:text-gray-200">前端开发工程师</p>
+        <p class="text-[11px] text-gray-500 dark:text-gray-400">参与多个 Web 项目开发，深入实践现代前端技术栈。</p>
+      </div>
+      <div class="relative">
+        <div class="absolute -left-4 top-1 w-2 h-2 rounded-full bg-blue-200 dark:bg-blue-700 ring-2 ring-blue-50 dark:ring-blue-900"></div>
+        <p class="text-xs text-blue-300 dark:text-blue-600 font-medium">2020 - 2024</p>
+        <p class="text-xs font-semibold text-gray-900 dark:text-gray-200">计算机科学学习</p>
+        <p class="text-[11px] text-gray-500 dark:text-gray-400">系统学习编程基础，接触 Web 开发，开始贡献开源项目。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="glass-sub p-4 rounded-xl">
+    <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">关于这个博客</h3>
+    <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+      这是我的个人写作空间，使用 <a href="https://astro.build" class="text-blue-500 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">Astro</a> 构建。
+      在这里我记录学习过程中的收获、解决过的问题以及想要记住的想法。
+    </p>
+  </div>
+</BlogLayout>

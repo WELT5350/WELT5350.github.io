@@ -1,0 +1,22 @@
+---
+import Layout from './Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import BackToTop from '../components/BackToTop.astro';
+import Footer from '../components/Footer.astro';
+import { fade } from 'astro:transitions';
+const { title, description } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <Navbar />
+  <div class="glass-background" aria-hidden="true" transition:persist></div>
+  <div class="glass-wash" aria-hidden="true" transition:persist></div>
+  <main id="main-content" transition:animate={fade({ duration: '0.18s' })} class="relative z-10 flex items-center justify-center px-4 py-6 sm:py-10" style="min-height: calc(100vh - 64px);">
+    <div class="glass-main w-full max-w-3xl rounded-3xl p-6 transition-colors duration-300 sm:p-10 md:p-12">
+      <slot />
+      <Footer />
+    </div>
+  </main>
+  <BackToTop />
+</Layout>
