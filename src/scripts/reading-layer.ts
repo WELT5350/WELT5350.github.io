@@ -27,7 +27,10 @@ function initializeReadingLayer() {
   function updateProgress() {
     const articleStart = article.getBoundingClientRect().top + window.scrollY;
     const readableHeight = Math.max(1, article.offsetHeight - window.innerHeight * 0.45);
-    const progress = Math.min(100, Math.max(0, ((window.scrollY - articleStart) / readableHeight) * 100));
+    const reachedPageEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+    const progress = reachedPageEnd
+      ? 100
+      : Math.min(100, Math.max(0, ((window.scrollY - articleStart) / readableHeight) * 100));
 
     progressBars.forEach((bar) => {
       bar.style.transform = `scaleX(${progress / 100})`;
