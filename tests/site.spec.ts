@@ -44,6 +44,8 @@ test('default day and night glass baselines remain readable', async ({ page }) =
   await expect(page.locator('html')).toHaveClass(/dark/);
   await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(14, 25, 48, 0.36)');
   await expect(page.locator('.accent-action')).toHaveCSS('background-color', 'rgb(37, 99, 235)');
+  await expect(page.locator('.accent-brand').first()).toHaveCSS('background-image', 'linear-gradient(90deg, rgb(37, 99, 235), rgb(96, 165, 250))');
+  await expect(page.locator('.accent-brand-surface')).toHaveCSS('background-image', 'linear-gradient(135deg, rgb(96, 165, 250), rgb(37, 99, 235))');
   await expect(page.locator('body')).toHaveCSS('color', 'rgb(209, 213, 219)');
   expect(await page.locator('[data-after-hours-divider]').boundingBox()).toEqual(dayDividerBox);
   expect(await page.locator('[data-after-hours-entry]').boundingBox()).toEqual(dayStarBox);
