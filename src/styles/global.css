@@ -166,6 +166,32 @@
   .glass-sub.reading-rail,
   .glass-sub.reading-mobile-panel { background: var(--appearance-glass-reading, var(--glass-reading)); }
 
+  .hero-reading-surface {
+    background: var(--appearance-glass-focus, var(--glass-reading));
+    border: 1px solid var(--appearance-glass-border, var(--glass-border));
+    border-radius: 1rem;
+    box-shadow: 0 10px 24px rgba(25, 42, 61, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.20);
+    padding: 1.25rem;
+  }
+
+  .dark .hero-reading-surface { box-shadow: 0 10px 24px rgba(1, 7, 22, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+
+  .section-reading-label {
+    background: var(--appearance-glass-focus, var(--glass-reading));
+    border: 1px solid var(--appearance-glass-border, var(--glass-border));
+    border-radius: 0.625rem;
+    display: inline-flex;
+    padding: 0.4rem 0.625rem;
+  }
+
+  .footer-reading-surface {
+    background: var(--appearance-glass-focus, var(--glass-reading));
+    border-radius: 0.875rem;
+    padding-bottom: 1.25rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
   .glass-sub {
     background: var(--appearance-glass-sub, var(--glass-sub));
     box-shadow: 0 8px 22px rgba(25, 42, 61, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.18);
