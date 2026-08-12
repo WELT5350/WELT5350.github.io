@@ -592,7 +592,7 @@
 
     .dark .glass-background {
       background-color: #081426;
-      filter: saturate(0.64) brightness(0.58) contrast(0.94);
+      filter: blur(var(--appearance-background-blur)) saturate(0.64) brightness(0.58) contrast(0.94);
     }
 
   .glass-wash {
