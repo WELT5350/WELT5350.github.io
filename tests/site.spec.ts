@@ -35,6 +35,7 @@ test('default day and night glass baselines remain readable', async ({ page }) =
   await expect(page.locator('[data-after-hours-divider]')).toHaveText('✦');
   const dayDividerBox = await page.locator('[data-after-hours-divider]').boundingBox();
   const dayStarBox = await page.locator('[data-after-hours-entry]').boundingBox();
+  expect(dayStarBox).toMatchObject({ width: 18, height: 18 });
   await expect(page.locator('.glass-main').first()).toHaveCSS('backdrop-filter', 'none');
   await expect(page.locator('.glass-nav').first()).toHaveCSS('backdrop-filter', 'none');
   await expect(page.locator('.reading-rail')).toHaveCount(0);

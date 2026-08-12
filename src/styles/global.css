@@ -948,16 +948,19 @@
   align-items: center;
   background: transparent;
   border: 0;
-  color: inherit;
+  color: rgb(209 213 219);
   cursor: default;
   display: inline-flex;
   font: inherit;
+  font-size: 1.125rem;
   justify-content: center;
   line-height: 1;
-  min-height: 2rem;
-  min-width: 2rem;
+  height: 1.125rem;
+  width: 1.125rem;
   padding: 0;
 }
+
+.dark .after-hours-entry { color: rgb(75 85 99); }
 
 .after-hours-fragment,
 .after-hours-notice,
@@ -978,6 +981,11 @@
   color: rgb(191 219 254);
   text-shadow: 0 0 14px rgb(147 197 253 / 0.75);
   transform: scale(1.12);
+}
+
+.after-hours-entry:focus-visible {
+  outline: 2px solid var(--appearance-accent);
+  outline-offset: 0.25rem;
 }
 
 .dark .after-hours-avatar {
