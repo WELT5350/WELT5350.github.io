@@ -87,6 +87,10 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
       document.querySelectorAll('[data-appearance-input]').forEach(function (input) {
         var key = input.getAttribute('data-appearance-input');
         input.value = String(settings[key]);
+        var minimum = Number(input.min);
+        var maximum = Number(input.max);
+        var progress = ((Number(settings[key]) - minimum) / (maximum - minimum)) * 100;
+        input.style.setProperty('--appearance-range-progress', `${Math.min(100, Math.max(0, progress))}%`);
       });
       document.querySelectorAll('[data-appearance-output]').forEach(function (output) {
         var key = output.getAttribute('data-appearance-output');
