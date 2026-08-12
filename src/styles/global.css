@@ -17,8 +17,11 @@
     --glass-muted: #3f5066;
     --glass-quiet: #60738a;
     --appearance-glass-blur: 14px;
+    --appearance-hue: 210;
+    --appearance-hue-shift: 0deg;
     --appearance-background-blur: 0px;
     --appearance-background-scale: 1.03;
+    --appearance-background-opacity: 1;
   }
 
   .dark {
@@ -238,7 +241,8 @@
   .appearance-range { display: grid; gap: 0.45rem; margin-top: 0.8rem; }
   .appearance-range > span { align-items: center; color: var(--glass-muted); display: flex; font-size: 0.75rem; font-weight: 600; justify-content: space-between; }
   .appearance-range output { color: #2563eb; font-size: 0.6875rem; font-variant-numeric: tabular-nums; font-weight: 700; }
-  .appearance-range input { accent-color: #2563eb; cursor: pointer; height: 1rem; margin: 0; width: 100%; }
+  .appearance-range input { accent-color: hsl(var(--appearance-hue) 78% 53%); cursor: pointer; height: 1rem; margin: 0; width: 100%; }
+  .appearance-range-hue input { background: linear-gradient(90deg, #ef4444, #facc15, #22c55e, #06b6d4, #6366f1, #d946ef, #ef4444); border-radius: 9999px; }
   .appearance-note { border-top: 1px solid var(--glass-border); color: var(--glass-quiet); font-size: 0.625rem; line-height: 1.5; margin: 1rem 0 0; padding-top: 0.75rem; }
 
   @media (max-width: 767px) {
@@ -587,6 +591,7 @@
       background-color: #dbeafe;
       background-image: var(--site-background-image);
       filter: blur(var(--appearance-background-blur)) saturate(0.72) brightness(1.07) contrast(0.90);
+      opacity: var(--appearance-background-opacity);
       transform: scale(var(--appearance-background-scale));
   }
 
@@ -599,10 +604,12 @@
     position: fixed;
     inset: 0;
     z-index: 0;
-    background: rgba(219, 234, 254, 0.10);
+    background: hsl(var(--appearance-hue) 92% 82% / 0.10);
   }
 
-  .dark .glass-wash { background: rgba(7, 16, 35, 0.12); }
+  .dark .glass-wash { background: hsl(var(--appearance-hue) 64% 16% / 0.12); }
+
+  [class*='blue-'] { filter: hue-rotate(var(--appearance-hue-shift)); }
 
   .tag {
     display: inline-flex;

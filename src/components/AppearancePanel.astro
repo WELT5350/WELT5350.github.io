@@ -36,27 +36,30 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
       </button>
     </div>
 
+    <label class="appearance-range appearance-range-hue">
+      <span><span>主题色相</span><output data-appearance-output="hue">推荐</output></span>
+      <input data-appearance-input="hue" type="range" min="0" max="360" step="1" value="210" aria-label="调整主题色相" />
+    </label>
     <label class="appearance-range">
       <span><span>背景柔化</span><output data-appearance-output="blur">推荐</output></span>
       <input data-appearance-input="blur" type="range" min="0" max="24" step="1" value="0" aria-label="调整背景柔化程度" />
     </label>
     <label class="appearance-range">
+      <span><span>壁纸显眼</span><output data-appearance-output="backgroundOpacity">推荐</output></span>
+      <input data-appearance-input="backgroundOpacity" type="range" min="15" max="100" step="1" value="100" aria-label="调整壁纸显眼程度" />
+    </label>
+    <label class="appearance-range">
       <span><span>卡片不透明度</span><output data-appearance-output="cardOpacity">推荐</output></span>
       <input data-appearance-input="cardOpacity" type="range" min="0" max="100" step="1" value="20" aria-label="调整卡片不透明度" />
     </label>
-    <label class="appearance-range">
-      <span><span>玻璃质感</span><output data-appearance-output="glassBlur">14 px</output></span>
-      <input data-appearance-input="glassBlur" type="range" min="0" max="48" step="1" value="14" aria-label="调整玻璃质感" />
-    </label>
-
-    <p class="appearance-note">背景柔化只处理壁纸；玻璃质感由清透到雾化，也会同步增加卡片的玻璃感。</p>
+    <p class="appearance-note">四项各自独立：色相、壁纸柔化、壁纸显眼与卡片透明度。</p>
   </section>
 </div>
 
 <script is:inline>
   (function () {
     var storageKey = 'welt-reading-appearance';
-    var defaults = { blur: 0, cardOpacity: 20, glassBlur: 14 };
+    var defaults = { hue: 210, blur: 0, backgroundOpacity: 100, cardOpacity: 20 };
 
     function clamp(value, minimum, maximum) {
       return Math.min(maximum, Math.max(minimum, Number(value) || 0));
@@ -66,9 +69,10 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
           try {
             var saved = JSON.parse(localStorage.getItem(storageKey) || 'null') || {};
             return {
+          hue: clamp(saved.hue ?? defaults.hue, 0, 360),
           blur: clamp(saved.blur ?? defaults.blur, 0, 24),
+          backgroundOpacity: clamp(saved.backgroundOpacity ?? defaults.backgroundOpacity, 15, 100),
           cardOpacity: clamp(saved.cardOpacity ?? defaults.cardOpacity, 0, 100),
-          glassBlur: clamp(saved.glassBlur ?? defaults.glassBlur, 0, 48),
         };
       } catch {
         return { ...defaults };
@@ -86,9 +90,10 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
       });
       document.querySelectorAll('[data-appearance-output]').forEach(function (output) {
         var key = output.getAttribute('data-appearance-output');
+        if (key === 'hue') output.textContent = settings.hue === defaults.hue ? '推荐' : `${settings.hue}°`;
         if (key === 'blur') output.textContent = settings.blur === defaults.blur ? '推荐' : `${settings.blur} px`;
+        if (key === 'backgroundOpacity') output.textContent = settings.backgroundOpacity === defaults.backgroundOpacity ? '推荐' : `${settings.backgroundOpacity}%`;
         if (key === 'cardOpacity') output.textContent = settings.cardOpacity === defaults.cardOpacity ? '推荐' : `${settings.cardOpacity}%`;
-        if (key === 'glassBlur') output.textContent = settings.glassBlur === defaults.glassBlur ? '推荐' : `${settings.glassBlur} px`;
       });
     }
 
