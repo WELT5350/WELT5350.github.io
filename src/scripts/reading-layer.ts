@@ -44,10 +44,6 @@ function initializeReadingLayer() {
       const active = link.dataset.headingSlug === slug;
       if (active) link.setAttribute('aria-current', 'location');
       else link.removeAttribute('aria-current');
-      link.classList.toggle('bg-blue-50/70', active);
-      link.classList.toggle('text-blue-700', active);
-      link.classList.toggle('dark:bg-blue-950/40', active);
-      link.classList.toggle('dark:text-blue-300', active);
     });
   }
 

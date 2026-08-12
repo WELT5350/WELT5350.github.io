@@ -12,18 +12,18 @@ const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.d
 {tocHeadings.length > 0 && (
   <>
     <aside class="reading-rail glass-sub fixed top-20 hidden max-h-[calc(100vh-6rem)] w-56 overflow-y-auto overscroll-contain rounded-xl p-4 xl:left-[calc(50%+21.25rem)] xl:block" aria-label="文章阅读导航">
-      <p class="text-[10px] font-semibold tracking-[0.18em] text-blue-600 dark:text-blue-300">READING</p>
+      <p class="accent-text text-[10px] font-semibold tracking-[0.18em]">READING</p>
       <p class="text-glass-ink mt-2 line-clamp-2 text-sm font-semibold">{title}</p>
       <div class="mt-4" data-reading-meter role="progressbar" aria-label="阅读进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-        <div class="h-1 overflow-hidden rounded-full bg-blue-100/70 dark:bg-blue-950/60">
-          <span data-reading-progress class="block h-full origin-left scale-x-0 rounded-full bg-blue-500 will-change-transform"></span>
+        <div class="accent-surface h-1 overflow-hidden rounded-full">
+          <span data-reading-progress class="accent-progress block h-full origin-left scale-x-0 rounded-full will-change-transform"></span>
         </div>
       </div>
       <nav class="mt-4 border-t border-glass pt-3" aria-label="文章目录">
         <ul class="space-y-1">
           {tocHeadings.map((heading) => (
             <li class={heading.depth === 3 ? 'pl-3' : ''}>
-              <a data-reading-link data-heading-slug={heading.slug} href={`#${heading.slug}`} class="text-glass-muted block rounded-md px-2 py-1 text-xs leading-relaxed transition-[background-color,color] hover:bg-blue-50/60 hover:text-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:hover:bg-blue-950/40 dark:hover:text-blue-300">
+              <a data-reading-link data-heading-slug={heading.slug} href={`#${heading.slug}`} class="accent-nav-link text-glass-muted block rounded-md px-2 py-1 text-xs leading-relaxed transition-[background-color,color] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">
                 {heading.text}
               </a>
             </li>
@@ -33,30 +33,30 @@ const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.d
     </aside>
 
     <button id="reading-toggle" data-reading-toggle type="button" class="glass-sub text-glass-ink fixed bottom-8 left-5 z-50 inline-flex h-10 items-center gap-2 rounded-full px-3 text-xs font-medium xl:hidden" aria-controls="reading-panel" aria-expanded="false" aria-label="打开文章目录">
-      <svg aria-hidden="true" class="h-4 w-4 text-blue-600 dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+      <svg aria-hidden="true" class="accent-text h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
       目录
     </button>
 
     <aside id="reading-panel" class="reading-mobile-panel glass-sub fixed inset-x-4 bottom-4 z-[60] hidden max-h-[min(70vh,34rem)] overflow-y-auto overscroll-contain rounded-2xl p-5 xl:hidden" aria-label="文章阅读导航">
       <div class="flex items-start justify-between gap-4">
         <div>
-          <p class="text-[10px] font-semibold tracking-[0.18em] text-blue-600 dark:text-blue-300">READING</p>
+          <p class="accent-text text-[10px] font-semibold tracking-[0.18em]">READING</p>
           <p class="text-glass-ink mt-1 text-sm font-semibold">文章目录</p>
         </div>
-        <button data-reading-close type="button" class="text-glass-muted rounded-lg p-1.5 transition-colors hover:bg-blue-50/70 hover:text-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:hover:bg-blue-950/40 dark:hover:text-blue-300" aria-label="关闭文章目录">
+        <button data-reading-close type="button" class="accent-control text-glass-muted rounded-lg p-1.5 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" aria-label="关闭文章目录">
           <svg aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l12 12M6 18L18 6" /></svg>
         </button>
       </div>
       <div class="mt-4" data-reading-meter role="progressbar" aria-label="阅读进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-        <div class="h-1 overflow-hidden rounded-full bg-blue-100/70 dark:bg-blue-950/60">
-          <span data-reading-progress class="block h-full origin-left scale-x-0 rounded-full bg-blue-500 will-change-transform"></span>
+        <div class="accent-surface h-1 overflow-hidden rounded-full">
+          <span data-reading-progress class="accent-progress block h-full origin-left scale-x-0 rounded-full will-change-transform"></span>
         </div>
       </div>
       <nav class="mt-4 border-t border-glass pt-3" aria-label="文章目录">
         <ul class="space-y-1">
           {tocHeadings.map((heading) => (
             <li class={heading.depth === 3 ? 'pl-3' : ''}>
-              <a data-reading-link data-heading-slug={heading.slug} href={`#${heading.slug}`} class="text-glass-muted block rounded-md px-2 py-1.5 text-sm leading-relaxed transition-[background-color,color] hover:bg-blue-50/60 hover:text-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:hover:bg-blue-950/40 dark:hover:text-blue-300">
+              <a data-reading-link data-heading-slug={heading.slug} href={`#${heading.slug}`} class="accent-nav-link text-glass-muted block rounded-md px-2 py-1.5 text-sm leading-relaxed transition-[background-color,color] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">
                 {heading.text}
               </a>
             </li>

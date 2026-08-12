@@ -17,10 +17,10 @@
     --glass-muted: #3f5066;
     --glass-quiet: #60738a;
     --appearance-hue: 210;
-    --appearance-accent: hsl(var(--appearance-hue) 78% 48%);
-    --appearance-accent-strong: hsl(var(--appearance-hue) 82% 40%);
-    --appearance-accent-soft: hsl(var(--appearance-hue) 88% 95% / 0.78);
-    --appearance-accent-wash: hsl(var(--appearance-hue) 88% 88% / 0.20);
+    --appearance-accent: #2563eb;
+    --appearance-accent-strong: #1d4ed8;
+    --appearance-accent-soft: rgba(239, 246, 255, 0.78);
+    --appearance-accent-wash: rgba(59, 130, 246, 0.14);
     --appearance-control-track: color-mix(in srgb, var(--glass-muted) 28%, transparent);
     --appearance-background-blur: 0px;
     --appearance-background-scale: 1.03;
@@ -40,6 +40,20 @@
     --glass-ink: #f5f7fb;
     --glass-muted: #c4d4e8;
     --glass-quiet: #a9bdd5;
+    --appearance-accent: #93c5fd;
+    --appearance-accent-strong: #bfdbfe;
+    --appearance-accent-soft: rgba(30, 58, 138, 0.48);
+    --appearance-accent-wash: rgba(59, 130, 246, 0.24);
+  }
+
+  html[data-appearance-custom-hue] {
+    --appearance-accent: hsl(var(--appearance-hue) 78% 48%);
+    --appearance-accent-strong: hsl(var(--appearance-hue) 82% 40%);
+    --appearance-accent-soft: hsl(var(--appearance-hue) 88% 95% / 0.78);
+    --appearance-accent-wash: hsl(var(--appearance-hue) 88% 88% / 0.20);
+  }
+
+  html.dark[data-appearance-custom-hue] {
     --appearance-accent: hsl(var(--appearance-hue) 86% 70%);
     --appearance-accent-strong: hsl(var(--appearance-hue) 86% 78%);
     --appearance-accent-soft: hsl(var(--appearance-hue) 68% 20% / 0.68);
@@ -360,8 +374,8 @@
 
   .site-search-field:focus-within {
     background: rgba(255, 255, 255, 0.52);
-    border-color: rgba(59, 130, 246, 0.48);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12), 0 8px 20px rgba(37, 99, 235, 0.10);
+    border-color: color-mix(in srgb, var(--appearance-accent) 48%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--appearance-accent) 12%, transparent), 0 8px 20px color-mix(in srgb, var(--appearance-accent) 10%, transparent);
     transform: translateY(-1px);
   }
 
@@ -448,16 +462,16 @@
 
   .site-search-result:hover,
   .site-search-result.is-active {
-    background: rgba(59, 130, 246, 0.11);
+    background: var(--appearance-accent-wash);
     transform: translateX(0.125rem);
   }
 
   .dark .site-search-result:hover,
-  .dark .site-search-result.is-active { background: rgba(59, 130, 246, 0.18); }
+  .dark .site-search-result.is-active { background: var(--appearance-accent-wash); }
 
   .site-search-meta {
     align-items: center;
-    color: #2563eb;
+    color: var(--appearance-accent);
     display: flex;
     font-size: 0.625rem;
     font-weight: 600;
@@ -465,14 +479,14 @@
   }
 
   .site-search-meta span {
-    background: rgba(59, 130, 246, 0.10);
+    background: var(--appearance-accent-wash);
     border-radius: 9999px;
-    color: #1d4ed8;
+    color: var(--appearance-accent-strong);
     padding: 0.0625rem 0.375rem;
   }
 
-  .dark .site-search-meta { color: #93c5fd; }
-  .dark .site-search-meta span { background: rgba(59, 130, 246, 0.24); color: #bfdbfe; }
+  .dark .site-search-meta { color: var(--appearance-accent); }
+  .dark .site-search-meta span { background: var(--appearance-accent-wash); color: var(--appearance-accent-strong); }
 
   .site-search-title {
     color: var(--glass-ink);
@@ -526,7 +540,7 @@
   .archive-sheet { overflow: hidden; }
 
   .archive-kicker {
-    color: #2563eb;
+    color: var(--appearance-accent);
     font-size: 0.625rem;
     font-weight: 700;
     letter-spacing: 0.14em;
@@ -534,9 +548,9 @@
 
   .archive-stamp {
     flex: none;
-    border: 1px solid rgba(37, 99, 235, 0.32);
+    border: 1px solid color-mix(in srgb, var(--appearance-accent) 32%, transparent);
     border-radius: 9999px;
-    color: #2563eb;
+    color: var(--appearance-accent);
     font-size: 0.625rem;
     font-weight: 700;
     letter-spacing: 0.12em;
@@ -625,16 +639,19 @@
 
   .dark .glass-wash { background: hsl(var(--appearance-hue) 64% 16% / 0.12); }
 
-  /* Theme hue targets accent semantics, not whole elements: nested controls must never accumulate filters. */
-  :is([class^='text-blue-'], [class*=' text-blue-']) { color: var(--appearance-accent) !important; }
-  :is([class^='bg-blue-500'], [class*=' bg-blue-500'], [class^='bg-blue-600'], [class*=' bg-blue-600'], [class^='bg-blue-700'], [class*=' bg-blue-700']) { background-color: var(--appearance-accent) !important; }
-  :is([class^='bg-blue-50'], [class*=' bg-blue-50'], [class^='bg-blue-100'], [class*=' bg-blue-100'], [class^='bg-blue-200'], [class*=' bg-blue-200']) { background-color: var(--appearance-accent-soft) !important; }
-  :is([class^='border-blue-'], [class*=' border-blue-'], [class^='ring-blue-'], [class*=' ring-blue-']) { border-color: color-mix(in srgb, var(--appearance-accent) 38%, transparent) !important; }
-  :is([class^='from-blue-'], [class*=' from-blue-']) { --tw-gradient-from: var(--appearance-accent) var(--tw-gradient-from-position) !important; --tw-gradient-to: color-mix(in srgb, var(--appearance-accent) 0%, transparent) var(--tw-gradient-to-position) !important; }
-  :is([class^='to-blue-'], [class*=' to-blue-']) { --tw-gradient-to: var(--appearance-accent-strong) var(--tw-gradient-to-position) !important; }
-  .dark :is([class^='dark:text-blue-'], [class*=' dark:text-blue-']) { color: var(--appearance-accent-strong) !important; }
-  .dark :is([class^='dark:bg-blue-'], [class*=' dark:bg-blue-']) { background-color: var(--appearance-accent-soft) !important; }
-  .dark :is([class^='dark:border-blue-'], [class*=' dark:border-blue-'], [class^='dark:ring-blue-'], [class*=' dark:ring-blue-']) { border-color: color-mix(in srgb, var(--appearance-accent) 42%, transparent) !important; }
+  /* Accent classes are deliberately opt-in: content colors and status dots stay independent of hue. */
+  .accent-text { color: var(--appearance-accent); }
+  .accent-brand { background-image: linear-gradient(90deg, var(--appearance-accent), var(--appearance-accent-strong)); }
+  .accent-action { background-color: var(--appearance-accent); color: white; }
+  .accent-action:hover { background-color: var(--appearance-accent-strong); }
+  .accent-surface { background-color: var(--appearance-accent-soft); color: var(--appearance-accent); }
+  .accent-control:hover,
+  .accent-control:focus-visible { background-color: var(--appearance-accent-wash); color: var(--appearance-accent); }
+  .accent-nav-link:hover { background-color: var(--appearance-accent-wash); color: var(--appearance-accent); }
+  .accent-nav-link[aria-current='page'],
+  .accent-nav-link[aria-current='location'] { background-color: var(--appearance-accent-soft); color: var(--appearance-accent); font-weight: 600; }
+  .accent-progress { background-color: var(--appearance-accent); }
+  .accent-border { border-color: color-mix(in srgb, var(--appearance-accent) 34%, transparent); }
 
   .tag {
     display: inline-flex;

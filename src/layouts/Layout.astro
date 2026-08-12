@@ -32,27 +32,37 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
         const appearanceKey = 'welt-reading-appearance';
         const appearanceDefaults = { hue: 210, blur: 0, backgroundOpacity: 100, cardOpacity: 20 };
         const clamp = (value, min, max) => Math.min(max, Math.max(min, Number(value) || 0));
-        window.__weltReadAppearance = function () {
+        const normalizeAppearance = function (settings) {
+          return {
+            hue: clamp(settings?.hue ?? appearanceDefaults.hue, 0, 360),
+            blur: clamp(settings?.blur ?? appearanceDefaults.blur, 0, 24),
+            backgroundOpacity: clamp(settings?.backgroundOpacity ?? appearanceDefaults.backgroundOpacity, 15, 100),
+            cardOpacity: clamp(settings?.cardOpacity ?? appearanceDefaults.cardOpacity, 0, 100),
+          };
+        };
+        const readAppearance = function () {
           try {
             const saved = JSON.parse(localStorage.getItem(appearanceKey) || 'null') || {};
-            return {
-              hue: clamp(saved.hue ?? appearanceDefaults.hue, 0, 360),
-              blur: clamp(saved.blur ?? appearanceDefaults.blur, 0, 24),
-              backgroundOpacity: clamp(saved.backgroundOpacity ?? appearanceDefaults.backgroundOpacity, 15, 100),
-              cardOpacity: clamp(saved.cardOpacity ?? appearanceDefaults.cardOpacity, 0, 100),
-            };
+            return normalizeAppearance(saved);
           } catch {
             return { ...appearanceDefaults };
           }
         };
-        window.__weltApplyAppearance = function (settings) {
+        const saveAppearance = function (settings) {
+          const normalized = normalizeAppearance(settings);
+          localStorage.setItem(appearanceKey, JSON.stringify(normalized));
+          return normalized;
+        };
+        const applyAppearance = function (settings) {
+          const normalized = normalizeAppearance(settings);
           const root = document.documentElement;
-          const hue = clamp(settings.hue, 0, 360);
-          const blur = clamp(settings.blur, 0, 24);
-          const backgroundOpacity = clamp(settings.backgroundOpacity, 15, 100) / 100;
-          const cardOpacity = clamp(settings.cardOpacity, 0, 100) / 100;
+          const hue = normalized.hue;
+          const blur = normalized.blur;
+          const backgroundOpacity = normalized.backgroundOpacity / 100;
+          const cardOpacity = normalized.cardOpacity / 100;
           const dark = root.classList.contains('dark');
           const defaultHue = hue === appearanceDefaults.hue;
+          root.toggleAttribute('data-appearance-custom-hue', !defaultHue);
           const colors = dark
             ? defaultHue
               ? { main: '14, 25, 48', article: '8, 18, 36', sub: '30, 48, 75', reading: '13, 27, 52', nav: '10, 22, 43', hover: '44, 65, 95', border: '147, 197, 253', minimum: [0.10, 0.78, 0.08, 0.15, 0.10, 0.12, 0.10], recommended: [0.36, 0.78, 0.28, 0.64, 0.38, 0.40, 0.24], maximum: [0.92, 0.94, 0.90, 0.94, 0.90, 0.90, 0.60] }
@@ -79,11 +89,23 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
           root.style.setProperty('--appearance-glass-nav', paint(colors.nav, 4));
           root.style.setProperty('--appearance-glass-sub-hover', paint(colors.hover, 5));
           root.style.setProperty('--appearance-glass-border', paint(colors.border, 6));
+          return normalized;
+        };
+        const resetAppearance = function () {
+          localStorage.removeItem(appearanceKey);
+          return applyAppearance(appearanceDefaults);
+        };
+        window.__weltAppearance = {
+          defaults: { ...appearanceDefaults },
+          read: readAppearance,
+          apply: applyAppearance,
+          save: saveAppearance,
+          reset: resetAppearance,
         };
         const savedTheme = localStorage.getItem('theme');
         const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
         document.documentElement.classList.toggle('dark', isDark);
-        window.__weltApplyAppearance(window.__weltReadAppearance());
+        applyAppearance(readAppearance());
         window.__weltSyncThemeColor = function () {
           document.querySelector('meta[name="theme-color"]')?.setAttribute('content', document.documentElement.classList.contains('dark') ? '#0a162b' : '#f8fafc');
         };
@@ -98,7 +120,7 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
           event.newDocument.documentElement.classList.toggle('dark', useDark);
         });
         document.addEventListener('astro:after-swap', function () {
-          window.__weltApplyAppearance?.(window.__weltReadAppearance?.());
+          window.__weltAppearance?.apply(window.__weltAppearance?.read());
           if (!window.location.hash) window.scrollTo(0, 0);
         });
       }

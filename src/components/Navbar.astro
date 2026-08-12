@@ -22,7 +22,7 @@ const navItems = [
       <a href="/" class="flex min-w-0 items-center gap-3 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500">
         <img class="block h-8 w-8 rounded-full ring-2 ring-blue-100 dark:hidden" src="/avatar.webp" alt="WELT 头像" width="32" height="32" fetchpriority="high" />
         <img class="hidden h-8 w-8 rounded-full ring-2 ring-blue-900 dark:block" src="/avatar-dark.webp" alt="WELT 头像" width="32" height="32" fetchpriority="high" />
-        <span class="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-lg font-bold tracking-tight text-transparent">WELT</span>
+        <span class="accent-brand bg-clip-text text-lg font-bold tracking-tight text-transparent">WELT</span>
       </a>
 
       <div class="hidden items-center gap-1 md:flex">
@@ -32,7 +32,7 @@ const navItems = [
               <a
                 href={href}
                 aria-current={isActive(base) ? 'page' : undefined}
-                class={`rounded-lg px-3 py-2 text-sm transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${isActive(base) ? 'bg-blue-50/80 font-semibold text-blue-700 dark:bg-blue-950/50 dark:text-blue-300' : 'text-slate-600 hover:bg-blue-50/70 hover:text-blue-700 dark:text-slate-300 dark:hover:bg-blue-950/40 dark:hover:text-blue-300'}`}
+                class={`accent-nav-link rounded-lg px-3 py-2 text-sm transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${isActive(base) ? '' : 'text-slate-600 dark:text-slate-300'}`}
               >
                 {label}
               </a>
@@ -41,25 +41,25 @@ const navItems = [
         </ul>
         <InlineSearch />
         <AppearancePanel />
-        <button data-theme-toggle type="button" class="ml-1 rounded-lg p-2 text-slate-500 transition-colors duration-200 hover:bg-blue-50/70 hover:text-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:text-slate-400 dark:hover:bg-blue-950/40 dark:hover:text-blue-300" aria-label="切换主题">
+        <button data-theme-toggle type="button" class="accent-control ml-1 rounded-lg p-2 text-slate-500 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-slate-400" aria-label="切换主题">
           <svg aria-hidden="true" class="h-5 w-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg>
           <svg aria-hidden="true" class="hidden h-5 w-5 dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 0 1 0z"/></svg>
         </button>
       </div>
 
       <div class="flex items-center gap-1 md:hidden">
-        <button data-mobile-search-toggle type="button" class="rounded-lg p-2 text-slate-500 transition-colors duration-200 hover:bg-blue-50/70 hover:text-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:text-slate-400 dark:hover:bg-blue-950/40 dark:hover:text-blue-300" aria-controls="mobile-search-panel" aria-expanded="false" aria-label="搜索文章">
+        <button data-mobile-search-toggle type="button" class="accent-control rounded-lg p-2 text-slate-500 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-slate-400" aria-controls="mobile-search-panel" aria-expanded="false" aria-label="搜索文章">
           <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <circle cx="11" cy="11" r="6.5" stroke-width="1.8" />
             <path stroke-linecap="round" stroke-width="1.8" d="m16 16 4 4" />
           </svg>
         </button>
-        <button data-theme-toggle type="button" class="rounded-lg p-2 text-slate-500 transition-colors duration-200 hover:bg-blue-50/70 hover:text-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:text-slate-400 dark:hover:bg-blue-950/40 dark:hover:text-blue-300" aria-label="切换主题">
+        <button data-theme-toggle type="button" class="accent-control rounded-lg p-2 text-slate-500 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-slate-400" aria-label="切换主题">
           <svg aria-hidden="true" class="h-5 w-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg>
           <svg aria-hidden="true" class="hidden h-5 w-5 dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 0 1 0z"/></svg>
         </button>
         <AppearancePanel mobile />
-        <button id="menu-toggle" type="button" class="rounded-lg p-2 text-slate-600 transition-colors duration-200 hover:bg-blue-50/70 hover:text-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:text-slate-300 dark:hover:bg-blue-950/40 dark:hover:text-blue-300" aria-controls="mobile-menu" aria-expanded="false" aria-label="打开导航">
+        <button id="menu-toggle" type="button" class="accent-control rounded-lg p-2 text-slate-600 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-slate-300" aria-controls="mobile-menu" aria-expanded="false" aria-label="打开导航">
           <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
       </div>
@@ -77,7 +77,7 @@ const navItems = [
           <a
             href={href}
             aria-current={isActive(base) ? 'page' : undefined}
-            class={`block rounded-lg px-3 py-2 text-sm transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${isActive(base) ? 'bg-blue-50 font-semibold text-blue-700 dark:bg-blue-950/50 dark:text-blue-300' : 'text-slate-600 hover:bg-blue-50 dark:text-slate-300 dark:hover:bg-blue-950/40'}`}
+            class={`accent-nav-link block rounded-lg px-3 py-2 text-sm transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${isActive(base) ? '' : 'text-slate-600 dark:text-slate-300'}`}
           >
             {label}
           </a>
@@ -86,6 +86,8 @@ const navItems = [
     </ul>
   </div>
 </nav>
+
+<script src="../scripts/appearance-panel.ts"></script>
 
 <script is:inline>
   (function () {
@@ -99,7 +101,7 @@ const navItems = [
           var html = document.documentElement;
           html.classList.toggle('dark');
           localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-          window.__weltApplyAppearance?.(window.__weltReadAppearance?.());
+          window.__weltAppearance?.apply(window.__weltAppearance?.read());
           window.__weltSyncThemeColor?.();
         }, { signal: signal });
       });
