@@ -7,7 +7,6 @@ async function resetSiteState(page: Page) {
     sessionStorage.setItem('welt-e2e-initialized', 'true');
     localStorage.removeItem(key);
     localStorage.removeItem('theme');
-    localStorage.removeItem('welt-after-hours');
     sessionStorage.setItem('welt-background-index', '0');
   }, appearanceKey);
 }
@@ -32,9 +31,9 @@ test('default day and night glass baselines remain readable', async ({ page }) =
   await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(248, 250, 252, 0.3)');
   await expect(page.locator('.glass-sub').first()).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.2)');
   await expect(page.locator('.glass-nav').first()).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.24)');
-  await expect(page.locator('[data-after-hours-divider]')).toHaveText('✦');
-  const dayDividerBox = await page.locator('[data-after-hours-divider]').boundingBox();
-  const dayStarBox = await page.locator('[data-after-hours-entry]').boundingBox();
+  await expect(page.locator('[data-night-star-divider]')).toHaveText('✦');
+  const dayDividerBox = await page.locator('[data-night-star-divider]').boundingBox();
+  const dayStarBox = await page.locator('[data-night-star]').boundingBox();
   expect(dayStarBox).toMatchObject({ width: 18, height: 18 });
   await expect(page.locator('.glass-main').first()).toHaveCSS('backdrop-filter', 'none');
   await expect(page.locator('.glass-nav').first()).toHaveCSS('backdrop-filter', 'none');
@@ -47,8 +46,9 @@ test('default day and night glass baselines remain readable', async ({ page }) =
   await expect(page.locator('.accent-brand').first()).toHaveCSS('background-image', 'linear-gradient(90deg, rgb(37, 99, 235), rgb(96, 165, 250))');
   await expect(page.locator('.accent-brand-surface')).toHaveCSS('background-image', 'linear-gradient(135deg, rgb(96, 165, 250), rgb(37, 99, 235))');
   await expect(page.locator('body')).toHaveCSS('color', 'rgb(209, 213, 219)');
-  expect(await page.locator('[data-after-hours-divider]').boundingBox()).toEqual(dayDividerBox);
-  expect(await page.locator('[data-after-hours-entry]').boundingBox()).toEqual(dayStarBox);
+  await expect(page.locator('[data-night-star]')).toHaveCSS('cursor', 'pointer');
+  expect(await page.locator('[data-night-star-divider]').boundingBox()).toEqual(dayDividerBox);
+  expect(await page.locator('[data-night-star]').boundingBox()).toEqual(dayStarBox);
   expect(failures).toEqual([]);
 });
 
@@ -119,50 +119,14 @@ test('article keeps its independent reading surface and table of contents intera
   expect(failures).toEqual([]);
 });
 
-test('after-hours remains absent by day and unlocks the ending through night exploration', async ({ page }) => {
+test('night star stays visually quiet by day and remains operable at night', async ({ page }) => {
   const failures = await expectNoConsoleFailures(page);
   await page.goto('/');
-  await expect(page.locator('[data-after-hours-entry]')).toHaveCSS('cursor', 'default');
-  await page.locator('[data-after-hours-entry]').click({ force: true });
-  await expect(page.locator('[data-after-hours-notice]')).toBeHidden();
+  await expect(page.locator('[data-night-star]')).toHaveCSS('cursor', 'default');
 
   await page.locator('[data-theme-toggle]').first().click();
-  await page.locator('[data-after-hours-entry]').click();
-  await expect(page.locator('[data-after-hours-notice]')).toContainText('今晚');
-  await page.locator('[data-after-hours-avatar-trigger]').click();
-  await page.locator('[data-after-hours-entry]').click();
-  await page.locator('[data-after-hours-music]').click();
-  await expect(page.locator('[data-after-hours-answer]')).toBeVisible();
-
-  await page.locator('[data-after-hours-answer] input').fill('你已经做得很好了');
-  await page.locator('[data-after-hours-answer]').press('Enter');
-  await expect(page).toHaveURL(/\/after-hours\/?$/);
-  await expect(page.locator('[data-after-hours-ending]')).toBeVisible();
-  await expect(page.locator('[data-after-hours-ending]')).toContainText('未发送的讯息');
-  expect(failures).toEqual([]);
-});
-
-test('after-hours guards the ending before completion and wakes cleanly', async ({ page }) => {
-  await page.goto('/after-hours/');
-  await expect(page).toHaveURL(/\/#after-hours$/);
-  await page.locator('[data-theme-toggle]').first().click();
-  await page.locator('[data-after-hours-entry]').click();
-  await expect(page.locator('[data-after-hours-exit]')).toBeVisible();
-  await page.locator('[data-after-hours-exit]').click();
-  await expect(page.locator('[data-after-hours-notice]')).toBeHidden();
-  await expect(page.locator('[data-after-hours-home]')).toHaveAttribute('data-after-hours-active', 'false');
-});
-
-test('after-hours exploration remains operable at 390px', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  const failures = await expectNoConsoleFailures(page);
-  await page.goto('/');
-  await page.locator('[data-theme-toggle]').last().click();
-  await page.locator('[data-after-hours-entry]').click();
-  await page.locator('[data-after-hours-avatar-trigger]').click();
-  await page.locator('[data-after-hours-entry]').click();
-  await page.locator('[data-after-hours-music]').click();
-  await expect(page.locator('[data-after-hours-answer]')).toBeVisible();
-  expect(await page.locator('html').evaluate((element) => element.scrollWidth)).toBe(390);
+  await expect(page.locator('[data-night-star]')).toHaveCSS('cursor', 'pointer');
+  await page.locator('[data-night-star]').press('Enter');
+  await expect(page).toHaveURL(/\/$/);
   expect(failures).toEqual([]);
 });

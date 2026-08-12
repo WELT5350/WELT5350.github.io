@@ -10,12 +10,10 @@ const recentPosts = posts.slice(0, 4);
 ---
 
 <BlogLayout title="首页">
-  <div data-after-hours-home class="flex flex-col md:flex-row items-center md:items-start gap-8 mb-10">
-    <div data-after-hours-avatar class="relative flex flex-col items-center gap-2 flex-shrink-0">
+  <div class="flex flex-col md:flex-row items-center md:items-start gap-8 mb-10">
+    <div class="flex flex-col items-center gap-2 flex-shrink-0">
         <img class="block dark:hidden w-20 h-20 rounded-full ring-4 ring-white/50 dark:ring-gray-700/50 shadow-lg" src="/avatar.webp" alt="WELT 头像" width="80" height="80" fetchpriority="high" />
           <img class="hidden dark:block w-20 h-20 rounded-full ring-4 ring-white/50 dark:ring-gray-700/50 shadow-lg" src="/avatar-dark.webp" alt="WELT 头像" width="80" height="80" fetchpriority="high" />
-      <button data-after-hours-avatar-trigger type="button" class="after-hours-avatar" aria-label="WELT avatar"></button>
-      <p data-after-hours-fragment="0" class="after-hours-fragment" hidden>别急着把每一次迟到，都当作没有赶上。</p>
       <span class="accent-brand text-xl font-black tracking-[0.2em] bg-clip-text text-transparent">WELT</span>
     </div>
     <div class="text-center md:text-left">
@@ -42,19 +40,11 @@ const recentPosts = posts.slice(0, 4);
     </div>
   </div>
 
-  <div data-after-hours-divider class="flex items-center gap-4 mb-10">
+  <div data-night-star-divider class="flex items-center gap-4 mb-10">
     <span class="flex-1 h-0.5 bg-gradient-to-r from-transparent to-gray-300 dark:to-gray-600 rounded-full"></span>
-    <button data-after-hours-entry type="button" class="after-hours-entry" aria-label="">✦</button>
+    <button data-night-star type="button" class="night-star-entry" aria-label="夜间入口">✦</button>
     <span class="flex-1 h-0.5 bg-gradient-to-l from-transparent to-gray-300 dark:to-gray-600 rounded-full"></span>
   </div>
-
-  <form data-after-hours-answer class="after-hours-answer" hidden aria-label="梦境回信">
-    <p data-after-hours-fragment="1" class="after-hours-fragment" hidden>你走得慢一点，也还是在向前。</p>
-    <p data-after-hours-fragment="2" class="after-hours-fragment" hidden>你已经做得很好了。</p>
-    <label><span class="sr-only">把听见的话留下</span><input type="text" autocomplete="off" placeholder="把听见的话留下" aria-describedby="after-hours-answer-result" /></label>
-    <button type="submit">寄出</button>
-    <p id="after-hours-answer-result" data-after-hours-answer-result aria-live="polite"></p>
-  </form>
 
   <div class="grid md:grid-cols-[1fr_280px] gap-8">
     <div>
@@ -121,10 +111,6 @@ const recentPosts = posts.slice(0, 4);
     </div>
   </div>
 
-  <p data-after-hours-notice class="after-hours-notice" hidden aria-live="polite"></p>
-  <a data-after-hours-finish class="after-hours-finish" href="/after-hours/" hidden>那封信还在。</a>
-  <button data-after-hours-exit type="button" class="after-hours-exit" hidden>醒来</button>
 </BlogLayout>
 
 <script src="../scripts/typewriter.ts"></script>
-<script src="../scripts/after-hours.ts"></script>
