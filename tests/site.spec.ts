@@ -32,6 +32,7 @@ test('default day and night glass baselines remain readable', async ({ page }) =
   await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(248, 250, 252, 0.3)');
   await expect(page.locator('.glass-sub').first()).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.2)');
   await expect(page.locator('.glass-nav').first()).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.24)');
+  await expect(page.locator('[data-after-hours-divider]')).toHaveText('✦');
   await expect(page.locator('.glass-main').first()).toHaveCSS('backdrop-filter', 'none');
   await expect(page.locator('.glass-nav').first()).toHaveCSS('backdrop-filter', 'none');
   await expect(page.locator('.reading-rail')).toHaveCount(0);
@@ -39,6 +40,7 @@ test('default day and night glass baselines remain readable', async ({ page }) =
   await page.locator('[data-theme-toggle]').first().click();
   await expect(page.locator('html')).toHaveClass(/dark/);
   await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(14, 25, 48, 0.36)');
+  await expect(page.locator('.accent-action')).toHaveCSS('background-color', 'rgb(37, 99, 235)');
   await expect(page.locator('body')).toHaveCSS('color', 'rgb(209, 213, 219)');
   expect(failures).toEqual([]);
 });

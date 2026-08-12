@@ -19,6 +19,8 @@
     --appearance-hue: 210;
     --appearance-accent: #2563eb;
     --appearance-accent-strong: #1d4ed8;
+    --appearance-action: #2563eb;
+    --appearance-action-hover: #1d4ed8;
     --appearance-accent-soft: rgba(239, 246, 255, 0.78);
     --appearance-accent-wash: rgba(59, 130, 246, 0.14);
     --appearance-control-track: color-mix(in srgb, var(--glass-muted) 28%, transparent);
@@ -42,6 +44,8 @@
     --glass-quiet: #a9bdd5;
     --appearance-accent: #93c5fd;
     --appearance-accent-strong: #bfdbfe;
+    --appearance-action: #2563eb;
+    --appearance-action-hover: #3b82f6;
     --appearance-accent-soft: rgba(30, 58, 138, 0.48);
     --appearance-accent-wash: rgba(59, 130, 246, 0.24);
   }
@@ -51,6 +55,8 @@
     --appearance-accent-strong: hsl(var(--appearance-hue) 82% 40%);
     --appearance-accent-soft: hsl(var(--appearance-hue) 88% 95% / 0.78);
     --appearance-accent-wash: hsl(var(--appearance-hue) 88% 88% / 0.20);
+    --appearance-action: hsl(var(--appearance-hue) 78% 48%);
+    --appearance-action-hover: hsl(var(--appearance-hue) 82% 40%);
   }
 
   html.dark[data-appearance-custom-hue] {
@@ -58,6 +64,8 @@
     --appearance-accent-strong: hsl(var(--appearance-hue) 86% 78%);
     --appearance-accent-soft: hsl(var(--appearance-hue) 68% 20% / 0.68);
     --appearance-accent-wash: hsl(var(--appearance-hue) 72% 44% / 0.24);
+    --appearance-action: hsl(var(--appearance-hue) 76% 52%);
+    --appearance-action-hover: hsl(var(--appearance-hue) 76% 60%);
   }
 
   .text-glass-ink { color: var(--glass-ink); }
@@ -642,8 +650,8 @@
   /* Accent classes are deliberately opt-in: content colors and status dots stay independent of hue. */
   .accent-text { color: var(--appearance-accent); }
   .accent-brand { background-image: linear-gradient(90deg, var(--appearance-accent), var(--appearance-accent-strong)); }
-  .accent-action { background-color: var(--appearance-accent); color: white; }
-  .accent-action:hover { background-color: var(--appearance-accent-strong); }
+  .accent-action { background-color: var(--appearance-action); color: white; }
+  .accent-action:hover { background-color: var(--appearance-action-hover); }
   .accent-surface { background-color: var(--appearance-accent-soft); color: var(--appearance-accent); }
   .accent-control:hover,
   .accent-control:focus-visible { background-color: var(--appearance-accent-wash); color: var(--appearance-accent); }
@@ -951,10 +959,6 @@
 .after-hours-finish,
 .after-hours-exit,
 .after-hours-answer {
-  display: none;
-}
-
-.dark [data-after-hours-divider] > span:nth-child(2) {
   display: none;
 }
 
