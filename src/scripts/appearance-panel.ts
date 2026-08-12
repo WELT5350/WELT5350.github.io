@@ -20,6 +20,8 @@ declare global {
     __weltAppearance?: AppearanceApi;
     __weltAppearancePanelCleanup?: () => void;
     __weltAppearancePanelLifecycleBound?: boolean;
+    __weltRouterLifecycleBound?: boolean;
+    __weltNavbarLifecycleBound?: boolean;
   }
 }
 

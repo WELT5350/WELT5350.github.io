@@ -1,11 +1,13 @@
 import { expect, test, type Page } from '@playwright/test';
 
 const appearanceKey = 'welt-reading-appearance';
-
 async function resetSiteState(page: Page) {
   await page.addInitScript((key) => {
+    if (sessionStorage.getItem('welt-e2e-initialized') === 'true') return;
+    sessionStorage.setItem('welt-e2e-initialized', 'true');
     localStorage.removeItem(key);
     localStorage.removeItem('theme');
+    localStorage.removeItem('welt-after-hours');
     sessionStorage.setItem('welt-background-index', '0');
   }, appearanceKey);
 }
@@ -105,5 +107,53 @@ test('article keeps its independent reading surface and table of contents intera
   await page.locator('[data-reading-toggle]').click();
   await expect(page.locator('#reading-panel')).toBeVisible();
   await expect(page.locator('#reading-panel [data-reading-link]').first()).toBeVisible();
+  expect(failures).toEqual([]);
+});
+
+test('after-hours remains absent by day and unlocks the ending through night exploration', async ({ page }) => {
+  const failures = await expectNoConsoleFailures(page);
+  await page.goto('/');
+  await expect(page.locator('[data-after-hours-entry]')).toHaveCSS('cursor', 'default');
+  await page.locator('[data-after-hours-entry]').click({ force: true });
+  await expect(page.locator('[data-after-hours-notice]')).toBeHidden();
+
+  await page.locator('[data-theme-toggle]').first().click();
+  await page.locator('[data-after-hours-entry]').click();
+  await expect(page.locator('[data-after-hours-notice]')).toContainText('今晚');
+  await page.locator('[data-after-hours-avatar-trigger]').click();
+  await page.locator('[data-after-hours-entry]').click();
+  await page.locator('[data-after-hours-music]').click();
+  await expect(page.locator('[data-after-hours-answer]')).toBeVisible();
+
+  await page.locator('[data-after-hours-answer] input').fill('你已经做得很好了');
+  await page.locator('[data-after-hours-answer]').press('Enter');
+  await expect(page).toHaveURL(/\/after-hours\/?$/);
+  await expect(page.locator('[data-after-hours-ending]')).toBeVisible();
+  await expect(page.locator('[data-after-hours-ending]')).toContainText('未发送的讯息');
+  expect(failures).toEqual([]);
+});
+
+test('after-hours guards the ending before completion and wakes cleanly', async ({ page }) => {
+  await page.goto('/after-hours/');
+  await expect(page).toHaveURL(/\/#after-hours$/);
+  await page.locator('[data-theme-toggle]').first().click();
+  await page.locator('[data-after-hours-entry]').click();
+  await expect(page.locator('[data-after-hours-exit]')).toBeVisible();
+  await page.locator('[data-after-hours-exit]').click();
+  await expect(page.locator('[data-after-hours-notice]')).toBeHidden();
+  await expect(page.locator('[data-after-hours-home]')).toHaveAttribute('data-after-hours-active', 'false');
+});
+
+test('after-hours exploration remains operable at 390px', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const failures = await expectNoConsoleFailures(page);
+  await page.goto('/');
+  await page.locator('[data-theme-toggle]').last().click();
+  await page.locator('[data-after-hours-entry]').click();
+  await page.locator('[data-after-hours-avatar-trigger]').click();
+  await page.locator('[data-after-hours-entry]').click();
+  await page.locator('[data-after-hours-music]').click();
+  await expect(page.locator('[data-after-hours-answer]')).toBeVisible();
+  expect(await page.locator('html').evaluate((element) => element.scrollWidth)).toBe(390);
   expect(failures).toEqual([]);
 });

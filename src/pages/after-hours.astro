@@ -1,0 +1,15 @@
+---
+import BlogLayout from '../layouts/BlogLayout.astro';
+import { afterHoursChapter } from '../data/after-hours';
+---
+
+<BlogLayout title="After Hours" description="">
+  <article class="after-hours-page" data-after-hours-ending>
+    <p class="after-hours-page-kicker">AFTER HOURS / 01</p>
+    <h1 class="text-glass-ink mt-4 text-2xl font-semibold sm:text-3xl">未发送的讯息</h1>
+    {afterHoursChapter.story.map((paragraph) => <p>{paragraph}</p>)}
+    <button data-after-hours-exit type="button" class="after-hours-exit">醒来</button>
+  </article>
+</BlogLayout>
+
+<script src="../scripts/after-hours.ts"></script>
