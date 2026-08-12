@@ -944,7 +944,7 @@
   align-items: center;
   background: transparent;
   border: 0;
-  color: rgb(209 213 219);
+  color: var(--glass-muted);
   cursor: default;
   display: inline-flex;
   font: inherit;
@@ -952,14 +952,11 @@
   justify-content: center;
   line-height: 1;
   height: 1.125rem;
-  width: 1.125rem;
   padding: 0;
 }
 
-.dark .night-star-entry { color: rgb(75 85 99); }
-
 .dark .night-star-entry {
-  color: rgb(96 165 250 / 0.58);
+  color: var(--glass-muted);
   cursor: pointer;
   transition: color 180ms ease, text-shadow 180ms ease, transform 180ms ease;
 }

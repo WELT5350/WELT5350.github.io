@@ -34,7 +34,8 @@ test('default day and night glass baselines remain readable', async ({ page }) =
   await expect(page.locator('[data-night-star-divider]')).toHaveText('✦');
   const dayDividerBox = await page.locator('[data-night-star-divider]').boundingBox();
   const dayStarBox = await page.locator('[data-night-star]').boundingBox();
-  expect(dayStarBox).toMatchObject({ width: 18, height: 18 });
+  expect(dayStarBox).toMatchObject({ width: 14.6875, height: 18 });
+  await expect(page.locator('[data-night-star]')).toHaveCSS('color', 'rgb(63, 80, 102)');
   await expect(page.locator('.glass-main').first()).toHaveCSS('backdrop-filter', 'none');
   await expect(page.locator('.glass-nav').first()).toHaveCSS('backdrop-filter', 'none');
   await expect(page.locator('.reading-rail')).toHaveCount(0);
@@ -46,6 +47,7 @@ test('default day and night glass baselines remain readable', async ({ page }) =
   await expect(page.locator('.accent-brand').first()).toHaveCSS('background-image', 'linear-gradient(90deg, rgb(37, 99, 235), rgb(96, 165, 250))');
   await expect(page.locator('.accent-brand-surface')).toHaveCSS('background-image', 'linear-gradient(135deg, rgb(96, 165, 250), rgb(37, 99, 235))');
   await expect(page.locator('body')).toHaveCSS('color', 'rgb(209, 213, 219)');
+  await expect(page.locator('[data-night-star]')).toHaveCSS('color', 'rgb(196, 212, 232)');
   await expect(page.locator('[data-night-star]')).toHaveCSS('cursor', 'pointer');
   expect(await page.locator('[data-night-star-divider]').boundingBox()).toEqual(dayDividerBox);
   expect(await page.locator('[data-night-star]').boundingBox()).toEqual(dayStarBox);
@@ -129,4 +131,9 @@ test('night star stays visually quiet by day and remains operable at night', asy
   await page.locator('[data-night-star]').press('Enter');
   await expect(page).toHaveURL(/\/$/);
   expect(failures).toEqual([]);
+});
+
+test('removed puzzle route resolves to the site 404 page', async ({ page }) => {
+  await page.goto('/after-hours/');
+  await expect(page).toHaveTitle('页面不存在 | 我的博客');
 });
