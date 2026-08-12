@@ -54,7 +54,7 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
           const dark = root.classList.contains('dark');
           const colors = dark
             ? { main: `${hue} 24% 15%`, article: `${hue} 20% 11%`, sub: `${hue} 30% 22%`, reading: `${hue} 26% 16%`, nav: `${hue} 27% 13%`, hover: `${hue} 31% 26%`, border: `${hue} 68% 78%`, minimum: [0.08, 0.78, 0.06, 0.12, 0.08, 0.10, 0.08], recommended: [0.26, 0.78, 0.18, 0.50, 0.25, 0.29, 0.20], maximum: [0.92, 0.94, 0.90, 0.94, 0.90, 0.90, 0.60] }
-            : { main: `${hue} 70% 97%`, article: `${hue} 65% 98%`, sub: `${hue} 85% 99%`, reading: `${hue} 78% 98%`, nav: `${hue} 82% 99%`, hover: `${hue} 78% 96%`, border: `${hue} 85% 97%`, minimum: [0.04, 0.76, 0.02, 0.08, 0.04, 0.06, 0.10], recommended: [0.18, 0.76, 0.11, 0.32, 0.16, 0.22, 0.42], maximum: [0.94, 0.94, 0.90, 0.92, 0.90, 0.90, 0.82] };
+            : { main: `${hue} 70% 97%`, article: `${hue} 65% 98%`, sub: `${hue} 85% 99%`, reading: `${hue} 78% 98%`, nav: `${hue} 82% 99%`, hover: `${hue} 78% 96%`, border: `${hue} 85% 97%`, minimum: [0.04, 0.76, 0.02, 0.08, 0.04, 0.06, 0.10], recommended: [0.30, 0.76, 0.18, 0.42, 0.22, 0.28, 0.50], maximum: [0.94, 0.94, 0.90, 0.92, 0.90, 0.90, 0.82] };
           const alpha = (index) => {
             const [minimum, recommended, maximum] = [colors.minimum[index], colors.recommended[index], colors.maximum[index]];
             const value = cardOpacity <= 0.2
