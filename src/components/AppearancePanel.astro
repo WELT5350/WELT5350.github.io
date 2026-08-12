@@ -45,18 +45,18 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
       <input data-appearance-input="backgroundOpacity" type="range" min="12" max="100" step="1" value="100" aria-label="调整壁纸显眼程度" />
     </label>
     <label class="appearance-range">
-      <span><span>阅读层强度</span><output data-appearance-output="readingStrength">推荐</output></span>
-      <input data-appearance-input="readingStrength" type="range" min="0" max="100" step="1" value="0" aria-label="调整阅读层强度" />
+      <span><span>卡片不透明度</span><output data-appearance-output="cardOpacity">推荐</output></span>
+      <input data-appearance-input="cardOpacity" type="range" min="0" max="100" step="1" value="20" aria-label="调整卡片不透明度" />
     </label>
 
-    <p class="appearance-note">最高档适合高对比壁纸；仅保存在此浏览器，不会影响其他访客。</p>
+    <p class="appearance-note">壁纸与卡片独立调整；最高档适合高对比壁纸。</p>
   </section>
 </div>
 
 <script is:inline>
   (function () {
     var storageKey = 'welt-reading-appearance';
-    var defaults = { blur: 0, backgroundOpacity: 100, readingStrength: 0 };
+    var defaults = { blur: 0, backgroundOpacity: 100, cardOpacity: 20 };
 
     function clamp(value, minimum, maximum) {
       return Math.min(maximum, Math.max(minimum, Number(value) || 0));
@@ -68,7 +68,7 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
             return {
           blur: clamp(saved.blur ?? defaults.blur, 0, 24),
           backgroundOpacity: clamp(saved.backgroundOpacity ?? defaults.backgroundOpacity, 12, 100),
-          readingStrength: clamp(saved.readingStrength ?? defaults.readingStrength, 0, 100),
+          cardOpacity: clamp(saved.cardOpacity ?? defaults.cardOpacity, 0, 100),
         };
       } catch {
         return { ...defaults };
@@ -88,7 +88,7 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
         var key = output.getAttribute('data-appearance-output');
         if (key === 'blur') output.textContent = `${settings.blur} px`;
         if (key === 'backgroundOpacity') output.textContent = `${settings.backgroundOpacity}%`;
-        if (key === 'readingStrength') output.textContent = settings.readingStrength === 0 ? '推荐' : `${settings.readingStrength}%`;
+        if (key === 'cardOpacity') output.textContent = settings.cardOpacity === defaults.cardOpacity ? '推荐' : `${settings.cardOpacity}%`;
       });
     }
 
@@ -121,7 +121,7 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
           settings = {
             blur: Number(document.querySelector('[data-appearance-input="blur"]')?.value ?? settings.blur),
             backgroundOpacity: Number(document.querySelector('[data-appearance-input="backgroundOpacity"]')?.value ?? settings.backgroundOpacity),
-            readingStrength: Number(document.querySelector('[data-appearance-input="readingStrength"]')?.value ?? settings.readingStrength),
+            cardOpacity: Number(document.querySelector('[data-appearance-input="cardOpacity"]')?.value ?? settings.cardOpacity),
           };
           window.__weltApplyAppearance?.(settings);
           saveSettings(settings);
