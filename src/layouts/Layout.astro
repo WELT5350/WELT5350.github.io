@@ -36,8 +36,8 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
           try {
             const saved = JSON.parse(localStorage.getItem(appearanceKey) || 'null') || {};
             return {
-              blur: clamp(saved.blur ?? appearanceDefaults.blur, 0, 16),
-              backgroundOpacity: clamp(saved.backgroundOpacity ?? appearanceDefaults.backgroundOpacity, 35, 100),
+              blur: clamp(saved.blur ?? appearanceDefaults.blur, 0, 24),
+              backgroundOpacity: clamp(saved.backgroundOpacity ?? appearanceDefaults.backgroundOpacity, 12, 100),
               readingStrength: clamp(saved.readingStrength ?? appearanceDefaults.readingStrength, 0, 100),
             };
           } catch {
@@ -46,16 +46,16 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
         };
         window.__weltApplyAppearance = function (settings) {
           const root = document.documentElement;
-          const blur = clamp(settings.blur, 0, 16);
-          const opacity = clamp(settings.backgroundOpacity, 35, 100) / 100;
+          const blur = clamp(settings.blur, 0, 24);
+          const opacity = clamp(settings.backgroundOpacity, 12, 100) / 100;
           const strength = clamp(settings.readingStrength, 0, 100) / 100;
           const dark = root.classList.contains('dark');
           const colors = dark
-            ? { main: '14, 25, 48', article: '8, 18, 36', sub: '30, 48, 75', reading: '13, 27, 52', nav: '10, 22, 43', hover: '44, 65, 95', border: '147, 197, 253', alpha: [0.36, 0.70, 0.28, 0.64, 0.38, 0.40, 0.24], gain: [0.24, 0.18, 0.24, 0.18, 0.20, 0.20, 0.16] }
-            : { main: '248, 250, 252', article: '248, 250, 252', sub: '255, 255, 255', reading: '255, 255, 255', nav: '255, 255, 255', hover: '255, 255, 255', border: '255, 255, 255', alpha: [0.30, 0.56, 0.20, 0.42, 0.24, 0.30, 0.52], gain: [0.35, 0.30, 0.35, 0.32, 0.35, 0.35, 0.18] };
+            ? { main: '14, 25, 48', article: '8, 18, 36', sub: '30, 48, 75', reading: '13, 27, 52', nav: '10, 22, 43', hover: '44, 65, 95', border: '147, 197, 253', alpha: [0.36, 0.78, 0.28, 0.68, 0.38, 0.40, 0.24], gain: [0.54, 0.16, 0.60, 0.24, 0.52, 0.50, 0.36] }
+            : { main: '248, 250, 252', article: '248, 250, 252', sub: '255, 255, 255', reading: '255, 255, 255', nav: '255, 255, 255', hover: '255, 255, 255', border: '255, 255, 255', alpha: [0.30, 0.76, 0.20, 0.42, 0.24, 0.30, 0.52], gain: [0.60, 0.18, 0.66, 0.48, 0.60, 0.60, 0.30] };
           const alpha = (index) => Math.min(0.94, colors.alpha[index] + colors.gain[index] * strength).toFixed(3);
           root.style.setProperty('--appearance-background-blur', `${blur}px`);
-          root.style.setProperty('--appearance-background-scale', String(1.03 + blur / 400));
+          root.style.setProperty('--appearance-background-scale', String(1.03 + blur / 350));
           root.style.setProperty('--appearance-background-opacity', String(opacity));
           root.style.setProperty('--appearance-glass-main', `rgba(${colors.main}, ${alpha(0)})`);
           root.style.setProperty('--appearance-glass-article', `rgba(${colors.article}, ${alpha(1)})`);

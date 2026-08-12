@@ -38,18 +38,18 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
 
     <label class="appearance-range">
       <span><span>背景柔化</span><output data-appearance-output="blur">0 px</output></span>
-      <input data-appearance-input="blur" type="range" min="0" max="16" step="1" value="0" aria-label="调整背景柔化程度" />
+      <input data-appearance-input="blur" type="range" min="0" max="24" step="1" value="0" aria-label="调整背景柔化程度" />
     </label>
     <label class="appearance-range">
       <span><span>壁纸显眼</span><output data-appearance-output="backgroundOpacity">100%</output></span>
-      <input data-appearance-input="backgroundOpacity" type="range" min="35" max="100" step="1" value="100" aria-label="调整壁纸显眼程度" />
+      <input data-appearance-input="backgroundOpacity" type="range" min="12" max="100" step="1" value="100" aria-label="调整壁纸显眼程度" />
     </label>
     <label class="appearance-range">
       <span><span>阅读层强度</span><output data-appearance-output="readingStrength">推荐</output></span>
       <input data-appearance-input="readingStrength" type="range" min="0" max="100" step="1" value="0" aria-label="调整阅读层强度" />
     </label>
 
-    <p class="appearance-note">仅保存在此浏览器，不会影响其他访客。</p>
+    <p class="appearance-note">最高档适合高对比壁纸；仅保存在此浏览器，不会影响其他访客。</p>
   </section>
 </div>
 
@@ -66,8 +66,8 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
           try {
             var saved = JSON.parse(localStorage.getItem(storageKey) || 'null') || {};
             return {
-          blur: clamp(saved.blur ?? defaults.blur, 0, 16),
-          backgroundOpacity: clamp(saved.backgroundOpacity ?? defaults.backgroundOpacity, 35, 100),
+          blur: clamp(saved.blur ?? defaults.blur, 0, 24),
+          backgroundOpacity: clamp(saved.backgroundOpacity ?? defaults.backgroundOpacity, 12, 100),
           readingStrength: clamp(saved.readingStrength ?? defaults.readingStrength, 0, 100),
         };
       } catch {

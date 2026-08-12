@@ -5,7 +5,7 @@
 @layer base {
   :root {
     --glass-main: rgba(248, 250, 252, 0.30);
-    --glass-article: rgba(248, 250, 252, 0.56);
+    --glass-article: rgba(248, 250, 252, 0.76);
     --glass-sub: rgba(255, 255, 255, 0.20);
     --glass-reading: rgba(255, 255, 255, 0.42);
     --glass-sub-hover: rgba(255, 255, 255, 0.30);
@@ -24,7 +24,7 @@
 
   .dark {
     --glass-main: rgba(14, 25, 48, 0.36);
-    --glass-article: rgba(8, 18, 36, 0.70);
+    --glass-article: rgba(8, 18, 36, 0.78);
     --glass-sub: rgba(30, 48, 75, 0.28);
     --glass-reading: rgba(13, 27, 52, 0.64);
     --glass-sub-hover: rgba(44, 65, 95, 0.40);
