@@ -16,7 +16,7 @@ const recentPosts = posts.slice(0, 4);
           <img class="hidden dark:block w-20 h-20 rounded-full ring-4 ring-white/50 dark:ring-gray-700/50 shadow-lg" src="/avatar-dark.webp" alt="WELT 头像" width="80" height="80" fetchpriority="high" />
       <span class="text-xl font-black tracking-[0.2em] bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">WELT</span>
     </div>
-    <div class="hero-reading-surface text-center md:text-left">
+    <div class="text-center md:text-left">
       <h1 id="typewriter-heading" class="text-3xl md:text-4xl font-bold tracking-tight mb-2 text-gray-900 dark:text-gray-100">
         嗨！谢谢你来看我！
       </h1>
@@ -48,7 +48,7 @@ const recentPosts = posts.slice(0, 4);
 
   <div class="grid md:grid-cols-[1fr_280px] gap-8">
     <div>
-      <h2 class="section-reading-label text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-5">最新文章</h2>
+      <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-5">最新文章</h2>
       <div class="space-y-3">
         {recentPosts.map((post) => (
           <a href={`/posts/${post.id}`} class="glass-sub flex items-center gap-4 p-4 rounded-xl transition-[background-color,border-color,transform] duration-300 group hover:translate-x-1 border-l-2 border-l-transparent hover:border-l-blue-500 dark:hover:border-l-blue-400">
@@ -73,11 +73,11 @@ const recentPosts = posts.slice(0, 4);
     </div>
     <div class="space-y-6">
       <div>
-        <h2 class="section-reading-label text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">正在听</h2>
+        <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">正在听</h2>
         <MusicPlayer />
       </div>
       <div>
-        <h2 class="section-reading-label text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">技术栈</h2>
+        <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">技术栈</h2>
         <div class="flex flex-wrap gap-1.5">
           <span class="tech-badge dark:bg-gray-800/50 dark:border-gray-700/40 dark:text-gray-300"><span class="tech-dot bg-orange-400"></span>Astro</span>
           <span class="tech-badge dark:bg-gray-800/50 dark:border-gray-700/40 dark:text-gray-300"><span class="tech-dot bg-blue-500"></span>TypeScript</span>
@@ -86,7 +86,7 @@ const recentPosts = posts.slice(0, 4);
         </div>
       </div>
       <div>
-        <h2 class="section-reading-label text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">最近动态</h2>
+        <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">最近动态</h2>
         <div class="space-y-3">
           <div class="flex items-center gap-3">
             <div class="w-6 h-6 rounded-md bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0">
