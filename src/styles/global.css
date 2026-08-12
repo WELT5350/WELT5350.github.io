@@ -17,6 +17,8 @@
     --glass-muted: #3f5066;
     --glass-quiet: #60738a;
     --appearance-glass-blur: 14px;
+    --appearance-background-blur: 0px;
+    --appearance-background-scale: 1.03;
   }
 
   .dark {
@@ -584,8 +586,8 @@
       background: center / cover no-repeat;
       background-color: #dbeafe;
       background-image: var(--site-background-image);
-      filter: saturate(0.72) brightness(1.07) contrast(0.90);
-      transform: scale(1.03);
+      filter: blur(var(--appearance-background-blur)) saturate(0.72) brightness(1.07) contrast(0.90);
+      transform: scale(var(--appearance-background-scale));
   }
 
     .dark .glass-background {

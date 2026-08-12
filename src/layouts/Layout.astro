@@ -30,12 +30,13 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
     <script is:inline>
       (function () {
         const appearanceKey = 'welt-reading-appearance';
-        const appearanceDefaults = { cardOpacity: 20, glassBlur: 14 };
+        const appearanceDefaults = { blur: 0, cardOpacity: 20, glassBlur: 14 };
         const clamp = (value, min, max) => Math.min(max, Math.max(min, Number(value) || 0));
         window.__weltReadAppearance = function () {
           try {
             const saved = JSON.parse(localStorage.getItem(appearanceKey) || 'null') || {};
             return {
+              blur: clamp(saved.blur ?? appearanceDefaults.blur, 0, 24),
               cardOpacity: clamp(saved.cardOpacity ?? appearanceDefaults.cardOpacity, 0, 100),
               glassBlur: clamp(saved.glassBlur ?? appearanceDefaults.glassBlur, 0, 28),
             };
@@ -45,6 +46,7 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
         };
         window.__weltApplyAppearance = function (settings) {
           const root = document.documentElement;
+          const blur = clamp(settings.blur, 0, 24);
           const cardOpacity = clamp(settings.cardOpacity, 0, 100) / 100;
           const glassBlur = clamp(settings.glassBlur, 0, 28);
           const dark = root.classList.contains('dark');
@@ -58,6 +60,8 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
               : recommended + (maximum - recommended) * ((cardOpacity - 0.2) / 0.8);
             return value.toFixed(3);
           };
+          root.style.setProperty('--appearance-background-blur', `${blur}px`);
+          root.style.setProperty('--appearance-background-scale', String(1.03 + blur / 350));
           root.style.setProperty('--appearance-glass-blur', `${glassBlur}px`);
           root.style.setProperty('--appearance-glass-main', `rgba(${colors.main}, ${alpha(0)})`);
           root.style.setProperty('--appearance-glass-article', `rgba(${colors.article}, ${alpha(1)})`);
@@ -85,6 +89,7 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
           event.newDocument.documentElement.classList.toggle('dark', useDark);
         });
         document.addEventListener('astro:after-swap', function () {
+          window.__weltApplyAppearance?.(window.__weltReadAppearance?.());
           if (!window.location.hash) window.scrollTo(0, 0);
         });
       }

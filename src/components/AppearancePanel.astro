@@ -37,6 +37,10 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
     </div>
 
     <label class="appearance-range">
+      <span><span>背景柔化</span><output data-appearance-output="blur">推荐</output></span>
+      <input data-appearance-input="blur" type="range" min="0" max="24" step="1" value="0" aria-label="调整背景柔化程度" />
+    </label>
+    <label class="appearance-range">
       <span><span>卡片不透明度</span><output data-appearance-output="cardOpacity">推荐</output></span>
       <input data-appearance-input="cardOpacity" type="range" min="0" max="100" step="1" value="20" aria-label="调整卡片不透明度" />
     </label>
@@ -45,14 +49,14 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
       <input data-appearance-input="glassBlur" type="range" min="0" max="28" step="1" value="14" aria-label="调整玻璃质感" />
     </label>
 
-    <p class="appearance-note">0px 是通透玻璃，数值越高毛玻璃越明显。</p>
+    <p class="appearance-note">背景柔化只处理壁纸；玻璃质感从通透到毛玻璃，不会改动背景。</p>
   </section>
 </div>
 
 <script is:inline>
   (function () {
     var storageKey = 'welt-reading-appearance';
-    var defaults = { cardOpacity: 20, glassBlur: 14 };
+    var defaults = { blur: 0, cardOpacity: 20, glassBlur: 14 };
 
     function clamp(value, minimum, maximum) {
       return Math.min(maximum, Math.max(minimum, Number(value) || 0));
@@ -62,6 +66,7 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
           try {
             var saved = JSON.parse(localStorage.getItem(storageKey) || 'null') || {};
             return {
+          blur: clamp(saved.blur ?? defaults.blur, 0, 24),
           cardOpacity: clamp(saved.cardOpacity ?? defaults.cardOpacity, 0, 100),
           glassBlur: clamp(saved.glassBlur ?? defaults.glassBlur, 0, 28),
         };
@@ -81,6 +86,7 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
       });
       document.querySelectorAll('[data-appearance-output]').forEach(function (output) {
         var key = output.getAttribute('data-appearance-output');
+        if (key === 'blur') output.textContent = settings.blur === defaults.blur ? '推荐' : `${settings.blur} px`;
         if (key === 'cardOpacity') output.textContent = settings.cardOpacity === defaults.cardOpacity ? '推荐' : `${settings.cardOpacity}%`;
         if (key === 'glassBlur') output.textContent = settings.glassBlur === defaults.glassBlur ? '推荐' : `${settings.glassBlur} px`;
       });
@@ -113,8 +119,8 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
       document.querySelectorAll('[data-appearance-input]').forEach(function (input) {
         input.addEventListener('input', function () {
           settings = {
-            cardOpacity: Number(document.querySelector('[data-appearance-input="cardOpacity"]')?.value ?? settings.cardOpacity),
-            glassBlur: Number(document.querySelector('[data-appearance-input="glassBlur"]')?.value ?? settings.glassBlur),
+            ...settings,
+            [input.getAttribute('data-appearance-input')]: Number(input.value),
           };
           window.__weltApplyAppearance?.(settings);
           saveSettings(settings);
