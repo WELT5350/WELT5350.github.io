@@ -945,12 +945,17 @@
 }
 
 .after-hours-entry {
+  align-items: center;
   background: transparent;
   border: 0;
   color: inherit;
   cursor: default;
+  display: inline-flex;
   font: inherit;
+  justify-content: center;
   line-height: 1;
+  min-height: 2rem;
+  min-width: 2rem;
   padding: 0;
 }
 
@@ -965,11 +970,6 @@
 .dark .after-hours-entry {
   color: rgb(96 165 250 / 0.58);
   cursor: pointer;
-  display: inline-flex;
-  min-height: 2rem;
-  min-width: 2rem;
-  align-items: center;
-  justify-content: center;
   transition: color 180ms ease, text-shadow 180ms ease, transform 180ms ease;
 }
 
