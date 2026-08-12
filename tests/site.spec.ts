@@ -6,7 +6,7 @@ async function resetSiteState(page: Page) {
     if (sessionStorage.getItem('welt-e2e-initialized') === 'true') return;
     sessionStorage.setItem('welt-e2e-initialized', 'true');
     localStorage.removeItem(key);
-    localStorage.removeItem('theme');
+    localStorage.setItem('theme', 'light');
     sessionStorage.setItem('welt-background-index', '0');
   }, appearanceKey);
 }
@@ -43,7 +43,7 @@ test('default day and night glass baselines remain readable', async ({ page }) =
   await page.locator('[data-theme-toggle]').first().click();
   await expect(page.locator('html')).toHaveClass(/dark/);
   await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(14, 25, 48, 0.36)');
-  await expect(page.locator('.accent-action')).toHaveCSS('background-color', 'rgb(37, 99, 235)');
+  await expect(page.getByRole('link', { name: '浏览文章' })).toHaveCSS('background-color', 'rgb(37, 99, 235)');
   await expect(page.locator('.accent-brand').first()).toHaveCSS('background-image', 'linear-gradient(90deg, rgb(37, 99, 235), rgb(96, 165, 250))');
   await expect(page.locator('.accent-brand-surface')).toHaveCSS('background-image', 'linear-gradient(135deg, rgb(96, 165, 250), rgb(37, 99, 235))');
   await expect(page.locator('body')).toHaveCSS('color', 'rgb(209, 213, 219)');
@@ -62,6 +62,10 @@ test('appearance controls apply to their intended targets and persist through cl
   await page.locator('input[data-appearance-input="hue"]').first().fill('280');
   await expect(page.locator('html')).toHaveAttribute('data-appearance-custom-hue', '');
   await expect.poll(() => page.locator('html').evaluate((element) => getComputedStyle(element).getPropertyValue('--appearance-accent').trim())).toBe('hsl(280 78% 48%)');
+  await expect(page.getByRole('link', { name: '浏览文章' })).toHaveCSS('background-color', 'rgb(154, 27, 218)');
+  await expect(page.locator('.accent-brand').first()).toHaveCSS('background-image', 'linear-gradient(90deg, rgb(154, 27, 218), rgb(192, 97, 239))');
+  await expect(page.locator('.accent-brand-surface')).toHaveCSS('background-image', 'linear-gradient(135deg, rgb(192, 97, 239), rgb(154, 27, 218))');
+  await expect(page.getByRole('link', { name: '浏览文章' })).toHaveCSS('box-shadow', /rgba\(154, 27, 218, 0\.2\)/);
 
   await page.locator('input[data-appearance-input="blur"]').first().fill('8');
   await expect(page.locator('.glass-background')).toHaveCSS('filter', /blur\(8px\)/);
@@ -77,8 +81,15 @@ test('appearance controls apply to their intended targets and persist through cl
   await expect(page.locator('.glass-background')).toHaveCSS('opacity', '0.65');
   await expect(page.locator('html')).toHaveAttribute('data-appearance-custom-hue', '');
 
+  await page.locator('a[href="/"]').first().click();
+  await expect(page).toHaveURL(/\/$/);
   await page.locator('[data-theme-toggle]').first().click();
   await expect(page.locator('.glass-background')).toHaveCSS('opacity', '0.65');
+  await expect.poll(() => page.locator('html').evaluate((element) => getComputedStyle(element).getPropertyValue('--appearance-accent').trim())).toBe('hsl(280 86% 70%)');
+  await expect(page.getByRole('link', { name: '浏览文章' })).toHaveCSS('background-color', 'rgb(164, 40, 226)');
+  await expect(page.locator('.accent-brand').first()).toHaveCSS('background-image', 'linear-gradient(90deg, rgb(164, 40, 226), rgb(203, 125, 242))');
+  await expect(page.locator('.accent-brand-surface')).toHaveCSS('background-image', 'linear-gradient(135deg, rgb(203, 125, 242), rgb(164, 40, 226))');
+  await expect(page.getByRole('link', { name: '浏览文章' })).toHaveCSS('box-shadow', /rgba\(164, 40, 226, 0\.24\)/);
   await page.locator('[data-appearance-toggle]').first().click();
   await page.locator('[data-appearance-reset]').first().click();
   await expect(page.locator('html')).not.toHaveAttribute('data-appearance-custom-hue');

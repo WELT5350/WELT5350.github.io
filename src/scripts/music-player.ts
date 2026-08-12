@@ -66,11 +66,11 @@ function load(i: number) {
 
 function highlightCurrent() {
   document.querySelectorAll('.mp-item').forEach(el => {
-    el.classList.remove('text-blue-500', 'dark:text-blue-400', 'border-l-2', 'border-l-blue-500', 'dark:border-l-blue-400', 'pl-2');
+    el.classList.remove('mp-item-current');
   });
   const current = document.querySelector(`.mp-item[data-i="${idx}"]`);
   if (current) {
-    current.classList.add('text-blue-500', 'dark:text-blue-400', 'border-l-2', 'border-l-blue-500', 'dark:border-l-blue-400');
+    current.classList.add('mp-item-current');
   }
 }
 
@@ -183,7 +183,7 @@ function buildList() {
   songs.forEach((s, i) => {
     const el = document.createElement('button');
     el.type = 'button';
-    el.className = 'flex items-center gap-2 px-3 py-1.5 cursor-pointer hover:bg-blue-50/30 dark:hover:bg-blue-900/30 transition-colors text-xs mp-item';
+    el.className = 'flex items-center gap-2 px-3 py-1.5 cursor-pointer transition-colors text-xs mp-item';
     el.setAttribute('data-i', String(i));
     el.setAttribute('aria-label', `${s.title}，${s.artist}`);
     el.innerHTML = `<span class="mp-num text-gray-400 dark:text-gray-500 w-4 text-right flex-shrink-0 tabular-nums">${i + 1}</span><span class="mp-song truncate flex-1">${s.title}</span><span class="text-[10px] text-gray-400 dark:text-gray-500 truncate hidden sm:inline">${s.artist}</span>`;

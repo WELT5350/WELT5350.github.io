@@ -26,28 +26,28 @@
 
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-0.5">
-        <button id="mp-prev" type="button" class="p-1.5 rounded-lg text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-blue-50/40 dark:hover:bg-blue-900/30 transition-colors" aria-label="上一首" title="上一首">
+        <button id="mp-prev" type="button" class="music-control p-1.5 rounded-lg text-gray-400 dark:text-gray-500 transition-colors" aria-label="上一首" title="上一首">
           <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
         </button>
         <button id="mp-play-btn" type="button" class="accent-text accent-control p-1.5 rounded-lg transition-[background-color,transform] duration-200 active:scale-90" aria-label="播放" title="播放/暂停">
           <svg id="mp-play-icon" aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </button>
-        <button id="mp-next" type="button" class="p-1.5 rounded-lg text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-blue-50/40 dark:hover:bg-blue-900/30 transition-colors" aria-label="下一首" title="下一首">
+        <button id="mp-next" type="button" class="music-control p-1.5 rounded-lg text-gray-400 dark:text-gray-500 transition-colors" aria-label="下一首" title="下一首">
           <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
         </button>
       </div>
       <div class="flex items-center gap-0.5">
-        <button id="mp-mode" type="button" class="p-1 rounded-lg text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-blue-50/40 dark:hover:bg-blue-900/30 transition-colors" aria-label="顺序播放" title="顺序播放">
+        <button id="mp-mode" type="button" class="music-control p-1 rounded-lg text-gray-400 dark:text-gray-500 transition-colors" aria-label="顺序播放" title="顺序播放">
           <svg id="mp-mode-icon" aria-hidden="true" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
-        <button id="mp-list-toggle" type="button" class="p-1 rounded-lg text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-blue-50/40 dark:hover:bg-blue-900/30 transition-colors" aria-controls="mp-list" aria-expanded="false" aria-label="打开歌单" title="歌单">
+        <button id="mp-list-toggle" type="button" class="music-control p-1 rounded-lg text-gray-400 dark:text-gray-500 transition-colors" aria-controls="mp-list" aria-expanded="false" aria-label="打开歌单" title="歌单">
           <svg id="mp-list-icon" aria-hidden="true" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
         </button>
       </div>
     </div>
   </div>
 
-  <div id="mp-list" class="hidden border-t border-blue-100/30 dark:border-blue-800/30">
+  <div id="mp-list" class="accent-divider hidden border-t">
     <div class="max-h-40 overflow-y-auto py-1" id="mp-list-items"></div>
   </div>
 </div>
