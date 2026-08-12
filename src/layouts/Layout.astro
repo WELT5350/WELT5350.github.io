@@ -29,46 +29,9 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
     <title>{title ? `${title} | 我的博客` : '我的博客'}</title>
     <script is:inline>
       (function () {
-        const appearanceKey = 'welt-reading-appearance';
-        const appearanceDefaults = { blur: 0, backgroundOpacity: 100, readingStrength: 0 };
-        const clamp = (value, min, max) => Math.min(max, Math.max(min, Number(value) || 0));
-        window.__weltReadAppearance = function () {
-          try {
-            const saved = JSON.parse(localStorage.getItem(appearanceKey) || 'null') || {};
-            return {
-              blur: clamp(saved.blur ?? appearanceDefaults.blur, 0, 16),
-              backgroundOpacity: clamp(saved.backgroundOpacity ?? appearanceDefaults.backgroundOpacity, 35, 100),
-              readingStrength: clamp(saved.readingStrength ?? appearanceDefaults.readingStrength, 0, 100),
-            };
-          } catch {
-            return { ...appearanceDefaults };
-          }
-        };
-        window.__weltApplyAppearance = function (settings) {
-          const root = document.documentElement;
-          const blur = clamp(settings.blur, 0, 16);
-          const opacity = clamp(settings.backgroundOpacity, 35, 100) / 100;
-          const strength = clamp(settings.readingStrength, 0, 100) / 100;
-          const dark = root.classList.contains('dark');
-          const colors = dark
-            ? { main: '14, 25, 48', article: '8, 18, 36', sub: '30, 48, 75', reading: '13, 27, 52', nav: '10, 22, 43', hover: '44, 65, 95', border: '147, 197, 253', alpha: [0.36, 0.70, 0.28, 0.64, 0.38, 0.40, 0.24], gain: [0.24, 0.18, 0.24, 0.18, 0.20, 0.20, 0.16] }
-            : { main: '248, 250, 252', article: '248, 250, 252', sub: '255, 255, 255', reading: '255, 255, 255', nav: '255, 255, 255', hover: '255, 255, 255', border: '255, 255, 255', alpha: [0.30, 0.56, 0.20, 0.42, 0.24, 0.30, 0.52], gain: [0.35, 0.30, 0.35, 0.32, 0.35, 0.35, 0.18] };
-          const alpha = (index) => Math.min(0.94, colors.alpha[index] + colors.gain[index] * strength).toFixed(3);
-          root.style.setProperty('--appearance-background-blur', `${blur}px`);
-          root.style.setProperty('--appearance-background-scale', String(1.03 + blur / 400));
-          root.style.setProperty('--appearance-background-opacity', String(opacity));
-          root.style.setProperty('--appearance-glass-main', `rgba(${colors.main}, ${alpha(0)})`);
-          root.style.setProperty('--appearance-glass-article', `rgba(${colors.article}, ${alpha(1)})`);
-          root.style.setProperty('--appearance-glass-sub', `rgba(${colors.sub}, ${alpha(2)})`);
-          root.style.setProperty('--appearance-glass-reading', `rgba(${colors.reading}, ${alpha(3)})`);
-          root.style.setProperty('--appearance-glass-nav', `rgba(${colors.nav}, ${alpha(4)})`);
-          root.style.setProperty('--appearance-glass-sub-hover', `rgba(${colors.hover}, ${alpha(5)})`);
-          root.style.setProperty('--appearance-glass-border', `rgba(${colors.border}, ${alpha(6)})`);
-        };
         const savedTheme = localStorage.getItem('theme');
         const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
         document.documentElement.classList.toggle('dark', isDark);
-        window.__weltApplyAppearance(window.__weltReadAppearance());
         window.__weltSyncThemeColor = function () {
           document.querySelector('meta[name="theme-color"]')?.setAttribute('content', document.documentElement.classList.contains('dark') ? '#0a162b' : '#f8fafc');
         };
