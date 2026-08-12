@@ -38,7 +38,7 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
             return {
               blur: clamp(saved.blur ?? appearanceDefaults.blur, 0, 24),
               cardOpacity: clamp(saved.cardOpacity ?? appearanceDefaults.cardOpacity, 0, 100),
-              glassBlur: clamp(saved.glassBlur ?? appearanceDefaults.glassBlur, 0, 28),
+              glassBlur: clamp(saved.glassBlur ?? appearanceDefaults.glassBlur, 0, 48),
             };
           } catch {
             return { ...appearanceDefaults };
@@ -48,17 +48,18 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
           const root = document.documentElement;
           const blur = clamp(settings.blur, 0, 24);
           const cardOpacity = clamp(settings.cardOpacity, 0, 100) / 100;
-          const glassBlur = clamp(settings.glassBlur, 0, 28);
+          const glassBlur = clamp(settings.glassBlur, 0, 48);
           const dark = root.classList.contains('dark');
           const colors = dark
-            ? { main: '14, 25, 48', article: '8, 18, 36', sub: '30, 48, 75', reading: '13, 27, 52', nav: '10, 22, 43', hover: '44, 65, 95', border: '147, 197, 253', minimum: [0.10, 0.78, 0.08, 0.15, 0.10, 0.12, 0.10], recommended: [0.36, 0.78, 0.28, 0.68, 0.38, 0.40, 0.24], maximum: [0.92, 0.94, 0.90, 0.94, 0.90, 0.90, 0.60] }
-            : { main: '248, 250, 252', article: '248, 250, 252', sub: '255, 255, 255', reading: '255, 255, 255', nav: '255, 255, 255', hover: '255, 255, 255', border: '255, 255, 255', minimum: [0.08, 0.76, 0.04, 0.12, 0.06, 0.08, 0.12], recommended: [0.30, 0.76, 0.20, 0.42, 0.24, 0.30, 0.52], maximum: [0.94, 0.94, 0.90, 0.92, 0.90, 0.90, 0.82] };
+            ? { main: '14, 25, 48', article: '8, 18, 36', sub: '30, 48, 75', reading: '13, 27, 52', nav: '10, 22, 43', hover: '44, 65, 95', border: '147, 197, 253', minimum: [0.08, 0.78, 0.06, 0.12, 0.08, 0.10, 0.08], recommended: [0.26, 0.78, 0.18, 0.50, 0.25, 0.29, 0.20], maximum: [0.92, 0.94, 0.90, 0.94, 0.90, 0.90, 0.60] }
+            : { main: '248, 250, 252', article: '248, 250, 252', sub: '255, 255, 255', reading: '255, 255, 255', nav: '255, 255, 255', hover: '255, 255, 255', border: '255, 255, 255', minimum: [0.04, 0.76, 0.02, 0.08, 0.04, 0.06, 0.10], recommended: [0.18, 0.76, 0.11, 0.32, 0.16, 0.22, 0.42], maximum: [0.94, 0.94, 0.90, 0.92, 0.90, 0.90, 0.82] };
           const alpha = (index) => {
             const [minimum, recommended, maximum] = [colors.minimum[index], colors.recommended[index], colors.maximum[index]];
             const value = cardOpacity <= 0.2
               ? minimum + (recommended - minimum) * (cardOpacity / 0.2)
               : recommended + (maximum - recommended) * ((cardOpacity - 0.2) / 0.8);
-            return value.toFixed(3);
+            const frosting = [0.18, 0.06, 0.20, 0.12, 0.14, 0.16, 0.10][index] * (glassBlur / 48);
+            return Math.min(0.96, value + frosting).toFixed(3);
           };
           root.style.setProperty('--appearance-background-blur', `${blur}px`);
           root.style.setProperty('--appearance-background-scale', String(1.03 + blur / 350));

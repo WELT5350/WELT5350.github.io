@@ -46,10 +46,10 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
     </label>
     <label class="appearance-range">
       <span><span>玻璃质感</span><output data-appearance-output="glassBlur">14 px</output></span>
-      <input data-appearance-input="glassBlur" type="range" min="0" max="28" step="1" value="14" aria-label="调整玻璃质感" />
+      <input data-appearance-input="glassBlur" type="range" min="0" max="48" step="1" value="14" aria-label="调整玻璃质感" />
     </label>
 
-    <p class="appearance-note">背景柔化只处理壁纸；玻璃质感从通透到毛玻璃，不会改动背景。</p>
+    <p class="appearance-note">背景柔化只处理壁纸；玻璃质感由清透到雾化，也会同步增加卡片的玻璃感。</p>
   </section>
 </div>
 
@@ -68,7 +68,7 @@ const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
             return {
           blur: clamp(saved.blur ?? defaults.blur, 0, 24),
           cardOpacity: clamp(saved.cardOpacity ?? defaults.cardOpacity, 0, 100),
-          glassBlur: clamp(saved.glassBlur ?? defaults.glassBlur, 0, 28),
+          glassBlur: clamp(saved.glassBlur ?? defaults.glassBlur, 0, 48),
         };
       } catch {
         return { ...defaults };
