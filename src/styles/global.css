@@ -16,10 +16,7 @@
     --glass-ink: #17223a;
     --glass-muted: #3f5066;
     --glass-quiet: #60738a;
-    --glass-filter: blur(14px) saturate(1.08);
-    --appearance-background-blur: 0px;
-    --appearance-background-scale: 1.03;
-    --appearance-background-opacity: 1;
+    --appearance-glass-blur: 14px;
   }
 
   .dark {
@@ -142,8 +139,8 @@
   .glass-sub,
   .glass-nav {
     border: 1px solid var(--appearance-glass-border, var(--glass-border));
-    backdrop-filter: var(--glass-filter);
-    -webkit-backdrop-filter: var(--glass-filter);
+    backdrop-filter: blur(var(--appearance-glass-blur)) saturate(1.08);
+    -webkit-backdrop-filter: blur(var(--appearance-glass-blur)) saturate(1.08);
   }
 
   .glass-main {
@@ -587,9 +584,8 @@
       background: center / cover no-repeat;
       background-color: #dbeafe;
       background-image: var(--site-background-image);
-      filter: blur(var(--appearance-background-blur)) saturate(0.72) brightness(1.07) contrast(0.90);
-      opacity: var(--appearance-background-opacity);
-      transform: scale(var(--appearance-background-scale));
+      filter: saturate(0.72) brightness(1.07) contrast(0.90);
+      transform: scale(1.03);
   }
 
     .dark .glass-background {
