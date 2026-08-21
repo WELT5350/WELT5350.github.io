@@ -1161,34 +1161,53 @@ html.nav-entering #top-nav {
   background: radial-gradient(ellipse at center, hsl(calc(var(--appearance-hue) - 38) 92% 58% / var(--orb-alpha)), transparent 72%);
 }
 
-/* 导航玻璃升级：模糊 + 饱和，让背后光晕透出（-webkit- 前缀由 autoprefixer 自动补）
-   注意：不能在这里写 position，会覆盖 Tailwind 的 sticky 导致导航不吸顶 */
+/* 导航外壳：固定悬浮层（DeepSeek 式），内容滚动时从下方穿过 */
+.nav-shell {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: 8px 24px 0;
+  pointer-events: none;
+}
+
+/* 导航胶囊：始终是圆角胶囊 + 模糊；滚动后玻璃材质经 ::before 淡入（harness 式 opacity 过渡） */
 #top-nav {
+  pointer-events: auto;
+  position: relative;
+  margin: 0 auto;
+  max-width: 1024px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background: transparent;
   backdrop-filter: blur(14px) saturate(1.5);
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease,
-    top 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-radius 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.25s ease;
+}
+
+#top-nav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid color-mix(in srgb, var(--appearance-accent) 30%, transparent);
+  box-shadow: 0 10px 32px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  pointer-events: none;
+}
+
+.dark #top-nav::before {
+  background: rgba(8, 18, 38, 0.82);
+  box-shadow: 0 12px 36px rgba(1, 7, 22, 0.45), 0 0 0 1px rgba(147, 197, 253, 0.1);
+}
+
+#top-nav.nav-shrunk::before {
+  opacity: 1;
 }
 
 #mobile-menu {
   backdrop-filter: blur(14px) saturate(1.5);
-}
-
-/* 底部渐变光边：滚动后显现 */
-#top-nav::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--appearance-accent) 55%, transparent) 50%, transparent);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-#top-nav.nav-solid::after {
-  opacity: 1;
 }
 
 /* WELT 标志：沿用 accent-brand 纯蓝渐变（与首页一致），配脉冲状态点 */
@@ -1196,46 +1215,26 @@ html.nav-entering #top-nav {
   transition: height 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* 滚动后变形为悬浮胶囊栏（DeepSeek / Harness 式）：收窄、圆角、漂浮在视口顶部 */
-#top-nav.nav-shrunk {
-  top: 0.5rem;
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 9999px;
-  border-color: color-mix(in srgb, var(--appearance-accent) 30%, transparent);
-  background-color: rgba(255, 255, 255, 0.78);
-  box-shadow: 0 10px 32px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.06);
+/* 滚动后的收细：高度、头像、字号平滑过渡（几何布局不变，只有材质与尺寸变化） */
+#top-nav img {
+  transition: width 0.25s cubic-bezier(0.22, 1, 0.36, 1), height 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.dark #top-nav.nav-shrunk {
-  background-color: rgba(8, 18, 38, 0.82);
-  box-shadow: 0 12px 36px rgba(1, 7, 22, 0.45), 0 0 0 1px rgba(147, 197, 253, 0.1);
-}
-
-#top-nav.nav-shrunk > div {
-  max-width: none;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+#top-nav .nav-brand-text {
+  transition: font-size 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 #top-nav.nav-shrunk .nav-row {
-  height: 2.75rem;
-  gap: 0.75rem;
+  height: 3rem;
 }
 
-/* 胶囊态更紧凑：隐藏头像，只留状态点 + 标志 + 导航项 */
 #top-nav.nav-shrunk img {
-  display: none;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 #top-nav.nav-shrunk .nav-brand-text {
   font-size: 1rem;
-}
-
-/* 胶囊形态下不再需要底部渐变光边 */
-#top-nav.nav-shrunk::after {
-  opacity: 0;
 }
 
 .nav-brand-dot {

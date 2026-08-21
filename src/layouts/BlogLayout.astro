@@ -13,7 +13,7 @@ const { title, description, article = false } = Astro.props;
   <Navbar />
   <BackgroundRotator />
   <div class="glass-wash" aria-hidden="true" transition:persist></div>
-  <main id="main-content" transition:animate={fade({ duration: '0.18s' })} class="relative z-10 flex items-center justify-center px-4 py-6 sm:py-10" style="min-height: calc(100vh - 56px);">
+  <main id="main-content" transition:animate={fade({ duration: '0.18s' })} class="relative z-10 flex items-center justify-center px-4 pb-10 pt-24 sm:pb-12" style="min-height: 100vh;">
     <div class:list={['glass-main', 'w-full', 'max-w-3xl', 'rounded-3xl', 'p-6', 'transition-colors', 'duration-300', 'sm:p-10', 'md:p-12', article && 'article-glass']}>
       <slot />
       <Footer />
