@@ -211,28 +211,8 @@
   }
 
   .glass-main {
-    position: relative;
     background: var(--appearance-glass-main, var(--glass-main));
-    box-shadow:
-      var(--glass-shadow),
-      0 24px 70px -22px hsl(var(--appearance-hue) 70% 55% / 0.16);
-  }
-
-  .dark .glass-main {
-    box-shadow:
-      var(--glass-shadow),
-      0 30px 90px -24px hsl(var(--appearance-hue) 65% 55% / 0.26);
-  }
-
-  /* 主卡顶部光边：与导航底部光边同一语言——光从导航流到卡片上 */
-  .glass-main::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--appearance-accent) 50%, transparent) 50%, transparent);
+    box-shadow: var(--glass-shadow);
   }
 
   .article-glass { background: var(--appearance-glass-article, var(--glass-article)); }
@@ -242,20 +222,13 @@
 
   .glass-sub {
     background: var(--appearance-glass-sub, var(--glass-sub));
-    box-shadow:
-      0 8px 22px rgba(25, 42, 61, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      0 10px 30px -16px hsl(var(--appearance-hue) 70% 55% / 0.14);
-    transition: background-color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 22px rgba(25, 42, 61, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
   }
 
   .glass-sub:hover {
     background: var(--appearance-glass-sub-hover, var(--glass-sub-hover));
     border-color: var(--glass-border-strong);
-    box-shadow:
-      0 8px 22px rgba(25, 42, 61, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      0 14px 38px -14px hsl(var(--appearance-hue) 70% 55% / 0.22);
   }
 
   .glass-nav { background: var(--appearance-glass-nav, var(--glass-nav)); }
