@@ -211,8 +211,37 @@
   }
 
   .glass-main {
+    position: relative;
+    isolation: isolate; /* 让 ::before 的负 z-index 限定在卡片内，不盖内容 */
     background: var(--appearance-glass-main, var(--glass-main));
-    box-shadow: var(--glass-shadow);
+    box-shadow:
+      var(--glass-shadow),
+      0 20px 50px -14px rgba(25, 42, 61, 0.22);
+    backdrop-filter: blur(16px) saturate(1.4);
+  }
+
+  .dark .glass-main {
+    box-shadow:
+      var(--glass-shadow),
+      0 22px 55px -14px rgba(1, 7, 22, 0.55);
+  }
+
+  /* 顶部光洗：带色相的光从上方洒下——位于内容之下，不会洗淡文字 */
+  .glass-main::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    pointer-events: none;
+    border-radius: inherit;
+    background: linear-gradient(180deg, hsl(var(--appearance-hue) 85% 96% / 0.5), hsl(var(--appearance-hue) 85% 96% / 0) 55%);
+  }
+
+  .dark .glass-main::before {
+    background: linear-gradient(180deg, hsl(var(--appearance-hue) 70% 70% / 0.14), hsl(var(--appearance-hue) 70% 70% / 0) 55%);
   }
 
   .article-glass { background: var(--appearance-glass-article, var(--glass-article)); }
@@ -667,6 +696,9 @@
       opacity: var(--appearance-background-opacity);
       transform: scale(var(--appearance-background-scale));
   }
+
+    /* 临时实验：屏蔽背景图，让卡片效果在纯色底上现形（评估完删除） */
+    .glass-background { background-image: none !important; }
 
     .dark .glass-background {
       background-color: #081426;
