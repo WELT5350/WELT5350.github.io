@@ -211,16 +211,28 @@
   }
 
   .glass-main {
+    position: relative;
     background: var(--appearance-glass-main, var(--glass-main));
     box-shadow:
       var(--glass-shadow),
-      0 24px 70px -22px hsl(var(--appearance-hue) 70% 55% / 0.22);
+      0 24px 70px -22px hsl(var(--appearance-hue) 70% 55% / 0.16);
   }
 
   .dark .glass-main {
     box-shadow:
       var(--glass-shadow),
-      0 30px 90px -24px hsl(var(--appearance-hue) 65% 55% / 0.34);
+      0 30px 90px -24px hsl(var(--appearance-hue) 65% 55% / 0.26);
+  }
+
+  /* 主卡顶部光边：与导航底部光边同一语言——光从导航流到卡片上 */
+  .glass-main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--appearance-accent) 50%, transparent) 50%, transparent);
   }
 
   .article-glass { background: var(--appearance-glass-article, var(--glass-article)); }
