@@ -1,0 +1,22 @@
+---
+// 梦境 BGM：网易云曲目 ID。占位为《Twilight》- Vanguard Sound，换成你的梦境曲目只改这里。
+const DREAM_SONG_ID = 1978759140;
+---
+
+<div
+  class="dream-bgm fixed bottom-5 right-5 z-50"
+  transition:persist
+  data-dream-bgm
+  data-state="idle"
+>
+  <audio data-dream-audio preload="none" loop src={`https://music.163.com/song/media/outer/url?id=${DREAM_SONG_ID}.mp3`}></audio>
+  <button
+    data-dream-bgm-toggle
+    type="button"
+    class="dream-bgm-toggle glass-sub inline-flex h-10 w-10 items-center justify-center rounded-full text-base transition-colors"
+    aria-label="播放梦境之音"
+    title="梦境之音"
+  >♪</button>
+</div>
+
+<script src="../scripts/dream-bgm.ts"></script>

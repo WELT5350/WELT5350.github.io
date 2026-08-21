@@ -42,9 +42,10 @@ const recentPosts = posts.slice(0, 4);
 
   <div data-night-star-divider class="flex items-center gap-4 mb-10">
     <span class="flex-1 h-0.5 bg-gradient-to-r from-transparent to-gray-300 dark:to-gray-600 rounded-full"></span>
-    <span data-night-star class="night-star-entry" aria-hidden="true">✦</span>
+    <button data-night-star type="button" class="night-star-entry" aria-label="夜间入口">✦</button>
     <span class="flex-1 h-0.5 bg-gradient-to-l from-transparent to-gray-300 dark:to-gray-600 rounded-full"></span>
   </div>
+  <a href="/dream" id="dream-door-link" class="hidden" tabindex="-1" aria-hidden="true"></a>
 
   <div class="grid md:grid-cols-[1fr_280px] gap-8">
     <div>
@@ -114,3 +115,4 @@ const recentPosts = posts.slice(0, 4);
 </BlogLayout>
 
 <script src="../scripts/typewriter.ts"></script>
+<script src="../scripts/night-star.ts"></script>

@@ -1,0 +1,44 @@
+---
+import DreamLayout from '../../layouts/DreamLayout.astro';
+import AnswerGate from '../../components/AnswerGate.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const rooms = (await getCollection('dream')).sort((a, b) => a.data.order - b.data.order);
+  return rooms.map((room) => ({
+    params: { slug: room.id },
+  }));
+}
+
+const { slug } = Astro.params;
+
+const rooms = (await getCollection('dream')).sort((a, b) => a.data.order - b.data.order);
+const currentIndex = rooms.findIndex((room) => room.id === slug);
+if (currentIndex === -1) {
+  return Astro.redirect('/404');
+}
+
+const room = rooms[currentIndex];
+const prevRoom = currentIndex > 0 ? rooms[currentIndex - 1] : null;
+const nextRoom = currentIndex < rooms.length - 1 ? rooms[currentIndex + 1] : null;
+const { Content } = await render(room);
+---
+
+<DreamLayout title={room.data.title} description={room.data.description}>
+  <article data-dream-room>
+    <p class="dream-kicker">ROOM {room.data.order}</p>
+    <h1 class="mt-1 text-2xl font-bold tracking-tight text-[var(--glass-ink)]">{room.data.title}</h1>
+    <div class="prose-custom mt-5">
+      <Content />
+    </div>
+
+    <AnswerGate
+      roomSlug={room.id}
+      answerHash={room.data.answerHash}
+      hints={room.data.hints}
+      nextSlug={nextRoom?.id ?? null}
+      isLast={nextRoom === null}
+      prevSlug={prevRoom?.id ?? null}
+    />
+  </article>
+</DreamLayout>

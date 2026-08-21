@@ -1,13 +1,13 @@
 ---
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-const { title, description, pageType = 'website' } = Astro.props;
+const { title, description, pageType = 'website', dream = false } = Astro.props;
 const desc = description || '死宅 / 技术笨蛋 / 社交恐怖分子';
 const image = 'https://WELT5350.github.io/avatar.jpg';
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-dream={dream ? '' : undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

@@ -1,0 +1,74 @@
+---
+interface Props {
+  roomSlug: string;
+  answerHash: string;
+  hints?: string[];
+  nextSlug?: string | null;
+  isLast?: boolean;
+  prevSlug?: string | null;
+}
+
+const { roomSlug, answerHash, hints = [], nextSlug = null, isLast = false, prevSlug = null }: Props = Astro.props;
+---
+
+<div
+  class="answer-gate glass-sub mt-8 rounded-xl p-5"
+  data-answer-gate
+  data-room-slug={roomSlug}
+  data-answer-hash={answerHash}
+  data-prev-slug={prevSlug ?? ''}
+  data-next-slug={nextSlug ?? ''}
+  data-is-last={isLast ? 'true' : 'false'}
+>
+  <form data-answer-form class="flex items-center gap-2">
+    <input
+      data-answer-input
+      type="text"
+      class="answer-input min-w-0 flex-1 rounded-lg border border-glass bg-white/60 px-3 py-2 text-sm outline-none transition-colors focus:border-[color:var(--appearance-accent)] dark:bg-slate-900/40"
+      placeholder="你的答案…"
+      autocomplete="off"
+      spellcheck="false"
+      aria-label="你的答案"
+    />
+    <button data-answer-submit type="submit" class="accent-action flex-none rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+      回答
+    </button>
+  </form>
+  <p data-answer-status class="answer-status mt-2 min-h-5 text-xs" role="status" aria-live="polite"></p>
+
+  {hints.length > 0 && (
+    <div data-answer-hints class="mt-3 space-y-2">
+      {hints.map((hint, index) => (
+        <div class="flex items-start gap-2">
+          <button
+            type="button"
+            data-hint-btn
+            data-hint-index={index}
+            class="answer-hint-btn flex-none rounded-full border border-glass px-2.5 py-0.5 text-[11px] transition-colors"
+          >提示 {index + 1}</button>
+          <p data-hint-text data-hint-index={index} class="answer-hint-text pt-0.5 text-xs text-glass-muted" hidden>{hint}</p>
+        </div>
+      ))}
+    </div>
+  )}
+
+  <div data-answer-success class="answer-success mt-4" hidden>
+    <p class="text-sm font-medium text-[color:var(--appearance-accent)]">✨ 答对了。门开了。</p>
+    {isLast ? (
+      <p class="mt-2 text-sm text-glass-muted">你走完了试运行的全部房间。真正的故事正在织造中——</p>
+    ) : (
+      <a data-answer-next href={`/dream/${nextSlug}`} class="accent-action mt-3 inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+        走进下一间
+        <svg aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+    )}
+    <a href="/dream" class="mt-3 block text-xs text-glass-quiet transition-colors hover:text-[color:var(--appearance-accent)]">返回梦境之门</a>
+  </div>
+
+  <div data-answer-locked class="answer-locked mt-4" hidden>
+    <p class="text-sm text-glass-muted">🔒 这扇门还锁着。先解开前一间房间，再回来看看。</p>
+    <a href="/dream" class="mt-3 block text-xs text-glass-quiet transition-colors hover:text-[color:var(--appearance-accent)]">返回梦境之门</a>
+  </div>
+</div>
+
+<script src="../scripts/answer-gate.ts"></script>

@@ -8,7 +8,7 @@ const backgroundModules = import.meta.glob<{ default: ImageMetadata }>('/src/ass
 const backgroundOptions = await Promise.all(
   Object.entries(backgroundModules)
     .sort(([left], [right]) => left.localeCompare(right))
-    .map(async ([, module]) => {
+    .map(async ([key, module]) => {
       const optimized = await getImage({
         src: module.default,
         width: 1920,
@@ -16,14 +16,20 @@ const backgroundOptions = await Promise.all(
         quality: 72,
       });
 
-      return optimized.src;
+      return { key, src: optimized.src };
     }),
 );
+// 梦境专用背景：文件名含 "dream" 的第一张；没有则退回背景库最后一张（当前为「爱弥斯 环宇穹音」）。
+const dreamEntry =
+  backgroundOptions.find((entry) => entry.key.toLowerCase().includes('dream')) ??
+  backgroundOptions[backgroundOptions.length - 1];
+const dreamBackground = dreamEntry?.src ?? '';
+const backgroundUrls = backgroundOptions.map((entry) => entry.src);
 ---
 
-<script is:inline define:vars={{ backgroundOptions }}>
+<script is:inline define:vars={{ backgroundUrls, dreamBackground }}>
   function selectRefreshBackground() {
-    if (backgroundOptions.length === 0) return;
+    if (backgroundUrls.length === 0) return '';
 
     let previousIndex = -1;
     try {
@@ -32,9 +38,9 @@ const backgroundOptions = await Promise.all(
       // 背景轮换在禁用会话存储时仍可用，只是不保证避免连续重复。
     }
 
-    let nextIndex = Math.floor(Math.random() * backgroundOptions.length);
-    if (backgroundOptions.length > 1 && nextIndex === previousIndex) {
-      nextIndex = (nextIndex + 1 + Math.floor(Math.random() * (backgroundOptions.length - 1))) % backgroundOptions.length;
+    let nextIndex = Math.floor(Math.random() * backgroundUrls.length);
+    if (backgroundUrls.length > 1 && nextIndex === previousIndex) {
+      nextIndex = (nextIndex + 1 + Math.floor(Math.random() * (backgroundUrls.length - 1))) % backgroundUrls.length;
     }
 
     try {
@@ -43,20 +49,32 @@ const backgroundOptions = await Promise.all(
       // 会话存储不可用时不影响本次背景选择。
     }
 
-    return backgroundOptions[nextIndex];
+    return backgroundUrls[nextIndex];
   }
 
-  const selectedBackground = selectRefreshBackground();
+  const isDreamDocument = (doc) => doc.documentElement?.dataset.dream !== undefined;
+  // 用"是否处于梦境"判断，而不是比较背景 URL：随机背景可能恰好与梦境背景相同。
+  let inDream = isDreamDocument(document);
+  let currentBackground = inDream ? dreamBackground : selectRefreshBackground();
 
   function applySelectedBackground(target) {
-    if (!selectedBackground) return;
-
-    target.style.setProperty('--site-background-image', `url("${selectedBackground}")`);
+    if (!currentBackground) return;
+    target.style.setProperty('--site-background-image', `url("${currentBackground}")`);
   }
 
   applySelectedBackground(document.documentElement);
 
   document.addEventListener('astro:before-swap', (event) => {
+    const nextInDream = isDreamDocument(event.newDocument);
+    if (nextInDream) {
+      // 进入梦境：切到梦境专用背景
+      currentBackground = dreamBackground;
+    } else if (inDream) {
+      // 离开梦境：回到现实，重新随机一张普通背景
+      currentBackground = selectRefreshBackground();
+    }
+    // 其余情况（现实页之间切换）保持当前背景不变
+    inDream = nextInDream;
     applySelectedBackground(event.newDocument.documentElement);
   });
 </script>

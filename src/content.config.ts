@@ -13,6 +13,18 @@ const posts = defineCollection({
   }),
 });
 
+const dream = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/dream' }),
+  schema: z.object({
+    order: z.number(),
+    title: z.string(),
+    description: z.string(),
+    answerHash: z.string(),
+    hints: z.array(z.string()).optional().default([]),
+  }),
+});
+
 export const collections = {
   posts,
+  dream,
 };

@@ -6,6 +6,7 @@ async function resetSiteState(page: Page) {
     if (sessionStorage.getItem('welt-e2e-initialized') === 'true') return;
     sessionStorage.setItem('welt-e2e-initialized', 'true');
     localStorage.removeItem(key);
+    localStorage.removeItem('welt-dream-state');
     localStorage.setItem('theme', 'light');
     sessionStorage.setItem('welt-background-index', '0');
   }, appearanceKey);
@@ -48,7 +49,7 @@ test('default day and night glass baselines remain readable', async ({ page }) =
   await expect(page.locator('.accent-brand-surface')).toHaveCSS('background-image', 'linear-gradient(135deg, rgb(96, 165, 250), rgb(37, 99, 235))');
   await expect(page.locator('body')).toHaveCSS('color', 'rgb(209, 213, 219)');
   await expect(page.locator('[data-night-star]')).toHaveCSS('color', 'rgb(196, 212, 232)');
-  await expect(page.locator('[data-night-star]')).toHaveCSS('cursor', 'default');
+  await expect(page.locator('[data-night-star]')).toHaveCSS('cursor', 'pointer');
   expect(await page.locator('[data-night-star-divider]').boundingBox()).toEqual(dayDividerBox);
   expect(await page.locator('[data-night-star]').boundingBox()).toEqual(dayStarBox);
   expect(failures).toEqual([]);
@@ -132,15 +133,21 @@ test('article keeps its independent reading surface and table of contents intera
   expect(failures).toEqual([]);
 });
 
-test('night star stays a quiet decorative element in both modes', async ({ page }) => {
+test('night star stays quiet by day and opens the dream door at night', async ({ page }) => {
   const failures = await expectNoConsoleFailures(page);
   await page.goto('/');
   await expect(page.locator('[data-night-star]')).toHaveCSS('cursor', 'default');
-  await expect(page.locator('[data-night-star]')).not.toBeFocused();
+
+  // 白天点击星标：什么都不发生
+  await page.locator('[data-night-star]').click();
+  await expect(page).toHaveURL(/\/$/);
 
   await page.locator('[data-theme-toggle]').first().click();
-  await expect(page.locator('[data-night-star]')).toHaveCSS('cursor', 'default');
-  await expect(page.locator('[data-night-star]')).not.toBeFocused();
+  await expect(page.locator('[data-night-star]')).toHaveCSS('cursor', 'pointer');
+
+  // 夜里点击星标：进入梦境之门
+  await page.locator('[data-night-star]').click();
+  await expect(page).toHaveURL(/\/dream\/?$/);
   expect(failures).toEqual([]);
 });
 
