@@ -19,8 +19,8 @@ const DAMPING = 0.85;
 const LINE_GAP = 10;
 const MIN_LINE = 20;
 const FRAME = 1000 / 30;
-const DOT_GLOW_RADIUS = 8;
-const DOT_GLOW_DIST = 170; // 磷光只照亮鼠标周围这一点水域
+const DOT_GLOW_RADIUS = 12;
+const DOT_GLOW_DIST = 200; // 磷光只照亮鼠标周围这一点水域
 
 let lineColor = 'hsla(210, 60%, 45%, 0.13)';
 let dotColor = 'hsla(210, 60%, 45%, 0.26)';
@@ -38,12 +38,13 @@ function syncColors() {
   const hue = readHue();
   const dark = document.documentElement.classList.contains('dark');
   if (dark) {
-    // 夜间 = 潜入深水：粒子化作磷光浮游生物；整体略暗避免密集感，鼠标扰动处才发光
-    lineColor = `hsla(${hue}, 70%, 75%, 0.22)`;
-    dotColor = `hsla(${hue}, 85%, 78%, 0.45)`;
-    dotRadius = 2.0;
-    lineWidthPx = 0.7;
-    dotGlowAlpha = 0.18;
+    // 夜间 = 潜入深水：常态的网格只是深水里极淡的剪影（几乎看不见），
+    // 鼠标扰动处才亮起明显的磷光——安静与惊扰的强对比
+    lineColor = `hsla(${hue}, 70%, 72%, 0.10)`;
+    dotColor = `hsla(${hue}, 85%, 72%, 0.16)`;
+    dotRadius = 1.4;
+    lineWidthPx = 0.5;
+    dotGlowAlpha = 0.5;
   } else {
     lineColor = `hsla(${hue}, 60%, 45%, 0.13)`;
     dotColor = `hsla(${hue}, 60%, 45%, 0.26)`;
@@ -169,13 +170,20 @@ function initialiseDotGrid() {
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist > DOT_GLOW_DIST) continue;
         const falloff = 1 - dist / DOT_GLOW_DIST;
-        ctx.globalAlpha = dotGlowAlpha * 0.55 * falloff;
+        // 外层光晕
+        ctx.globalAlpha = dotGlowAlpha * 0.5 * falloff;
         ctx.beginPath();
         ctx.arc(dot.x, dot.y, DOT_GLOW_RADIUS, 0, Math.PI * 2);
         ctx.fill();
-        ctx.globalAlpha = dotGlowAlpha * falloff;
+        // 内层光晕
+        ctx.globalAlpha = dotGlowAlpha * 0.8 * falloff;
         ctx.beginPath();
-        ctx.arc(dot.x, dot.y, DOT_GLOW_RADIUS * 0.55, 0, Math.PI * 2);
+        ctx.arc(dot.x, dot.y, DOT_GLOW_RADIUS * 0.6, 0, Math.PI * 2);
+        ctx.fill();
+        // 被照亮的点本身也变亮变大
+        ctx.globalAlpha = Math.min(1, 0.3 + falloff * 0.7);
+        ctx.beginPath();
+        ctx.arc(dot.x, dot.y, dotRadius * (1 + falloff * 0.9), 0, Math.PI * 2);
         ctx.fill();
       }
       ctx.globalAlpha = 1;
