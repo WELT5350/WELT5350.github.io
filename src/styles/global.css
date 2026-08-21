@@ -1094,3 +1094,162 @@ html[data-dream].dark .glass-background {
   cursor: default;
   opacity: 0.7;
 }
+
+/* ===== DeepSeek 式导航栏（沉浸科技风） ===== */
+
+/* 入场动画：仅首次进入页面播放（由 Layout 头脚本通过 sessionStorage 门控） */
+html.nav-entering #top-nav {
+  animation: nav-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes nav-enter {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 导航背后光晕层：三团品牌色光斑，随外观色相联动 */
+.nav-aurora {
+  --orb-alpha: 0.42;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 280px;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+  transition: opacity 0.4s ease;
+}
+
+.dark .nav-aurora {
+  --orb-alpha: 0.62;
+}
+
+.nav-aurora-scrolled {
+  opacity: 0.22;
+}
+
+.nav-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(48px);
+}
+
+.nav-orb-blue {
+  width: 460px;
+  height: 190px;
+  top: -90px;
+  left: 6%;
+  background: radial-gradient(ellipse at center, hsl(var(--appearance-hue) 88% 60% / var(--orb-alpha)), transparent 72%);
+}
+
+.nav-orb-violet {
+  width: 420px;
+  height: 170px;
+  top: -70px;
+  right: 4%;
+  background: radial-gradient(ellipse at center, hsl(calc(var(--appearance-hue) + 46) 80% 62% / var(--orb-alpha)), transparent 72%);
+}
+
+.nav-orb-cyan {
+  width: 340px;
+  height: 150px;
+  top: -50px;
+  left: 40%;
+  background: radial-gradient(ellipse at center, hsl(calc(var(--appearance-hue) - 38) 92% 58% / var(--orb-alpha)), transparent 72%);
+}
+
+/* 导航玻璃升级：模糊 + 饱和，让背后光晕透出（-webkit- 前缀由 autoprefixer 自动补） */
+#top-nav {
+  position: relative;
+  backdrop-filter: blur(14px) saturate(1.5);
+}
+
+#mobile-menu {
+  backdrop-filter: blur(14px) saturate(1.5);
+}
+
+/* 底部渐变光边：滚动后显现 */
+#top-nav::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--appearance-accent) 55%, transparent) 50%, transparent);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+#top-nav.nav-solid::after {
+  opacity: 1;
+}
+
+/* WELT 标志：品牌渐变文字 + 脉冲状态点 */
+.nav-brand-text {
+  background-image: linear-gradient(90deg,
+    hsl(var(--appearance-hue) 88% 56%),
+    hsl(calc(var(--appearance-hue) + 35) 82% 60%),
+    hsl(calc(var(--appearance-hue) + 70) 78% 64%));
+}
+
+.nav-brand-dot {
+  position: relative;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: hsl(var(--appearance-hue) 92% 58%);
+  box-shadow: 0 0 8px hsl(var(--appearance-hue) 92% 58% / 0.8);
+}
+
+.dark .nav-brand-dot {
+  background: hsl(var(--appearance-hue) 95% 68%);
+  box-shadow: 0 0 10px hsl(var(--appearance-hue) 95% 68% / 0.9);
+}
+
+.nav-brand-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  border: 1px solid hsl(var(--appearance-hue) 92% 60% / 0.65);
+  animation: brand-pulse 2.4s ease-out infinite;
+}
+
+@keyframes brand-pulse {
+  0% { transform: scale(0.55); opacity: 1; }
+  70%, 100% { transform: scale(1.7); opacity: 0; }
+}
+
+/* 导航项：hover 微光，当前页渐变下划线 */
+#top-nav .accent-nav-link {
+  position: relative;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#top-nav .accent-nav-link:hover,
+#top-nav .accent-nav-link:focus-visible {
+  background-color: color-mix(in srgb, var(--appearance-accent) 12%, transparent);
+  color: var(--appearance-accent);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--appearance-accent) 22%, transparent);
+}
+
+#top-nav .accent-nav-link[aria-current] {
+  background-color: transparent;
+  color: var(--appearance-accent);
+  font-weight: 600;
+}
+
+#top-nav .accent-nav-link[aria-current]::after {
+  content: '';
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.3rem;
+  height: 1.5px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, var(--appearance-brand-start), var(--appearance-brand-end));
+  box-shadow: 0 0 8px color-mix(in srgb, var(--appearance-accent) 55%, transparent);
+}

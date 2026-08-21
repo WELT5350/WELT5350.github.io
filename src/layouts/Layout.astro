@@ -115,6 +115,15 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
           document.querySelector('meta[name="theme-color"]')?.setAttribute('content', document.documentElement.classList.contains('dark') ? '#0a162b' : '#f8fafc');
         };
         window.__weltSyncThemeColor();
+        // 导航入场动画只在首次进入页面时播放，站内切页与刷新不再重复
+        if (!sessionStorage.getItem('welt-nav-entered')) {
+          try {
+            sessionStorage.setItem('welt-nav-entered', '1');
+          } catch {
+            // 会话存储不可用时，入场动画保持可用
+          }
+          document.documentElement.classList.add('nav-entering');
+        }
       })();
     </script>
     <script is:inline>

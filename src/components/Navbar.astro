@@ -16,13 +16,22 @@ const navItems = [
 ];
 ---
 
+<div class="nav-aurora" aria-hidden="true">
+  <span class="nav-orb nav-orb-blue"></span>
+  <span class="nav-orb nav-orb-violet"></span>
+  <span class="nav-orb nav-orb-cyan"></span>
+</div>
+
 <nav id="top-nav" class="glass-nav sticky top-0 z-50 border-x-0 border-t-0 shadow-md shadow-black/10 transition-colors duration-300">
   <div class="mx-auto max-w-5xl px-4 sm:px-6">
     <div class="flex h-16 items-center justify-between">
       <a href="/" class="flex min-w-0 items-center gap-3 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">
         <img class="accent-ring block h-8 w-8 rounded-full dark:hidden" src="/avatar.webp" alt="WELT 头像" width="32" height="32" fetchpriority="high" />
         <img class="accent-ring hidden h-8 w-8 rounded-full dark:block" src="/avatar-dark.webp" alt="WELT 头像" width="32" height="32" fetchpriority="high" />
-        <span class="accent-brand bg-clip-text text-lg font-bold tracking-tight text-transparent">WELT</span>
+        <span class="flex items-center gap-2">
+          <span class="nav-brand-dot" aria-hidden="true" title="在线"></span>
+          <span class="nav-brand-text accent-brand bg-clip-text text-lg font-bold tracking-tight text-transparent">WELT</span>
+        </span>
       </a>
 
       <div class="hidden items-center gap-1 md:flex">
@@ -123,6 +132,8 @@ const navItems = [
     function updateNavigationSurface() {
       var nav = document.getElementById('top-nav');
       if (nav) nav.classList.toggle('nav-solid', window.scrollY > 10);
+      var aurora = document.querySelector('.nav-aurora');
+      if (aurora) aurora.classList.toggle('nav-aurora-scrolled', window.scrollY > 240);
     }
 
     if (!window.__weltNavbarLifecycleBound) {
