@@ -214,13 +214,13 @@
     background: var(--appearance-glass-main, var(--glass-main));
     box-shadow:
       var(--glass-shadow),
-      0 22px 60px -24px hsl(var(--appearance-hue) 70% 55% / 0.14);
+      0 24px 70px -22px hsl(var(--appearance-hue) 70% 55% / 0.22);
   }
 
   .dark .glass-main {
     box-shadow:
       var(--glass-shadow),
-      0 26px 70px -20px hsl(var(--appearance-hue) 65% 55% / 0.24);
+      0 30px 90px -24px hsl(var(--appearance-hue) 65% 55% / 0.34);
   }
 
   .article-glass { background: var(--appearance-glass-article, var(--glass-article)); }
@@ -233,7 +233,7 @@
     box-shadow:
       0 8px 22px rgba(25, 42, 61, 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      0 10px 28px -18px hsl(var(--appearance-hue) 70% 55% / 0.10);
+      0 10px 30px -16px hsl(var(--appearance-hue) 70% 55% / 0.14);
     transition: background-color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
   }
 
@@ -243,7 +243,7 @@
     box-shadow:
       0 8px 22px rgba(25, 42, 61, 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      0 14px 34px -16px hsl(var(--appearance-hue) 70% 55% / 0.18);
+      0 14px 38px -14px hsl(var(--appearance-hue) 70% 55% / 0.22);
   }
 
   .glass-nav { background: var(--appearance-glass-nav, var(--glass-nav)); }
