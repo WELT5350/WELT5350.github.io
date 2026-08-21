@@ -37,7 +37,7 @@ test('default day and night glass baselines remain readable', async ({ page }) =
   const dayStarBox = await page.locator('[data-night-star]').boundingBox();
   expect(dayStarBox).toMatchObject({ width: 14.6875, height: 18 });
   await expect(page.locator('[data-night-star]')).toHaveCSS('color', 'rgb(63, 80, 102)');
-  await expect(page.locator('.glass-main').first()).toHaveCSS('backdrop-filter', 'none');
+  await expect(page.locator('.glass-main').first()).toHaveCSS('backdrop-filter', /blur\(16px\)/);
   await expect(page.locator('.glass-nav').first()).toHaveCSS('backdrop-filter', /blur\(14px\)/);
   await expect(page.locator('.reading-rail')).toHaveCount(0);
 

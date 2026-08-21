@@ -211,8 +211,28 @@
   }
 
   .glass-main {
+    position: relative;
     background: var(--appearance-glass-main, var(--glass-main));
     box-shadow: var(--glass-shadow);
+    /* 真正的磨砂玻璃：模糊 + 饱和，让背后的光雾化进卡片（与导航同一质感） */
+    backdrop-filter: blur(16px) saturate(1.4);
+  }
+
+  /* 顶部柔光：无线的光——从上方洒下的一层渐变，让玻璃有纵深 */
+  .glass-main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    pointer-events: none;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+  }
+
+  .dark .glass-main::before {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
   }
 
   .article-glass { background: var(--appearance-glass-article, var(--glass-article)); }
