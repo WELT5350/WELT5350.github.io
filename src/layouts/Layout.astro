@@ -166,8 +166,9 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
   </head>
   <body class="font-sans text-gray-700 dark:text-gray-300 antialiased min-h-screen flex flex-col bg-white dark:bg-gray-950 transition-colors duration-300">
     <div class="page-glow" aria-hidden="true" transition:persist></div>
-    <div class="site-grid" aria-hidden="true" transition:persist></div>
+    <canvas id="dot-grid" class="dot-grid" aria-hidden="true" transition:persist></canvas>
     <div id="cursor-glow" class="cursor-glow" aria-hidden="true" transition:persist></div>
+    <script src="../scripts/dot-grid.ts"></script>
     <script is:inline>
       // 光标光斑：浅色里的“光”——缓缓流向光标（harness 同款 lerp 平滑），触屏与 reduced-motion 豁免
       (function () {

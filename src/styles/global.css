@@ -700,31 +700,12 @@
     background: radial-gradient(ellipse at center, hsl(var(--appearance-hue) 92% 60% / 0.17), transparent 70%);
   }
 
-  /* 科技网格：90px 单元格、1px 细线、极低透明度、缓慢漂移（水一样的流动） */
-  .site-grid {
+  /* 顶点点阵网格 canvas（绘制逻辑在 scripts/dot-grid.ts，harness 同款） */
+  .dot-grid {
     position: fixed;
-    inset: -90px;
-    z-index: 1;
+    inset: 0;
+    z-index: 2;
     pointer-events: none;
-    background-image:
-      linear-gradient(90deg, rgba(0, 0, 0, 0.025) 1px, transparent 0),
-      linear-gradient(180deg, rgba(0, 0, 0, 0.025) 1px, transparent 0);
-    background-size: 90px 90px;
-    background-position: 0 -12px;
-    animation: grid-drift 36s linear infinite;
-    will-change: transform;
-  }
-
-  .dark .site-grid {
-    background-image:
-      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 0),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.05) 1px, transparent 0);
-  }
-
-  /* 平移 90px = 一个网格周期，首尾无缝；inset -90px 保证移动时无缺口 */
-  @keyframes grid-drift {
-    from { transform: translate(0, 0); }
-    to { transform: translate(90px, 90px); }
   }
 
   /* 光标光斑：一束缓缓流向光标的光（lerp 插值在 Layout 内联脚本里） */
