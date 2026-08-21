@@ -19,12 +19,10 @@ const DAMPING = 0.85;
 const LINE_GAP = 10;
 const MIN_LINE = 20;
 const FRAME = 1000 / 30;
-const DOT_RADIUS = 2;
-const HALO_RADIUS = 4;
+const DOT_RADIUS = 1.6;
 
-let lineColor = 'hsla(210, 60%, 45%, 0.18)';
-let dotColor = 'hsla(210, 60%, 45%, 0.34)';
-let haloColor = 'rgba(255, 255, 255, 0.5)';
+let lineColor = 'hsla(210, 60%, 45%, 0.13)';
+let dotColor = 'hsla(210, 60%, 45%, 0.26)';
 
 function readHue(): number {
   const value = getComputedStyle(document.documentElement).getPropertyValue('--appearance-hue').trim();
@@ -36,10 +34,8 @@ function syncColors() {
   const hue = readHue();
   const dark = document.documentElement.classList.contains('dark');
   const lightness = dark ? 72 : 45; // 暗色下用更亮的点
-  lineColor = `hsla(${hue}, 60%, ${lightness}%, 0.18)`;
-  dotColor = `hsla(${hue}, 60%, ${lightness}%, 0.34)`;
-  // 高反差光晕：白天用白晕托起蓝色点，夜里用黑晕托起亮色点
-  haloColor = dark ? 'rgba(0, 0, 0, 0.45)' : 'rgba(255, 255, 255, 0.5)';
+  lineColor = `hsla(${hue}, 60%, ${lightness}%, 0.13)`;
+  dotColor = `hsla(${hue}, 60%, ${lightness}%, 0.26)`;
 }
 
 let themeObserverBound = false;
@@ -124,7 +120,7 @@ function initialiseDotGrid() {
       if (speed > maxVel) maxVel = speed;
     }
 
-    // 连线：先画高反差光晕层，再画主色细线（任何背景下都可见）
+    // 连线（距点 10px 断开）
     const drawSegments = () => {
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols - 1; c++) {
@@ -137,20 +133,11 @@ function initialiseDotGrid() {
         }
       }
     };
-    ctx.strokeStyle = haloColor;
-    ctx.lineWidth = 2.4;
-    drawSegments();
     ctx.strokeStyle = lineColor;
-    ctx.lineWidth = 0.8;
+    ctx.lineWidth = 0.55;
     drawSegments();
 
-    // 顶点圆点：先光晕圆再主色点
-    ctx.fillStyle = haloColor;
-    for (const dot of dots) {
-      ctx.beginPath();
-      ctx.arc(dot.x, dot.y, HALO_RADIUS, 0, Math.PI * 2);
-      ctx.fill();
-    }
+    // 顶点圆点
     ctx.fillStyle = dotColor;
     for (const dot of dots) {
       ctx.beginPath();
