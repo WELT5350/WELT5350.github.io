@@ -38,12 +38,12 @@ function syncColors() {
   const hue = readHue();
   const dark = document.documentElement.classList.contains('dark');
   if (dark) {
-    // 夜间 = 潜入深水：常态的网格只是深水里极淡的剪影（几乎看不见），
-    // 鼠标扰动处才亮起明显的磷光——安静与惊扰的强对比
-    lineColor = `hsla(${hue}, 70%, 72%, 0.10)`;
-    dotColor = `hsla(${hue}, 85%, 72%, 0.16)`;
-    dotRadius = 1.4;
-    lineWidthPx = 0.5;
+    // 夜间 = 潜入深水：常态的网格是深水里隐约可辨的轮廓（安静但不至于发现不了），
+    // 鼠标扰动处亮起明显的磷光——安静与惊扰的对比
+    lineColor = `hsla(${hue}, 70%, 72%, 0.14)`;
+    dotColor = `hsla(${hue}, 85%, 74%, 0.28)`;
+    dotRadius = 1.7;
+    lineWidthPx = 0.6;
     dotGlowAlpha = 0.5;
   } else {
     lineColor = `hsla(${hue}, 60%, 45%, 0.13)`;
