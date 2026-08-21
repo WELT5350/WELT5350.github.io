@@ -19,10 +19,13 @@ const DAMPING = 0.85;
 const LINE_GAP = 10;
 const MIN_LINE = 20;
 const FRAME = 1000 / 30;
-const DOT_RADIUS = 1.6;
+const DOT_GLOW_RADIUS = 8;
 
 let lineColor = 'hsla(210, 60%, 45%, 0.13)';
 let dotColor = 'hsla(210, 60%, 45%, 0.26)';
+let dotRadius = 1.6;
+let lineWidthPx = 0.55;
+let dotGlowAlpha = 0; // 深水磷光强度：仅夜间开启
 
 function readHue(): number {
   const value = getComputedStyle(document.documentElement).getPropertyValue('--appearance-hue').trim();
@@ -33,9 +36,20 @@ function readHue(): number {
 function syncColors() {
   const hue = readHue();
   const dark = document.documentElement.classList.contains('dark');
-  const lightness = dark ? 72 : 45; // 暗色下用更亮的点
-  lineColor = `hsla(${hue}, 60%, ${lightness}%, 0.13)`;
-  dotColor = `hsla(${hue}, 60%, ${lightness}%, 0.26)`;
+  if (dark) {
+    // 夜间 = 潜入深水：粒子化作发光的磷光浮游生物，比白天更清晰明亮
+    lineColor = `hsla(${hue}, 70%, 75%, 0.22)`;
+    dotColor = `hsla(${hue}, 85%, 78%, 0.55)`;
+    dotRadius = 2.2;
+    lineWidthPx = 0.7;
+    dotGlowAlpha = 0.16;
+  } else {
+    lineColor = `hsla(${hue}, 60%, 45%, 0.13)`;
+    dotColor = `hsla(${hue}, 60%, 45%, 0.26)`;
+    dotRadius = 1.6;
+    lineWidthPx = 0.55;
+    dotGlowAlpha = 0;
+  }
 }
 
 let themeObserverBound = false;
@@ -134,14 +148,30 @@ function initialiseDotGrid() {
       }
     };
     ctx.strokeStyle = lineColor;
-    ctx.lineWidth = 0.55;
+    ctx.lineWidth = lineWidthPx;
     drawSegments();
 
-    // 顶点圆点
+    // 顶点圆点：夜间在点下方叠一层磷光
+    if (dotGlowAlpha > 0) {
+      ctx.fillStyle = dotColor;
+      ctx.globalAlpha = dotGlowAlpha * 0.55;
+      for (const dot of dots) {
+        ctx.beginPath();
+        ctx.arc(dot.x, dot.y, DOT_GLOW_RADIUS, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = dotGlowAlpha;
+      for (const dot of dots) {
+        ctx.beginPath();
+        ctx.arc(dot.x, dot.y, DOT_GLOW_RADIUS * 0.55, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
     ctx.fillStyle = dotColor;
     for (const dot of dots) {
       ctx.beginPath();
-      ctx.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2);
+      ctx.arc(dot.x, dot.y, dotRadius, 0, Math.PI * 2);
       ctx.fill();
     }
 
