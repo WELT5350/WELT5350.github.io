@@ -153,7 +153,7 @@ test('night star stays quiet by day and opens the dream door at night', async ({
 
 test('navbar shrinks and stays pinned after scrolling', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.nav-row')).toHaveCSS('height', '64px');
+  await expect(page.locator('.nav-row')).toHaveCSS('height', '56px');
 
   await page.evaluate(() => window.scrollTo(0, 400));
   await expect(page.locator('#top-nav')).toHaveClass(/nav-shrunk/);
