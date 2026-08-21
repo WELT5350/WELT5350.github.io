@@ -700,10 +700,10 @@
     background: radial-gradient(ellipse at center, hsl(var(--appearance-hue) 92% 60% / 0.17), transparent 70%);
   }
 
-  /* 科技网格：90px 单元格、1px 细线、极低透明度、边缘渐隐（harness ds-grid-bg 同款） */
+  /* 科技网格：90px 单元格、1px 细线、极低透明度、缓慢漂移（水一样的流动） */
   .site-grid {
     position: fixed;
-    inset: 0;
+    inset: -90px;
     z-index: 1;
     pointer-events: none;
     background-image:
@@ -711,10 +711,8 @@
       linear-gradient(180deg, rgba(0, 0, 0, 0.025) 1px, transparent 0);
     background-size: 90px 90px;
     background-position: 0 -12px;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 15%, #000 85%, transparent), linear-gradient(180deg, transparent 0, #000 15%, #000 85%, transparent);
-    mask-image: linear-gradient(90deg, transparent 0, #000 15%, #000 85%, transparent), linear-gradient(180deg, transparent 0, #000 15%, #000 85%, transparent);
-    -webkit-mask-composite: destination-in;
-    mask-composite: intersect;
+    animation: grid-drift 36s linear infinite;
+    will-change: transform;
   }
 
   .dark .site-grid {
@@ -723,24 +721,30 @@
       linear-gradient(180deg, rgba(255, 255, 255, 0.05) 1px, transparent 0);
   }
 
+  /* 平移 90px = 一个网格周期，首尾无缝；inset -90px 保证移动时无缺口 */
+  @keyframes grid-drift {
+    from { transform: translate(0, 0); }
+    to { transform: translate(90px, 90px); }
+  }
+
   /* 光标光斑：一束缓缓流向光标的光（lerp 插值在 Layout 内联脚本里） */
   .cursor-glow {
     position: fixed;
     left: 0;
     top: 0;
-    width: 380px;
-    height: 380px;
+    width: 220px;
+    height: 220px;
     z-index: 2;
     pointer-events: none;
     border-radius: 50%;
-    background: radial-gradient(circle at center, hsl(var(--appearance-hue) 90% 62% / 0.10), transparent 65%);
+    background: radial-gradient(circle at center, hsl(var(--appearance-hue) 90% 62% / 0.08), transparent 60%);
     opacity: 0;
     transition: opacity 0.5s ease;
     will-change: transform;
   }
 
   .dark .cursor-glow {
-    background: radial-gradient(circle at center, hsl(var(--appearance-hue) 85% 68% / 0.14), transparent 65%);
+    background: radial-gradient(circle at center, hsl(var(--appearance-hue) 85% 68% / 0.12), transparent 60%);
   }
 
   .cursor-glow.is-active {
