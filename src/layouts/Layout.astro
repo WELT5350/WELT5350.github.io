@@ -107,9 +107,8 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
           save: saveAppearance,
           reset: resetAppearance,
         };
-        // 夜晚世界：未保存主题时默认入夜；保存过「light」才回到白天
         const savedTheme = localStorage.getItem('theme');
-        const isDark = savedTheme !== 'light';
+        const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
         document.documentElement.classList.toggle('dark', isDark);
         applyAppearance(readAppearance());
         window.__weltSyncThemeColor = function () {
@@ -167,7 +166,6 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
   </head>
   <body class="font-sans text-gray-700 dark:text-gray-300 antialiased min-h-screen flex flex-col bg-white dark:bg-gray-950 transition-colors duration-300">
     <div class="page-glow" aria-hidden="true" transition:persist></div>
-    <div class="starfield" aria-hidden="true" transition:persist></div>
     <slot />
   </body>
 </html>
