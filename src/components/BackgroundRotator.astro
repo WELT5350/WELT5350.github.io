@@ -19,12 +19,13 @@ const backgroundOptions = await Promise.all(
       return { key, src: optimized.src };
     }),
 );
-// 梦境专用背景：文件名含 "dream" 的第一张；没有则退回背景库最后一张（当前为「爱弥斯 环宇穹音」）。
-const dreamEntry =
-  backgroundOptions.find((entry) => entry.key.toLowerCase().includes('dream')) ??
-  backgroundOptions[backgroundOptions.length - 1];
-const dreamBackground = dreamEntry?.src ?? '';
-const backgroundUrls = backgroundOptions.map((entry) => entry.src);
+// 梦境专用背景：文件名含 "dream" 的第一张；没有则退回背景库最后一张。
+// 梦境背景不参与首页随机轮换——轮换池只含普通背景。
+const dreamEntry = backgroundOptions.find((entry) => entry.key.toLowerCase().includes('dream'));
+const dreamBackground = dreamEntry?.src ?? backgroundOptions[backgroundOptions.length - 1]?.src ?? '';
+const backgroundUrls = backgroundOptions
+  .filter((entry) => entry !== dreamEntry)
+  .map((entry) => entry.src);
 ---
 
 <script is:inline define:vars={{ backgroundUrls, dreamBackground }}>
