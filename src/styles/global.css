@@ -700,6 +700,53 @@
     background: radial-gradient(ellipse at center, hsl(var(--appearance-hue) 92% 60% / 0.17), transparent 70%);
   }
 
+  /* 科技网格：90px 单元格、1px 细线、极低透明度、边缘渐隐（harness ds-grid-bg 同款） */
+  .site-grid {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.025) 1px, transparent 0),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.025) 1px, transparent 0);
+    background-size: 90px 90px;
+    background-position: 0 -12px;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 15%, #000 85%, transparent), linear-gradient(180deg, transparent 0, #000 15%, #000 85%, transparent);
+    mask-image: linear-gradient(90deg, transparent 0, #000 15%, #000 85%, transparent), linear-gradient(180deg, transparent 0, #000 15%, #000 85%, transparent);
+    -webkit-mask-composite: destination-in;
+    mask-composite: intersect;
+  }
+
+  .dark .site-grid {
+    background-image:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 0),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+  }
+
+  /* 光标光斑：一束缓缓流向光标的光（lerp 插值在 Layout 内联脚本里） */
+  .cursor-glow {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 380px;
+    height: 380px;
+    z-index: 2;
+    pointer-events: none;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, hsl(var(--appearance-hue) 90% 62% / 0.10), transparent 65%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    will-change: transform;
+  }
+
+  .dark .cursor-glow {
+    background: radial-gradient(circle at center, hsl(var(--appearance-hue) 85% 68% / 0.14), transparent 65%);
+  }
+
+  .cursor-glow.is-active {
+    opacity: 1;
+  }
+
   /* Accent classes are deliberately opt-in: content colors and status dots stay independent of hue. */
   .accent-text { color: var(--appearance-accent); }
   .accent-brand { background-image: linear-gradient(90deg, var(--appearance-brand-start), var(--appearance-brand-end)); }

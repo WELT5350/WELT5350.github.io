@@ -166,6 +166,41 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
   </head>
   <body class="font-sans text-gray-700 dark:text-gray-300 antialiased min-h-screen flex flex-col bg-white dark:bg-gray-950 transition-colors duration-300">
     <div class="page-glow" aria-hidden="true" transition:persist></div>
+    <div class="site-grid" aria-hidden="true" transition:persist></div>
+    <div id="cursor-glow" class="cursor-glow" aria-hidden="true" transition:persist></div>
+    <script is:inline>
+      // 光标光斑：浅色里的“光”——缓缓流向光标（harness 同款 lerp 平滑），触屏与 reduced-motion 豁免
+      (function () {
+        if (window.__weltCursorGlowBound) return;
+        if (window.matchMedia('(hover: none)').matches) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        window.__weltCursorGlowBound = true;
+        const glow = document.getElementById('cursor-glow');
+        if (!glow) return;
+        const target = { x: window.innerWidth / 2, y: window.innerHeight * 0.3 };
+        const pos = { ...target };
+        let raf = null;
+        const tick = function () {
+          pos.x += (target.x - pos.x) * 0.12;
+          pos.y += (target.y - pos.y) * 0.12;
+          glow.style.transform = 'translate(' + pos.x + 'px, ' + pos.y + 'px) translate(-50%, -50%)';
+          if (Math.abs(target.x - pos.x) < 0.5 && Math.abs(target.y - pos.y) < 0.5) {
+            raf = null;
+            return;
+          }
+          raf = requestAnimationFrame(tick);
+        };
+        window.addEventListener('mousemove', function (event) {
+          target.x = event.clientX;
+          target.y = event.clientY;
+          glow.classList.add('is-active');
+          if (!raf) raf = requestAnimationFrame(tick);
+        }, { passive: true });
+        document.addEventListener('mouseleave', function () {
+          glow.classList.remove('is-active');
+        });
+      })();
+    </script>
     <slot />
   </body>
 </html>
