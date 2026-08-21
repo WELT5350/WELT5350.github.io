@@ -31,12 +31,23 @@ function readHue(): number {
 
 function syncColors() {
   const hue = readHue();
-  lineColor = `hsla(${hue}, 60%, 45%, 0.10)`;
-  dotColor = `hsla(${hue}, 60%, 45%, 0.20)`;
+  const dark = document.documentElement.classList.contains('dark');
+  const lightness = dark ? 72 : 45; // 暗色下用更亮的点
+  lineColor = `hsla(${hue}, 60%, ${lightness}%, 0.10)`;
+  dotColor = `hsla(${hue}, 60%, ${lightness}%, 0.20)`;
+}
+
+let themeObserverBound = false;
+function bindThemeObserver() {
+  if (themeObserverBound) return;
+  themeObserverBound = true;
+  const observer = new MutationObserver(() => syncColors());
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 }
 
 function initialiseDotGrid() {
   syncColors();
+  bindThemeObserver();
 
   const canvas = document.getElementById('dot-grid') as HTMLCanvasElement | null;
   if (!canvas || canvas.dataset.bound === 'true') return; // transition:persist 的 canvas 已绑定过
