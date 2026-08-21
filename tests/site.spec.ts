@@ -151,18 +151,21 @@ test('night star stays quiet by day and opens the dream door at night', async ({
   expect(failures).toEqual([]);
 });
 
-test('navbar shrinks and stays pinned after scrolling', async ({ page }) => {
+test('navbar morphs into a floating pill after scrolling', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.nav-row')).toHaveCSS('height', '56px');
+  await expect(page.locator('#top-nav')).toHaveCSS('border-radius', '0px');
 
   await page.evaluate(() => window.scrollTo(0, 400));
   await expect(page.locator('#top-nav')).toHaveClass(/nav-shrunk/);
-  await expect(page.locator('.nav-row')).toHaveCSS('height', '48px');
+  // 悬浮胶囊：高度 44px、完全圆角、距视口顶部 8px
+  await expect(page.locator('.nav-row')).toHaveCSS('height', '44px');
+  await expect(page.locator('#top-nav')).toHaveCSS('border-radius', '9999px');
   await expect(page.locator('.nav-brand-text')).toHaveCSS('font-size', '16px');
-
-  // 吸顶跟随：滚动后导航仍固定在视口顶部
   const box = await page.locator('#top-nav').boundingBox();
-  expect(box?.y).toBe(0);
+  expect(box?.y).toBe(8);
+  // 胶囊态隐藏头像，只留状态点 + 标志 + 导航项
+  await expect(page.locator('#top-nav img').first()).toBeHidden();
 });
 
 test('removed puzzle route resolves to the site 404 page', async ({ page }) => {
