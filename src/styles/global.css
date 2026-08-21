@@ -1189,7 +1189,7 @@ html.nav-entering #top-nav {
   backdrop-filter: blur(14px) saturate(1.5);
 }
 
-/* 底部渐变光边：滚动后显现 */
+/* 底部渐变光边：常驻 */
 #top-nav::after {
   content: '';
   position: absolute;
@@ -1198,12 +1198,6 @@ html.nav-entering #top-nav {
   bottom: 0;
   height: 1px;
   background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--appearance-accent) 55%, transparent) 50%, transparent);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-#top-nav.nav-solid::after {
-  opacity: 1;
 }
 
 /* WELT 标志：沿用 accent-brand 纯蓝渐变（与首页一致），配脉冲状态点 */

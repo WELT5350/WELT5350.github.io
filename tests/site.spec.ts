@@ -154,6 +154,10 @@ test('night star stays quiet by day and opens the dream door at night', async ({
 test('navbar stays pinned and keeps its height while scrolling', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.nav-row')).toHaveCSS('height', '56px');
+  // 底部渐变光边常驻
+  const edgeOpacity = await page.evaluate(() =>
+    getComputedStyle(document.querySelector('#top-nav')!, '::after').opacity);
+  expect(edgeOpacity).toBe('1');
 
   await page.evaluate(() => window.scrollTo(0, 400));
   // 吸顶跟随：滚动后导航仍固定在视口顶部
@@ -161,8 +165,10 @@ test('navbar stays pinned and keeps its height while scrolling', async ({ page }
   expect(box?.y).toBe(0);
   // 高度恒定：不再收细
   await expect(page.locator('.nav-row')).toHaveCSS('height', '56px');
-  // 滚动后玻璃材质加深（nav-solid）
-  await expect(page.locator('#top-nav')).toHaveClass(/nav-solid/);
+  // 光边在滚动后依旧常驻
+  const edgeAfter = await page.evaluate(() =>
+    getComputedStyle(document.querySelector('#top-nav')!, '::after').opacity);
+  expect(edgeAfter).toBe('1');
 });
 
 test('removed puzzle route resolves to the site 404 page', async ({ page }) => {

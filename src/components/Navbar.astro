@@ -130,10 +130,6 @@ const navItems = [
     }
 
     function updateNavigationSurface() {
-      var nav = document.getElementById('top-nav');
-      if (nav) {
-        nav.classList.toggle('nav-solid', window.scrollY > 10);
-      }
       var aurora = document.querySelector('.nav-aurora');
       if (aurora) aurora.classList.toggle('nav-aurora-scrolled', window.scrollY > 240);
     }
@@ -151,14 +147,3 @@ const navItems = [
     updateNavigationSurface();
   })();
 </script>
-
-<style is:global>
-  #top-nav.nav-solid {
-    background-color: var(--glass-sub-hover) !important;
-    border-bottom-color: var(--glass-border-strong) !important;
-  }
-  .dark #top-nav.nav-solid {
-    background-color: var(--glass-sub-hover) !important;
-    border-bottom-color: var(--glass-border-strong) !important;
-  }
-</style>
