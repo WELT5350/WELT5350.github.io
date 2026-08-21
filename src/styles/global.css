@@ -112,6 +112,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: color-mix(in srgb, var(--appearance-accent) 18%, transparent);
+    /* 用 clip 而不是 hidden：裁剪横向溢出但不创建滚动容器，保住导航栏 sticky 跟随 */
+    overflow-x: clip;
   }
 
   html.dark { color-scheme: dark; }
@@ -1159,9 +1161,9 @@ html.nav-entering #top-nav {
   background: radial-gradient(ellipse at center, hsl(calc(var(--appearance-hue) - 38) 92% 58% / var(--orb-alpha)), transparent 72%);
 }
 
-/* 导航玻璃升级：模糊 + 饱和，让背后光晕透出（-webkit- 前缀由 autoprefixer 自动补） */
+/* 导航玻璃升级：模糊 + 饱和，让背后光晕透出（-webkit- 前缀由 autoprefixer 自动补）
+   注意：不能在这里写 position，会覆盖 Tailwind 的 sticky 导致导航不吸顶 */
 #top-nav {
-  position: relative;
   backdrop-filter: blur(14px) saturate(1.5);
 }
 
@@ -1186,12 +1188,23 @@ html.nav-entering #top-nav {
   opacity: 1;
 }
 
-/* WELT 标志：品牌渐变文字 + 脉冲状态点 */
-.nav-brand-text {
-  background-image: linear-gradient(90deg,
-    hsl(var(--appearance-hue) 88% 56%),
-    hsl(calc(var(--appearance-hue) + 35) 82% 60%),
-    hsl(calc(var(--appearance-hue) + 70) 78% 64%));
+/* WELT 标志：沿用 accent-brand 纯蓝渐变（与首页一致），配脉冲状态点 */
+.nav-row {
+  transition: height 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 滚动收缩：DeepSeek 式——导航变矮、头像与标志字号同步缩小，仍吸顶跟随 */
+#top-nav.nav-shrunk .nav-row {
+  height: 3rem;
+}
+
+#top-nav.nav-shrunk img {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+#top-nav.nav-shrunk .nav-brand-text {
+  font-size: 1rem;
 }
 
 .nav-brand-dot {

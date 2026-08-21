@@ -45,7 +45,7 @@ test('default day and night glass baselines remain readable', async ({ page }) =
   await expect(page.locator('html')).toHaveClass(/dark/);
   await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(14, 25, 48, 0.36)');
   await expect(page.getByRole('link', { name: '浏览文章' })).toHaveCSS('background-color', 'rgb(37, 99, 235)');
-  await expect(page.locator('.nav-brand-text').first()).toHaveCSS('background-image', 'linear-gradient(90deg, rgb(44, 143, 242), rgb(83, 69, 237), rgb(187, 92, 235))');
+  await expect(page.locator('.accent-brand').first()).toHaveCSS('background-image', 'linear-gradient(90deg, rgb(37, 99, 235), rgb(96, 165, 250))');
   await expect(page.locator('.accent-brand-surface')).toHaveCSS('background-image', 'linear-gradient(135deg, rgb(96, 165, 250), rgb(37, 99, 235))');
   await expect(page.locator('body')).toHaveCSS('color', 'rgb(209, 213, 219)');
   await expect(page.locator('[data-night-star]')).toHaveCSS('color', 'rgb(196, 212, 232)');
@@ -64,7 +64,7 @@ test('appearance controls apply to their intended targets and persist through cl
   await expect(page.locator('html')).toHaveAttribute('data-appearance-custom-hue', '');
   await expect.poll(() => page.locator('html').evaluate((element) => getComputedStyle(element).getPropertyValue('--appearance-accent').trim())).toBe('hsl(280 78% 48%)');
   await expect(page.getByRole('link', { name: '浏览文章' })).toHaveCSS('background-color', 'rgb(154, 27, 218)');
-  await expect(page.locator('.nav-brand-text').first()).toHaveCSS('background-image', 'linear-gradient(90deg, rgb(176, 44, 242), rgb(237, 69, 195), rgb(235, 92, 115))');
+  await expect(page.locator('.accent-brand').first()).toHaveCSS('background-image', 'linear-gradient(90deg, rgb(154, 27, 218), rgb(192, 97, 239))');
   await expect(page.locator('.accent-brand-surface')).toHaveCSS('background-image', 'linear-gradient(135deg, rgb(192, 97, 239), rgb(154, 27, 218))');
   await expect(page.getByRole('link', { name: '浏览文章' })).toHaveCSS('box-shadow', /rgba\(154, 27, 218, 0\.2\)/);
 
@@ -88,7 +88,7 @@ test('appearance controls apply to their intended targets and persist through cl
   await expect(page.locator('.glass-background')).toHaveCSS('opacity', '0.65');
   await expect.poll(() => page.locator('html').evaluate((element) => getComputedStyle(element).getPropertyValue('--appearance-accent').trim())).toBe('hsl(280 86% 70%)');
   await expect(page.getByRole('link', { name: '浏览文章' })).toHaveCSS('background-color', 'rgb(164, 40, 226)');
-  await expect(page.locator('.nav-brand-text').first()).toHaveCSS('background-image', 'linear-gradient(90deg, rgb(176, 44, 242), rgb(237, 69, 195), rgb(235, 92, 115))');
+  await expect(page.locator('.accent-brand').first()).toHaveCSS('background-image', 'linear-gradient(90deg, rgb(164, 40, 226), rgb(203, 125, 242))');
   await expect(page.locator('.accent-brand-surface')).toHaveCSS('background-image', 'linear-gradient(135deg, rgb(203, 125, 242), rgb(164, 40, 226))');
   await expect(page.getByRole('link', { name: '浏览文章' })).toHaveCSS('box-shadow', /rgba\(164, 40, 226, 0\.24\)/);
   await page.locator('[data-appearance-toggle]').first().click();
@@ -149,6 +149,20 @@ test('night star stays quiet by day and opens the dream door at night', async ({
   await page.locator('[data-night-star]').click();
   await expect(page).toHaveURL(/\/dream\/?$/);
   expect(failures).toEqual([]);
+});
+
+test('navbar shrinks and stays pinned after scrolling', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.nav-row')).toHaveCSS('height', '64px');
+
+  await page.evaluate(() => window.scrollTo(0, 400));
+  await expect(page.locator('#top-nav')).toHaveClass(/nav-shrunk/);
+  await expect(page.locator('.nav-row')).toHaveCSS('height', '48px');
+  await expect(page.locator('.nav-brand-text')).toHaveCSS('font-size', '16px');
+
+  // 吸顶跟随：滚动后导航仍固定在视口顶部
+  const box = await page.locator('#top-nav').boundingBox();
+  expect(box?.y).toBe(0);
 });
 
 test('removed puzzle route resolves to the site 404 page', async ({ page }) => {
