@@ -31,7 +31,7 @@ test('default day and night glass baselines remain readable', async ({ page }) =
 
   await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(248, 250, 252, 0.3)');
   await expect(page.locator('.glass-sub').first()).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.2)');
-  await expect(page.locator('.glass-nav').first()).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+  await expect(page.locator('.glass-nav').first()).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.24)');
   await expect(page.locator('[data-night-star-divider]')).toHaveText('✦');
   const dayDividerBox = await page.locator('[data-night-star-divider]').boundingBox();
   const dayStarBox = await page.locator('[data-night-star]').boundingBox();
@@ -151,27 +151,18 @@ test('night star stays quiet by day and opens the dream door at night', async ({
   expect(failures).toEqual([]);
 });
 
-test('navbar is an always-pill that gains glass material on scroll', async ({ page }) => {
+test('navbar shrinks and stays pinned after scrolling', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#top-nav')).toHaveCSS('border-radius', '9999px');
   await expect(page.locator('.nav-row')).toHaveCSS('height', '56px');
-
-  // 顶部：玻璃材质不可见（::before opacity 0），胶囊始终悬浮在距顶 8px
-  const opacityBefore = await page.evaluate(() =>
-    getComputedStyle(document.querySelector('#top-nav')!, '::before').opacity);
-  expect(opacityBefore).toBe('0');
-  await expect.poll(async () => (await page.locator('#top-nav').boundingBox())?.y).toBe(8);
 
   await page.evaluate(() => window.scrollTo(0, 400));
   await expect(page.locator('#top-nav')).toHaveClass(/nav-shrunk/);
-  // 材质淡入 + 平滑收细
-  await expect.poll(async () =>
-    page.evaluate(() => getComputedStyle(document.querySelector('#top-nav')!, '::before').opacity)).toBe('1');
   await expect(page.locator('.nav-row')).toHaveCSS('height', '48px');
   await expect(page.locator('.nav-brand-text')).toHaveCSS('font-size', '16px');
-  await expect.poll(async () => (await page.locator('#top-nav').boundingBox())?.y).toBe(8);
-  // 头像保留（平滑缩小而非隐藏）
-  await expect(page.locator('#top-nav img').first()).toBeVisible();
+
+  // 吸顶跟随：滚动后导航仍固定在视口顶部
+  const box = await page.locator('#top-nav').boundingBox();
+  expect(box?.y).toBe(0);
 });
 
 test('removed puzzle route resolves to the site 404 page', async ({ page }) => {
