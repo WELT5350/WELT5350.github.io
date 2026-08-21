@@ -48,7 +48,7 @@ test('default day and night glass baselines remain readable', async ({ page }) =
   await expect(page.locator('.accent-brand-surface')).toHaveCSS('background-image', 'linear-gradient(135deg, rgb(96, 165, 250), rgb(37, 99, 235))');
   await expect(page.locator('body')).toHaveCSS('color', 'rgb(209, 213, 219)');
   await expect(page.locator('[data-night-star]')).toHaveCSS('color', 'rgb(196, 212, 232)');
-  await expect(page.locator('[data-night-star]')).toHaveCSS('cursor', 'pointer');
+  await expect(page.locator('[data-night-star]')).toHaveCSS('cursor', 'default');
   expect(await page.locator('[data-night-star-divider]').boundingBox()).toEqual(dayDividerBox);
   expect(await page.locator('[data-night-star]').boundingBox()).toEqual(dayStarBox);
   expect(failures).toEqual([]);
@@ -132,15 +132,15 @@ test('article keeps its independent reading surface and table of contents intera
   expect(failures).toEqual([]);
 });
 
-test('night star stays visually quiet by day and remains operable at night', async ({ page }) => {
+test('night star stays a quiet decorative element in both modes', async ({ page }) => {
   const failures = await expectNoConsoleFailures(page);
   await page.goto('/');
   await expect(page.locator('[data-night-star]')).toHaveCSS('cursor', 'default');
+  await expect(page.locator('[data-night-star]')).not.toBeFocused();
 
   await page.locator('[data-theme-toggle]').first().click();
-  await expect(page.locator('[data-night-star]')).toHaveCSS('cursor', 'pointer');
-  await page.locator('[data-night-star]').press('Enter');
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page.locator('[data-night-star]')).toHaveCSS('cursor', 'default');
+  await expect(page.locator('[data-night-star]')).not.toBeFocused();
   expect(failures).toEqual([]);
 });
 

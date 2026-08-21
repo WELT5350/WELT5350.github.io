@@ -20,12 +20,17 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
     <meta property="og:title" content={title ? `${title} | 我的博客` : '我的博客'} />
     <meta property="og:description" content={desc} />
     <meta property="og:image" content={image} />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content="WELT 头像" />
     <meta property="og:url" content={Astro.url} />
     <meta property="og:type" content={pageType} />
     <meta name="twitter:card" content="summary" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <!-- 字体样式表非阻塞加载：先渲染系统字体，加载完成后才替换；被墙或失败时无缝回退 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.setAttribute('media','all')" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" /></noscript>
     <title>{title ? `${title} | 我的博客` : '我的博客'}</title>
     <script is:inline>
       (function () {

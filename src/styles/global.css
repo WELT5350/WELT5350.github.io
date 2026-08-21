@@ -989,21 +989,3 @@
   height: 1.125rem;
   padding: 0;
 }
-
-.dark .night-star-entry {
-  color: var(--glass-muted);
-  cursor: pointer;
-  transition: color 180ms ease, text-shadow 180ms ease, transform 180ms ease;
-}
-
-.dark .night-star-entry:hover,
-.dark .night-star-entry:focus-visible {
-  color: rgb(191 219 254);
-  text-shadow: 0 0 14px rgb(147 197 253 / 0.75);
-  transform: scale(1.12);
-}
-
-.night-star-entry:focus-visible {
-  outline: 2px solid var(--appearance-accent);
-  outline-offset: 0.25rem;
-}
