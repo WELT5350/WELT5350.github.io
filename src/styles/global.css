@@ -213,12 +213,20 @@
   .glass-main {
     position: relative;
     background: var(--appearance-glass-main, var(--glass-main));
-    box-shadow: var(--glass-shadow);
+    box-shadow:
+      var(--glass-shadow),
+      0 20px 50px -14px rgba(25, 42, 61, 0.22);
     /* 真正的磨砂玻璃：模糊 + 饱和，让背后的光雾化进卡片（与导航同一质感） */
     backdrop-filter: blur(16px) saturate(1.4);
   }
 
-  /* 顶部柔光：无线的光——从上方洒下的一层渐变，让玻璃有纵深 */
+  .dark .glass-main {
+    box-shadow:
+      var(--glass-shadow),
+      0 22px 55px -14px rgba(1, 7, 22, 0.55);
+  }
+
+  /* 顶部光洗：带色相的光从上方洒下——可见的层次，不是线 */
   .glass-main::before {
     content: '';
     position: absolute;
@@ -228,11 +236,11 @@
     height: 40%;
     pointer-events: none;
     border-radius: inherit;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+    background: linear-gradient(180deg, hsl(var(--appearance-hue) 85% 96% / 0.5), hsl(var(--appearance-hue) 85% 96% / 0) 55%);
   }
 
   .dark .glass-main::before {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    background: linear-gradient(180deg, hsl(var(--appearance-hue) 70% 70% / 0.14), hsl(var(--appearance-hue) 70% 70% / 0) 55%);
   }
 
   .article-glass { background: var(--appearance-glass-article, var(--glass-article)); }
