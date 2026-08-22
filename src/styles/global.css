@@ -703,13 +703,14 @@
       transform: scale(var(--appearance-background-scale));
   }
 
-    /* 背景两态实验（当前默认壁纸）：
-       想试纯色水面时，取消下面两行的注释即可切换回渐变水面：
-       .glass-background { background-image: linear-gradient(180deg, #eef4fb, #d2e3f6); }
-       .dark .glass-background { background-image: linear-gradient(180deg, #0d2038, #07152a); } */
+    /* 背景两态实验（当前：纯色水面）：
+       想切回壁纸时，注释掉下面两行、把第三行取消注释：
+       .glass-background { background-image: var(--site-background-image); } */
+    .glass-background { background-image: linear-gradient(180deg, #eef4fb, #d2e3f6); }
 
     .dark .glass-background {
       background-color: #081426;
+      background-image: linear-gradient(180deg, #0d2038, #07152a);
       filter: blur(var(--appearance-background-blur)) saturate(0.64) brightness(0.58) contrast(0.94);
     }
 

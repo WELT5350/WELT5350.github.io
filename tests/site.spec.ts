@@ -27,23 +27,30 @@ test.beforeEach(async ({ page }) => {
 
 test('default day and night glass baselines remain readable', async ({ page }) => {
   const failures = await expectNoConsoleFailures(page);
-  await page.goto('/');
 
-  await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(248, 250, 252, 0.3)');
+  // 日间首页：氛围元素与次级玻璃（首页为无大容器的探索态）
+  await page.goto('/');
   await expect(page.locator('.glass-sub').first()).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.2)');
   await expect(page.locator('.glass-nav').first()).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.24)');
+  await expect(page.locator('.glass-nav').first()).toHaveCSS('backdrop-filter', /blur\(14px\)/);
   await expect(page.locator('[data-night-star-divider]')).toHaveText('✦');
   const dayDividerBox = await page.locator('[data-night-star-divider]').boundingBox();
   const dayStarBox = await page.locator('[data-night-star]').boundingBox();
   expect(dayStarBox).toMatchObject({ width: 14.6875, height: 18 });
   await expect(page.locator('[data-night-star]')).toHaveCSS('color', 'rgb(63, 80, 102)');
-  await expect(page.locator('.glass-main').first()).toHaveCSS('backdrop-filter', /blur\(16px\)/);
-  await expect(page.locator('.glass-nav').first()).toHaveCSS('backdrop-filter', /blur\(14px\)/);
   await expect(page.locator('.reading-rail')).toHaveCount(0);
 
+  // 主玻璃容器：在文章页验证（文章页为 article-glass 阅读面）
+  await page.goto('/posts/why-astro/');
+  await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(248, 250, 252, 0.76)');
+  await expect(page.locator('.glass-main').first()).toHaveCSS('backdrop-filter', /blur\(16px\)/);
+
+  // 夜间
   await page.locator('[data-theme-toggle]').first().click();
   await expect(page.locator('html')).toHaveClass(/dark/);
-  await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(14, 25, 48, 0.36)');
+  await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(8, 18, 36, 0.78)');
+
+  await page.goto('/');
   await expect(page.getByRole('link', { name: '浏览文章' })).toHaveCSS('background-color', 'rgb(37, 99, 235)');
   await expect(page.locator('.accent-brand').first()).toHaveCSS('background-image', 'linear-gradient(90deg, rgb(37, 99, 235), rgb(96, 165, 250))');
   await expect(page.locator('.accent-brand-surface')).toHaveCSS('background-image', 'linear-gradient(135deg, rgb(96, 165, 250), rgb(37, 99, 235))');
@@ -75,7 +82,8 @@ test('appearance controls apply to their intended targets and persist through cl
   await expect(page.locator('.glass-background')).toHaveCSS('opacity', '0.65');
 
   await page.locator('input[data-appearance-input="cardOpacity"]').first().fill('80');
-  await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(251, 248, 252, 0.78)');
+  // 首页为无大容器探索态：卡片透明度在次级玻璃（子卡）上验证
+  await expect(page.locator('.glass-sub').first()).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.725)');
 
   await page.locator('a[href="/posts"]').first().click();
   await expect(page).toHaveURL(/\/posts\/?$/);

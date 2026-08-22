@@ -9,7 +9,7 @@ const posts = sortPostsByDate(getPublishedPosts(allPosts));
 const recentPosts = posts.slice(0, 4);
 ---
 
-<BlogLayout title="首页">
+<BlogLayout title="首页" bare>
   <div class="flex flex-col md:flex-row items-center md:items-start gap-8 mb-10">
     <div class="flex flex-col items-center gap-2 flex-shrink-0">
         <img class="block dark:hidden w-20 h-20 rounded-full ring-4 ring-white/50 dark:ring-gray-700/50 shadow-lg" src="/avatar.webp" alt="WELT 头像" width="80" height="80" fetchpriority="high" />
