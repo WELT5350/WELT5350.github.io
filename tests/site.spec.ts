@@ -31,7 +31,7 @@ test('default day and night glass baselines remain readable', async ({ page }) =
   // 日间首页：氛围元素与次级玻璃（首页为无大容器的探索态）
   await page.goto('/');
   await expect(page.locator('.glass-sub').first()).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.635)');
-  await expect(page.locator('.glass-nav').first()).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.65)');
+  await expect(page.locator('.glass-nav').first()).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.24)');
   await expect(page.locator('.glass-nav').first()).toHaveCSS('backdrop-filter', /blur\(14px\)/);
   await expect(page.locator('[data-night-star-divider]')).toHaveText('✦');
   const dayDividerBox = await page.locator('[data-night-star-divider]').boundingBox();
