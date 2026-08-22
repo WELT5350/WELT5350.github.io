@@ -2,116 +2,88 @@
 import BlogLayout from '../layouts/BlogLayout.astro';
 import MusicPlayer from '../components/MusicPlayer.astro';
 import { getCollection } from 'astro:content';
-import { getPublishedPosts, sortPostsByDate } from '../lib/posts';
+import { getPublishedPosts, sortPostsByDate, getSiteArchiveStats, formatCompactNumber } from '../lib/posts';
 
 const allPosts = await getCollection('posts');
 const posts = sortPostsByDate(getPublishedPosts(allPosts));
-const recentPosts = posts.slice(0, 4);
+const stats = getSiteArchiveStats(posts);
 ---
 
 <BlogLayout title="首页" bare>
-  <div class="flex flex-col md:flex-row items-center md:items-start gap-8 mb-10">
-    <div class="flex flex-col items-center gap-2 flex-shrink-0">
-        <img class="block dark:hidden w-20 h-20 rounded-full ring-4 ring-white/50 dark:ring-gray-700/50 shadow-lg" src="/avatar.webp" alt="WELT 头像" width="80" height="80" fetchpriority="high" />
-          <img class="hidden dark:block w-20 h-20 rounded-full ring-4 ring-white/50 dark:ring-gray-700/50 shadow-lg" src="/avatar-dark.webp" alt="WELT 头像" width="80" height="80" fetchpriority="high" />
-      <span class="accent-brand text-xl font-black tracking-[0.2em] bg-clip-text text-transparent">WELT</span>
-    </div>
-    <div class="text-center md:text-left">
-      <h1 id="typewriter-heading" class="text-3xl md:text-4xl font-bold tracking-tight mb-2 text-gray-900 dark:text-gray-100">
-        嗨！谢谢你来看我！
-      </h1>
-      <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">死宅 / 技术笨蛋 / 社交恐怖分子</p>
-      <p class="text-gray-600 dark:text-gray-400 leading-relaxed max-w-lg">
-        难道我真的是代码天才？
-      </p>
-      <div class="flex items-center justify-center md:justify-start gap-3 mt-5">
-        <a href="/posts" class="accent-action inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-medium rounded-xl transition-colors">
-          浏览文章
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
-        <a href="/about" class="glass-sub inline-flex items-center gap-1.5 px-5 py-2.5 text-gray-700 text-sm font-medium rounded-xl transition-colors">了解更多</a>
-        <a href="https://github.com/WELT5350" target="_blank" rel="noopener noreferrer" class="glass-sub inline-flex items-center justify-center w-10 h-10 rounded-xl transition-colors" aria-label="GitHub">
-          <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        </a>
-        <a href="mailto:2644248535@qq.com" class="glass-sub inline-flex items-center justify-center w-10 h-10 rounded-xl transition-colors" aria-label="发送邮件至 2644248535@qq.com" title="2644248535@qq.com">
-          <svg aria-hidden="true" class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
-        </a>
+  <!-- 谦逊刊头：个人退后，内容主角 -->
+  <div slot="hero" class="w-full max-w-2xl">
+    <header class="flex items-center gap-4 border-b border-[var(--glass-border)] pb-6">
+      <img class="block h-12 w-12 rounded-full ring-2 ring-white/50 dark:hidden dark:ring-gray-700/50" src="/avatar.webp" alt="WELT 头像" width="48" height="48" fetchpriority="high" />
+      <img class="hidden h-12 w-12 rounded-full ring-2 ring-white/50 dark:block dark:ring-gray-700/50" src="/avatar-dark.webp" alt="WELT 头像" width="48" height="48" fetchpriority="high" />
+      <div class="min-w-0">
+        <p class="accent-brand text-base font-black tracking-[0.25em] bg-clip-text text-transparent">WELT</p>
+        <p id="typewriter-heading" class="mt-0.5 text-xs text-glass-muted">
+          记录一些学习、想法，和走过的路。
+        </p>
       </div>
-    </div>
-  </div>
+    </header>
 
-  <div data-night-star-divider class="flex items-center gap-4 mb-10">
-    <span class="flex-1 h-0.5 bg-gradient-to-r from-transparent to-gray-300 dark:to-gray-600 rounded-full"></span>
-    <button data-night-star type="button" class="night-star-entry" aria-label="夜间入口">✦</button>
-    <span class="flex-1 h-0.5 bg-gradient-to-l from-transparent to-gray-300 dark:to-gray-600 rounded-full"></span>
+    <div data-night-star-divider class="mt-6 flex items-center gap-4">
+      <span class="flex-1 h-0.5 bg-gradient-to-r from-transparent to-gray-300 dark:to-gray-600 rounded-full"></span>
+      <button data-night-star type="button" class="night-star-entry" aria-label="夜间入口">✦</button>
+      <span class="flex-1 h-0.5 bg-gradient-to-l from-transparent to-gray-300 dark:to-gray-600 rounded-full"></span>
+    </div>
   </div>
   <a href="/dream" id="dream-door-link" class="hidden" tabindex="-1" aria-hidden="true"></a>
 
-  <div class="grid md:grid-cols-[1fr_280px] gap-8">
-    <div>
-      <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-5">最新文章</h2>
-      <div class="space-y-3">
-        {recentPosts.map((post) => (
-          <a href={`/posts/${post.id}`} class="accent-list-link glass-sub flex items-center gap-4 p-4 rounded-xl transition-[background-color,border-color,transform] duration-300 group hover:translate-x-1 border-l-2 border-l-transparent">
-            <div class="flex-1 min-w-0">
-              <h3 class="accent-list-title text-sm font-medium text-gray-800 dark:text-gray-200 transition-colors truncate">
-                {post.data.title}
-              </h3>
-              <div class="flex items-center gap-2 mt-1">
-                <time datetime={post.data.pubDate.toISOString()} class="text-xs text-gray-400 dark:text-gray-500">
-                  {post.data.pubDate.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })}
-                </time>
-                {post.data.tags && post.data.tags.length > 0 && (
-                  <span class="tag text-[10px] px-1.5 py-0.5">{post.data.tags[0]}</span>
-                )}
-              </div>
-            </div>
-            <svg class="accent-list-arrow w-4 h-4 text-gray-300 dark:text-gray-600 transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </a>
-        ))}
-        <a href="/posts" class="accent-link inline-flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500 transition-colors mt-2">查看全部文章 →</a>
-      </div>
+  <!-- 主编语 -->
+  <p class="max-w-xl text-sm leading-relaxed text-glass-muted">
+    欢迎来到我的小小角落。这里是 WELT 的写作空间——记录学习过程中的收获、解决过的问题、以及想记住的想法。
+  </p>
+  <a href="/posts" class="accent-action inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-medium transition-colors">
+    浏览文章
+    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+  </a>
+
+  <!-- 文章列表：编辑式——细线分隔，排版主导，写作即主角 -->
+  <section aria-label="文章">
+    <div class="mb-2 flex items-center justify-between">
+      <h2 class="text-xs font-semibold uppercase tracking-[0.2em] text-glass-quiet">文章</h2>
+      <a href="/posts" class="text-xs text-glass-quiet transition-colors hover:text-[var(--appearance-accent)]">全部 →</a>
     </div>
-    <div class="space-y-6">
-      <div>
-        <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">正在听</h2>
-        <MusicPlayer />
-      </div>
-      <div>
-        <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">技术栈</h2>
-        <div class="flex flex-wrap gap-1.5">
-          <span class="tech-badge dark:bg-gray-800/50 dark:border-gray-700/40 dark:text-gray-300"><span class="tech-dot bg-orange-400"></span>Astro</span>
-          <span class="tech-badge dark:bg-gray-800/50 dark:border-gray-700/40 dark:text-gray-300"><span class="tech-dot bg-blue-500"></span>TypeScript</span>
-          <span class="tech-badge dark:bg-gray-800/50 dark:border-gray-700/40 dark:text-gray-300"><span class="tech-dot bg-cyan-400"></span>Tailwind</span>
-          <span class="tech-badge dark:bg-gray-800/50 dark:border-gray-700/40 dark:text-gray-300"><span class="tech-dot bg-green-500"></span>Node.js</span>
-        </div>
-      </div>
-      <div>
-        <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">最近动态</h2>
-        <div class="space-y-3">
-          <div class="flex items-center gap-3">
-            <div class="w-6 h-6 rounded-md bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0">
-              <svg class="w-3 h-3 text-blue-500 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+    <ul class="divide-y divide-[var(--glass-border)]">
+      {posts.map((post) => (
+        <li>
+          <a href={`/posts/${post.id}`} class="group block py-5 transition-colors">
+            <div class="flex items-center gap-3">
+              <time datetime={post.data.pubDate.toISOString()} class="flex-none text-xs tabular-nums text-glass-quiet">
+                {post.data.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+              </time>
+              {post.data.tags && post.data.tags.length > 0 && (
+                <span class="tag text-[10px] px-1.5 py-0.5">{post.data.tags[0]}</span>
+              )}
             </div>
-            <div><p class="text-[10px] text-gray-400 dark:text-gray-500">正在阅读</p><p class="text-xs text-gray-700 dark:text-gray-300">《深入理解 TypeScript》</p></div>
-          </div>
-          <div class="flex items-center gap-3">
-            <div class="w-6 h-6 rounded-md bg-green-50 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
-              <svg class="w-3 h-3 text-green-500 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-            </div>
-            <div><p class="text-[10px] text-gray-400 dark:text-gray-500">正在学习</p><p class="text-xs text-gray-700 dark:text-gray-300">Rust 与 WebAssembly</p></div>
-          </div>
-          <div class="flex items-center gap-3">
-            <div class="w-6 h-6 rounded-md bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center flex-shrink-0">
-              <svg class="w-3 h-3 text-purple-500 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
-            </div>
-            <div><p class="text-[10px] text-gray-400 dark:text-gray-500">正在构建</p><p class="text-xs text-gray-700 dark:text-gray-300">个人知识管理系统</p></div>
-          </div>
-        </div>
-      </div>
+            <h3 class="mt-1.5 text-lg font-medium leading-snug text-glass-ink transition-colors group-hover:text-[var(--appearance-accent)]">
+              {post.data.title}
+            </h3>
+            <p class="mt-1 line-clamp-2 text-sm leading-relaxed text-glass-muted">{post.data.description}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- 安静附栏：正在听 + 写作足迹 -->
+  <div class="mt-10 grid gap-6 border-t border-[var(--glass-border)] pt-8 sm:grid-cols-2">
+    <div>
+      <h2 class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-glass-quiet">正在听</h2>
+      <MusicPlayer />
+    </div>
+    <div>
+      <h2 class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-glass-quiet">写作足迹</h2>
+      <p class="text-sm leading-relaxed text-glass-muted">
+        公开文章 <span class="font-semibold text-glass-ink">{stats.postCount}</span> 篇 ·
+        标签 <span class="font-semibold text-glass-ink">{stats.tagCount}</span> 个 ·
+        累计 <span class="font-semibold text-glass-ink">{formatCompactNumber(stats.totalUnits)}</span> 字
+      </p>
+      <p class="mt-2 text-xs text-glass-quiet">内容多过装饰，才是这里的样子。</p>
     </div>
   </div>
-
 </BlogLayout>
 
 <script src="../scripts/typewriter.ts"></script>
