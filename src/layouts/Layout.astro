@@ -77,8 +77,6 @@ const image = 'https://WELT5350.github.io/avatar.jpg';
               : { main: `${hue} 40% 98%`, article: `${hue} 34% 99%`, sub: `${hue} 60% 100%`, reading: `${hue} 45% 99%`, nav: `${hue} 60% 100%`, hover: `${hue} 42% 98%`, border: `${hue} 60% 100%`, minimum: [0.08, 0.76, 0.04, 0.12, 0.06, 0.08, 0.12], recommended: [0.30, 0.76, 0.20, 0.42, 0.24, 0.30, 0.52], maximum: [0.94, 0.94, 0.90, 0.92, 0.90, 0.90, 0.82] };
           const alpha = (index) => {
             const [minimum, recommended, maximum] = [colors.minimum[index], colors.recommended[index], colors.maximum[index]];
-            // 导航栏透明度不随卡片透明度联动：固定在其推荐值，避免被卡片设置牵连
-            if (index === 4) return recommended.toFixed(3);
             const value = cardOpacity <= 0.2
               ? minimum + (recommended - minimum) * (cardOpacity / 0.2)
               : recommended + (maximum - recommended) * ((cardOpacity - 0.2) / 0.8);
