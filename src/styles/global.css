@@ -216,14 +216,15 @@
     background: var(--appearance-glass-main, var(--glass-main));
     box-shadow:
       var(--glass-shadow),
-      0 20px 50px -14px rgba(25, 42, 61, 0.22);
+      0 1px 2px rgba(15, 23, 42, 0.06);
+    /* 清晰的边：廉价感多半来自看不见的边——半透明薄片必须有明确的边界 */
+    border-color: rgba(15, 23, 42, 0.10);
     backdrop-filter: blur(16px) saturate(1.4);
   }
 
   .dark .glass-main {
-    box-shadow:
-      var(--glass-shadow),
-      0 22px 55px -14px rgba(1, 7, 22, 0.55);
+    box-shadow: var(--glass-shadow);
+    border-color: rgba(255, 255, 255, 0.14);
   }
 
   /* 顶部光洗：带色相的光从上方洒下——位于内容之下，不会洗淡文字 */
@@ -252,7 +253,12 @@
   .glass-sub {
     background: var(--appearance-glass-sub, var(--glass-sub));
     box-shadow: 0 8px 22px rgba(25, 42, 61, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    border-color: rgba(15, 23, 42, 0.08);
     transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
+  }
+
+  .dark .glass-sub {
+    border-color: rgba(255, 255, 255, 0.12);
   }
 
   .glass-sub:hover {
@@ -697,11 +703,12 @@
       transform: scale(var(--appearance-background-scale));
   }
 
-    /* 临时实验：屏蔽背景图，让卡片效果在纯色底上现形（评估完删除） */
-    .glass-background { background-image: none !important; }
+    /* 浅水 / 深水：背景图退役，水面渐变为新常态（想恢复壁纸时删除此规则） */
+    .glass-background { background-image: linear-gradient(180deg, #eef4fb, #d2e3f6); }
 
     .dark .glass-background {
       background-color: #081426;
+      background-image: linear-gradient(180deg, #0d2038, #07152a);
       filter: blur(var(--appearance-background-blur)) saturate(0.64) brightness(0.58) contrast(0.94);
     }
 
