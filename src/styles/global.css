@@ -213,19 +213,26 @@
   .glass-main {
     position: relative;
     isolation: isolate;
-    background: var(--appearance-glass-main, var(--glass-main));
-    /* 磨砂玻璃窗：真玻璃——透明度降低 + strong blur，让光/点阵从卡内透出并磨成柔光 */
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 42%),
+      var(--appearance-glass-main, var(--glass-main));
+    /* 昂贵材料：一道清晰的 1px 顶边高光（光抓住顶边）+ 上亮下透的表面渐变 + 磨砂 */
     box-shadow:
-      0 1px 2px rgba(15, 23, 42, 0.05),
-      0 16px 40px rgba(25, 42, 61, 0.12);
+      inset 0 1px 0 rgba(255, 255, 255, 0.55),
+      0 1px 3px rgba(15, 23, 42, 0.06),
+      0 16px 44px rgba(25, 42, 61, 0.14);
     border-color: rgba(15, 23, 42, 0.09);
     backdrop-filter: blur(16px) saturate(1.4);
   }
 
   .dark .glass-main {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0) 42%),
+      var(--appearance-glass-main, var(--glass-main));
     box-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.4),
-      0 18px 44px rgba(1, 7, 22, 0.44);
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      0 1px 3px rgba(0, 0, 0, 0.4),
+      0 18px 46px rgba(1, 7, 22, 0.44);
     border-color: rgba(255, 255, 255, 0.10);
   }
 
@@ -236,13 +243,17 @@
 
   .glass-sub {
     background: var(--appearance-glass-sub, var(--glass-sub));
-    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      0 1px 2px rgba(15, 23, 42, 0.05);
     border-color: rgba(15, 23, 42, 0.08);
     transition: background-color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
   }
 
   .dark .glass-sub {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      0 1px 2px rgba(0, 0, 0, 0.3);
     border-color: rgba(255, 255, 255, 0.10);
   }
 
