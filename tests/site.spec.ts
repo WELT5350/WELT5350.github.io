@@ -30,7 +30,7 @@ test('default day and night glass baselines remain readable', async ({ page }) =
 
   // 日间首页：氛围元素与次级玻璃（首页为无大容器的探索态）
   await page.goto('/');
-  await expect(page.locator('.glass-sub').first()).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.635)');
+  await expect(page.locator('.glass-sub').first()).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.48)');
   await expect(page.locator('.glass-nav').first()).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.24)');
   await expect(page.locator('.glass-nav').first()).toHaveCSS('backdrop-filter', /blur\(14px\)/);
   await expect(page.locator('[data-night-star-divider]')).toHaveText('✦');
@@ -42,13 +42,13 @@ test('default day and night glass baselines remain readable', async ({ page }) =
 
   // 主玻璃容器：在文章页验证（文章页为 article-glass 阅读面）
   await page.goto('/posts/why-astro/');
-  await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(248, 250, 252, 0.87)');
-  await expect(page.locator('.glass-main').first()).toHaveCSS('backdrop-filter', 'none');
+  await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(248, 250, 252, 0.83)');
+  await expect(page.locator('.glass-main').first()).toHaveCSS('backdrop-filter', /blur\(16px\)/);
 
   // 夜间
   await page.locator('[data-theme-toggle]').first().click();
   await expect(page.locator('html')).toHaveClass(/dark/);
-  await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(8, 18, 36, 0.88)');
+  await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(8, 18, 36, 0.843)');
 
   await page.goto('/');
   await expect(page.getByRole('link', { name: '浏览文章' })).toHaveCSS('background-color', 'rgb(37, 99, 235)');
@@ -133,7 +133,7 @@ test('article keeps its independent reading surface and table of contents intera
   await page.setViewportSize({ width: 390, height: 844 });
   const failures = await expectNoConsoleFailures(page);
   await page.goto('/posts/72-hour-project/');
-  await expect(page.locator('.article-glass')).toHaveCSS('background-color', 'rgba(248, 250, 252, 0.87)');
+  await expect(page.locator('.article-glass')).toHaveCSS('background-color', 'rgba(248, 250, 252, 0.83)');
   await expect(page.locator('[data-reading-toggle]')).toBeVisible();
   await page.locator('[data-reading-toggle]').click();
   await expect(page.locator('#reading-panel')).toBeVisible();
