@@ -699,14 +699,18 @@
       transform: scale(var(--appearance-background-scale));
   }
 
-    /* 背景两态实验（当前：纯色水面）：
-       想切回壁纸时，注释掉下面两行、把第三行取消注释：
-       .glass-background { background-image: var(--site-background-image); } */
-    .glass-background { background-image: linear-gradient(180deg, #eef4fb, #d2e3f6); }
+    /* 水光世界：白天=清透浅水（顶部一道光+浅水到深水的水色），夜里=磷光深水 */
+    .glass-background {
+      background-image:
+        radial-gradient(120% 90% at 50% -20%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0) 60%),
+        linear-gradient(180deg, #eef6fc 0%, #d7ecf9 45%, #a5cbeb 100%);
+    }
 
     .dark .glass-background {
       background-color: #081426;
-      background-image: linear-gradient(180deg, #0d2038, #07152a);
+      background-image:
+        radial-gradient(120% 90% at 50% -20%, rgba(147, 197, 253, 0.16), rgba(147, 197, 253, 0) 60%),
+        linear-gradient(180deg, #0d2038, #07152a);
       filter: blur(var(--appearance-background-blur)) saturate(0.64) brightness(0.58) contrast(0.94);
     }
 
