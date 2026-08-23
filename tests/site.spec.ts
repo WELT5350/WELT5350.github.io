@@ -43,7 +43,7 @@ test('default day and night glass baselines remain readable', async ({ page }) =
   // 主玻璃容器：在文章页验证（文章页为 article-glass 阅读面）
   await page.goto('/posts/why-astro/');
   await expect(page.locator('.glass-main').first()).toHaveCSS('background-color', 'rgba(248, 250, 252, 0.87)');
-  await expect(page.locator('.glass-main').first()).toHaveCSS('backdrop-filter', /blur\(16px\)/);
+  await expect(page.locator('.glass-main').first()).toHaveCSS('backdrop-filter', 'none');
 
   // 夜间
   await page.locator('[data-theme-toggle]').first().click();
