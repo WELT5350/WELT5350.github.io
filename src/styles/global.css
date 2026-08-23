@@ -214,20 +214,26 @@
     position: relative;
     isolation: isolate; /* 让 ::before 的负 z-index 限定在卡片内，不盖内容 */
     background: var(--appearance-glass-main, var(--glass-main));
+    /* 边缘受光：光从上方（月光方向）被卡片边缘捕获，沿上边缘渗入卡内，带左侧微光 */
     box-shadow:
       var(--glass-shadow),
-      0 1px 2px rgba(15, 23, 42, 0.06);
-    /* 清晰的边：廉价感多半来自看不见的边——半透明薄片必须有明确的边界 */
+      0 20px 50px -14px rgba(25, 42, 61, 0.14),
+      inset 0 16px 30px -12px hsl(var(--appearance-hue) 85% 62% / 0.24),
+      inset 12px 0 28px -14px hsl(var(--appearance-hue) 85% 62% / 0.10);
     border-color: rgba(15, 23, 42, 0.10);
     backdrop-filter: blur(16px) saturate(1.4);
   }
 
   .dark .glass-main {
-    box-shadow: var(--glass-shadow);
+    box-shadow:
+      var(--glass-shadow),
+      0 22px 55px -14px rgba(1, 7, 22, 0.55),
+      inset 0 16px 30px -12px hsl(var(--appearance-hue) 80% 65% / 0.20),
+      inset 12px 0 28px -14px hsl(var(--appearance-hue) 80% 65% / 0.08);
     border-color: rgba(255, 255, 255, 0.14);
   }
 
-  /* 顶部光洗：带色相的光从上方洒下——位于内容之下，不会洗淡文字 */
+  /* 顶部边缘光洗：光轻吻卡片上边缘，向下淡出——位于内容之下 */
   .glass-main::before {
     content: '';
     position: absolute;
@@ -235,14 +241,14 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 40%;
+    height: 28%;
     pointer-events: none;
     border-radius: inherit;
-    background: linear-gradient(180deg, hsl(var(--appearance-hue) 85% 96% / 0.5), hsl(var(--appearance-hue) 85% 96% / 0) 55%);
+    background: linear-gradient(180deg, hsl(var(--appearance-hue) 88% 68% / 0.30), hsl(var(--appearance-hue) 88% 68% / 0) 70%);
   }
 
   .dark .glass-main::before {
-    background: linear-gradient(180deg, hsl(var(--appearance-hue) 70% 70% / 0.14), hsl(var(--appearance-hue) 70% 70% / 0) 55%);
+    background: linear-gradient(180deg, hsl(var(--appearance-hue) 75% 66% / 0.16), hsl(var(--appearance-hue) 75% 66% / 0) 70%);
   }
 
   .article-glass { background: var(--appearance-glass-article, var(--glass-article)); }
@@ -252,9 +258,12 @@
 
   .glass-sub {
     background: var(--appearance-glass-sub, var(--glass-sub));
-    box-shadow: 0 8px 22px rgba(25, 42, 61, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    box-shadow:
+      0 8px 22px rgba(25, 42, 61, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      inset 0 8px 16px -10px hsl(var(--appearance-hue) 85% 62% / 0.14);
     border-color: rgba(15, 23, 42, 0.08);
-    transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
+    transition: background-color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
   }
 
   .dark .glass-sub {
