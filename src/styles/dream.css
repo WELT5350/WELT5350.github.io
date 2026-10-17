@@ -1,0 +1,83 @@
+/* ===== 梦境层 + 答案校验（未分层样式，导入顺序在 global.css 之后） ===== */
+
+/* ===== 梦境层 ===== */
+
+html[data-dream] .glass-background {
+  filter: blur(var(--appearance-background-blur)) saturate(0.66) brightness(0.62) contrast(0.96);
+}
+
+html[data-dream].dark .glass-background {
+  filter: blur(var(--appearance-background-blur)) saturate(0.58) brightness(0.5) contrast(0.98);
+}
+
+.dream-kicker {
+  color: var(--appearance-accent);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.dream-card {
+  box-shadow: 0 18px 48px rgba(10, 20, 40, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.dream-exit {
+  color: var(--glass-muted);
+}
+
+.dream-exit:hover {
+  color: var(--appearance-accent);
+  border-color: color-mix(in srgb, var(--appearance-accent) 38%, transparent);
+}
+
+.dream-bgm-toggle {
+  color: var(--glass-muted);
+}
+
+.dream-bgm-toggle:hover,
+.dream-bgm[data-state='playing'] .dream-bgm-toggle {
+  color: var(--appearance-accent);
+  border-color: color-mix(in srgb, var(--appearance-accent) 38%, transparent);
+}
+
+/* ===== 答案校验 ===== */
+
+.answer-status[data-kind='error'] {
+  color: #e11d48;
+}
+
+.dark .answer-status[data-kind='error'] {
+  color: #fda4af;
+}
+
+.answer-status[data-kind='info'] {
+  color: var(--appearance-accent);
+}
+
+@keyframes answer-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+
+.answer-shake {
+  animation: answer-shake 0.32s ease;
+}
+
+.answer-hint-btn {
+  color: var(--glass-muted);
+  cursor: pointer;
+}
+
+.answer-hint-btn:hover {
+  color: var(--appearance-accent);
+  border-color: color-mix(in srgb, var(--appearance-accent) 38%, transparent);
+}
+
+.answer-hint-btn:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
