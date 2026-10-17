@@ -1,0 +1,51 @@
+---
+import DreamLayout from '../../layouts/DreamLayout.astro';
+import { getCollection } from 'astro:content';
+
+const rooms = (await getCollection('dream')).sort((a, b) => a.data.order - b.data.order);
+const firstRoom = rooms[0];
+const total = rooms.length;
+const firstSlug = firstRoom?.id ?? '';
+---
+
+<DreamLayout title="梦境之门" description="夜已深。有一颗星会替你把门打开。">
+  <div data-dream-door data-first-room={firstSlug} data-total={total}>
+    <p class="dream-kicker">DREAM</p>
+    <h1 class="mt-1 text-2xl font-bold tracking-tight text-[var(--glass-ink)] md:text-3xl">梦境之门</h1>
+
+    <div class="prose-custom mt-5 text-sm">
+      <p>
+        夜已深。白日里你在文字间穿行，看代码、看世界、看别人的路；而夜里，有一颗星会替你把门打开。
+      </p>
+      <p>
+        门后是一个还在织造的世界——试运行中。等真正的故事写出来，这里会变成它的入口。现在，先试着走一遍这条走廊吧。
+      </p>
+    </div>
+
+    <div data-door-panel="intro" class="door-panel mt-6">
+      <button data-door-start type="button" class="accent-action inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium transition-colors">
+        ✦ 走进门
+      </button>
+    </div>
+
+    <div data-door-panel="resume" class="door-panel mt-6" hidden>
+      <p class="text-sm text-glass-muted">你的旅程还没有结束。</p>
+      <a data-door-resume href="#" class="accent-action mt-3 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium transition-colors">
+        继续旅程 →
+      </a>
+    </div>
+
+    <div data-door-panel="done" class="door-panel mt-6" hidden>
+      <p class="text-sm text-glass-muted">你走过了全部试运行房间。世界正在生长，等它醒来，再来看看。</p>
+      <button data-door-reset type="button" class="glass-sub mt-3 rounded-xl px-4 py-2 text-sm transition-colors">
+        重头开始
+      </button>
+    </div>
+
+    <p class="mt-6 text-xs text-glass-quiet">
+      已解开 <span data-door-solved>0</span> / {total} 间房间
+    </p>
+  </div>
+</DreamLayout>
+
+<script src="../../scripts/dream-door.ts"></script>

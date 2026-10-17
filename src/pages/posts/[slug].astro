@@ -72,7 +72,7 @@ const nextPost = currentIdx > 0 ? sortedPosts[currentIdx - 1] : null;
     <div class="flex items-center justify-between gap-4 mb-4">
       <div class="min-w-0 flex-1">
         {prevPost ? (
-          <a href={`/posts/${prevPost.id}`} class="text-glass-muted inline-flex items-center gap-1.5 text-xs hover:text-blue-600 dark:hover:text-blue-400 transition-colors max-w-full">
+          <a href={`/posts/${prevPost.id}`} class="accent-link text-glass-muted inline-flex items-center gap-1.5 text-xs transition-colors max-w-full">
             <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
             <span class="truncate">{prevPost.data.title}</span>
           </a>
@@ -80,14 +80,14 @@ const nextPost = currentIdx > 0 ? sortedPosts[currentIdx - 1] : null;
       </div>
       <div class="min-w-0 flex-1 text-right">
         {nextPost ? (
-          <a href={`/posts/${nextPost.id}`} class="text-glass-muted inline-flex items-center gap-1.5 text-xs hover:text-blue-600 dark:hover:text-blue-400 transition-colors max-w-full">
+          <a href={`/posts/${nextPost.id}`} class="accent-link text-glass-muted inline-flex items-center gap-1.5 text-xs transition-colors max-w-full">
             <span class="truncate">{nextPost.data.title}</span>
             <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </a>
         ) : <span></span>}
       </div>
     </div>
-    <a href="/posts" class="text-glass-muted inline-flex items-center gap-2 text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+    <a href="/posts" class="accent-link text-glass-muted inline-flex items-center gap-2 text-sm transition-colors">
       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
       </svg>

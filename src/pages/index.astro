@@ -14,7 +14,7 @@ const recentPosts = posts.slice(0, 4);
     <div class="flex flex-col items-center gap-2 flex-shrink-0">
         <img class="block dark:hidden w-20 h-20 rounded-full ring-4 ring-white/50 dark:ring-gray-700/50 shadow-lg" src="/avatar.webp" alt="WELT 头像" width="80" height="80" fetchpriority="high" />
           <img class="hidden dark:block w-20 h-20 rounded-full ring-4 ring-white/50 dark:ring-gray-700/50 shadow-lg" src="/avatar-dark.webp" alt="WELT 头像" width="80" height="80" fetchpriority="high" />
-      <span class="text-xl font-black tracking-[0.2em] bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">WELT</span>
+      <span class="accent-brand text-xl font-black tracking-[0.2em] bg-clip-text text-transparent">WELT</span>
     </div>
     <div class="text-center md:text-left">
       <h1 id="typewriter-heading" class="text-3xl md:text-4xl font-bold tracking-tight mb-2 text-gray-900 dark:text-gray-100">
@@ -25,7 +25,7 @@ const recentPosts = posts.slice(0, 4);
         难道我真的是代码天才？
       </p>
       <div class="flex items-center justify-center md:justify-start gap-3 mt-5">
-        <a href="/posts" class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-xl hover:bg-blue-700 transition-colors shadow-md shadow-blue-600/20">
+        <a href="/posts" class="accent-action inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-medium rounded-xl transition-colors">
           浏览文章
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
         </a>
@@ -40,20 +40,21 @@ const recentPosts = posts.slice(0, 4);
     </div>
   </div>
 
-  <div class="flex items-center gap-4 mb-10">
+  <div data-night-star-divider class="flex items-center gap-4 mb-10">
     <span class="flex-1 h-0.5 bg-gradient-to-r from-transparent to-gray-300 dark:to-gray-600 rounded-full"></span>
-    <span class="text-gray-300 dark:text-gray-600 text-lg leading-none select-none">✦</span>
+    <button data-night-star type="button" class="night-star-entry" aria-label="夜间入口">✦</button>
     <span class="flex-1 h-0.5 bg-gradient-to-l from-transparent to-gray-300 dark:to-gray-600 rounded-full"></span>
   </div>
+  <a href="/dream" id="dream-door-link" class="hidden" tabindex="-1" aria-hidden="true"></a>
 
   <div class="grid md:grid-cols-[1fr_280px] gap-8">
     <div>
       <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-5">最新文章</h2>
       <div class="space-y-3">
         {recentPosts.map((post) => (
-          <a href={`/posts/${post.id}`} class="glass-sub flex items-center gap-4 p-4 rounded-xl transition-[background-color,border-color,transform] duration-300 group hover:translate-x-1 border-l-2 border-l-transparent hover:border-l-blue-500 dark:hover:border-l-blue-400">
+          <a href={`/posts/${post.id}`} class="accent-list-link glass-sub flex items-center gap-4 p-4 rounded-xl transition-[background-color,border-color,transform] duration-300 group hover:translate-x-1 border-l-2 border-l-transparent">
             <div class="flex-1 min-w-0">
-              <h3 class="text-sm font-medium text-gray-800 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
+              <h3 class="accent-list-title text-sm font-medium text-gray-800 dark:text-gray-200 transition-colors truncate">
                 {post.data.title}
               </h3>
               <div class="flex items-center gap-2 mt-1">
@@ -65,10 +66,10 @@ const recentPosts = posts.slice(0, 4);
                 )}
               </div>
             </div>
-            <svg class="w-4 h-4 text-gray-300 dark:text-gray-600 group-hover:text-blue-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <svg class="accent-list-arrow w-4 h-4 text-gray-300 dark:text-gray-600 transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </a>
         ))}
-        <a href="/posts" class="inline-flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors mt-2">查看全部文章 →</a>
+        <a href="/posts" class="accent-link inline-flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500 transition-colors mt-2">查看全部文章 →</a>
       </div>
     </div>
     <div class="space-y-6">
@@ -114,3 +115,4 @@ const recentPosts = posts.slice(0, 4);
 </BlogLayout>
 
 <script src="../scripts/typewriter.ts"></script>
+<script src="../scripts/night-star.ts"></script>

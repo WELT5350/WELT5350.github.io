@@ -1,0 +1,57 @@
+---
+interface Props {
+  mobile?: boolean;
+}
+
+const { mobile = false } = Astro.props;
+const panelId = mobile ? 'appearance-panel-mobile' : 'appearance-panel-desktop';
+---
+
+<div class:list={['appearance-control', mobile && 'appearance-control-mobile']}>
+  <button
+    data-appearance-toggle
+    type="button"
+    class="appearance-toggle"
+    aria-controls={panelId}
+    aria-expanded="false"
+    aria-label="调整阅读外观"
+    title="阅读外观"
+  >
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3a9 9 0 1 0 9 9c0-1.1-.2-2.15-.58-3.12a5 5 0 0 1-6.3 6.3A9 9 0 0 0 12 3Z" />
+      <circle cx="7.5" cy="9" r=".7" fill="currentColor" stroke="none" />
+      <circle cx="10.5" cy="6.6" r=".7" fill="currentColor" stroke="none" />
+      <circle cx="14.1" cy="6.8" r=".7" fill="currentColor" stroke="none" />
+    </svg>
+  </button>
+
+  <section id={panelId} class="appearance-panel" data-appearance-panel hidden aria-label="阅读外观">
+    <div class="appearance-panel-heading">
+      <div>
+        <p>READING LAYER</p>
+        <h2>阅读外观</h2>
+      </div>
+      <button data-appearance-reset type="button" class="appearance-reset" title="恢复本站推荐" aria-label="恢复本站推荐">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 6v5h-5M4 18v-5h5M18.4 10A6.7 6.7 0 0 0 6.9 7.1L4 10m1.6 4A6.7 6.7 0 0 0 17.1 16.9L20 14" /></svg>
+      </button>
+    </div>
+
+    <label class="appearance-range appearance-range-hue">
+      <span><span>主题色相</span><output data-appearance-output="hue">推荐</output></span>
+      <input data-appearance-input="hue" type="range" min="0" max="360" step="1" value="210" aria-label="调整主题色相" />
+    </label>
+    <label class="appearance-range">
+      <span><span>背景柔化</span><output data-appearance-output="blur">推荐</output></span>
+      <input data-appearance-input="blur" type="range" min="0" max="24" step="1" value="0" aria-label="调整背景柔化程度" />
+    </label>
+    <label class="appearance-range">
+      <span><span>壁纸显眼</span><output data-appearance-output="backgroundOpacity">推荐</output></span>
+      <input data-appearance-input="backgroundOpacity" type="range" min="15" max="100" step="1" value="100" aria-label="调整壁纸显眼程度" />
+    </label>
+    <label class="appearance-range">
+      <span><span>卡片不透明度</span><output data-appearance-output="cardOpacity">推荐</output></span>
+      <input data-appearance-input="cardOpacity" type="range" min="0" max="100" step="1" value="20" aria-label="调整卡片不透明度" />
+    </label>
+    <p class="appearance-note">四项各自独立：色相、壁纸柔化、壁纸显眼与卡片透明度。</p>
+  </section>
+</div>
