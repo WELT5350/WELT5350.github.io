@@ -5,7 +5,7 @@ import BackToTop from '../components/BackToTop.astro';
 import BackgroundRotator from '../components/BackgroundRotator.astro';
 import Footer from '../components/Footer.astro';
 import { fade } from 'astro:transitions';
-const { title, description, article = false, bare = false } = Astro.props;
+const { title, description, article = false } = Astro.props;
 ---
 
 <Layout title={title} description={description} pageType={article ? 'article' : 'website'}>
@@ -15,19 +15,10 @@ const { title, description, article = false, bare = false } = Astro.props;
   <div class="glass-wash" aria-hidden="true" transition:persist></div>
   <main id="main-content" transition:animate={fade({ duration: '0.18s' })} class="relative z-10 flex flex-col items-center justify-center px-4 py-6 sm:py-10" style="min-height: calc(100vh - 56px);">
     <slot name="hero" />
-    {bare ? (
-      <>
-        <div class="w-full max-w-3xl space-y-8">
-          <slot />
-          <Footer />
-        </div>
-      </>
-    ) : (
-      <div class:list={['glass-main', 'w-full', 'max-w-3xl', 'rounded-3xl', 'p-6', 'transition-colors', 'duration-300', 'sm:p-10', 'md:p-12', article && 'article-glass']}>
-        <slot />
-        <Footer />
-      </div>
-    )}
+    <div class:list={['glass-main', 'w-full', 'max-w-3xl', 'rounded-3xl', 'p-6', 'transition-colors', 'duration-300', 'sm:p-10', 'md:p-12', article && 'article-glass']}>
+      <slot />
+      <Footer />
+    </div>
     <slot name="reading-panel" />
   </main>
   <BackToTop />

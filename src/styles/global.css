@@ -701,7 +701,10 @@
       transform: scale(var(--appearance-background-scale));
   }
 
-    /* 水光世界：白天=清透浅水（顶部一道光+浅水到深水的水色），夜里=磷光深水 */
+    /* 水光世界：白天=清透浅水（顶部一道光+浅水到深水的水色），夜里=磷光深水。
+       想切回壁纸时，把下面的 background-image 换成：
+         .glass-background { background-image: var(--site-background-image); }
+       壁纸资产与轮播功能仍在（BackgroundRotator + /backgrounds/*），随时可恢复。 */
     .glass-background {
       background-image:
         radial-gradient(120% 90% at 50% -20%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0) 60%),
