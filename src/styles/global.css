@@ -796,7 +796,6 @@
   .accent-nav-link[aria-current='page'],
   .accent-nav-link[aria-current='location'] { background-color: var(--appearance-accent-soft); color: var(--appearance-accent); font-weight: 600; }
   .accent-progress { background-color: var(--appearance-accent); }
-  .accent-border { border-color: color-mix(in srgb, var(--appearance-accent) 34%, transparent); }
   .accent-link:hover { color: var(--appearance-accent); }
   .accent-list-link:hover { border-left-color: var(--appearance-accent); }
   .accent-list-link:hover .accent-list-title,
